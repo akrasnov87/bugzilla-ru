@@ -6,13 +6,13 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% PROCESS global/header.html.tmpl
-  title = "$terms.Bug Fields"
+[% PROCESS global/header.html.tmpl 
+  title = "Поля $terms.bugs_gen" 
   bodyclasses = ['narrow_page']
 %]
 
-<p>This page describes the various fields that you see 
-  on [% terms.abug %].</p>
+<p>На этой странице описаны различные поля, которые вы видите
+ в [% terms.abug %].</p>
 
 <table class="field_value_explanation">
   <thead>
@@ -27,18 +27,18 @@
   </tr>
 
   <tr>
-    <td>The [% field_descs.bug_status FILTER html %] field indicates the 
-      current state of a [% terms.bug %]. Only certain status transitions
-      are allowed.</td>
+    <td>Поле [% field_descs.bug_status FILTER html %] указывает текущее
+    состояние [% terms.bug %]. Переходы между состояниями подчиняются 
+     определенным правилам.</td>
 
-    <td>The [% field_descs.resolution FILTER html %] field indicates what
-      happened to this [%+ terms.bug %].</td>
+    <td>Поле [% field_descs.resolution FILTER html %] показывает что именно
+    произошло с этой [%+ terms.bug %].</td>
   </tr>
   </thead>
-
+  
   <tbody>
   <tr class="header_row">
-    <td colspan="2">Open [% terms.Bugs %]</td>
+    <td colspan="2">Открытые [% terms.Bugs %]</td>
   </tr>
   <tr>
     <td>
@@ -47,12 +47,13 @@
           [% display_value("bug_status", "UNCONFIRMED") FILTER html %]
         </dt>
         <dd class="unconfirmed">
-          This [% terms.bug %] has recently been added to the database. 
-          Nobody has confirmed that this [% terms.bug %] is valid. Users
-          who have the "canconfirm" permission set may confirm
-          this [% terms.bug %], changing its state to 
-          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>. 
-          Or, it may be directly resolved and marked
+          Эта [% terms.bug %] недавно зарегистрирована в базе данных. 
+          Никто не подтвердил, что проблема действительно имеет место. 
+          Пользователи с правом "canconfirm" могут подтвердить [% terms.bug %] 
+          и изменить её состояние на
+          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>.
+          Также ситуация, связанная с этой [% terms.bug %], может быть 
+          решена немедленно и [% terms.bug %] может перейти в состояние 
           <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
 
@@ -60,39 +61,39 @@
           [% display_value("bug_status", "CONFIRMED") FILTER html %]
         </dt>
         <dd class="confirmed">
-          This [% terms.bug %] is valid and has recently been filed.
-          [%+ terms.Bugs %] in this state become 
-          <b>[% display_value("bug_status", "IN_PROGRESS") FILTER html %]</b>
-          when somebody is working on them, or become resolved and marked
-          <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
+         Эта [% terms.bug %] была недавно добавлена к списку и подтверждена. 
+         [%+ terms.Bugs %] в таком состоянии переходят в состояние  
+         <b>[% display_value("bug_status", "IN_PROGRESS") FILTER html %]</b>,
+         когда кто-либо над ней работает, или могут быть решены и перейти в
+         состояние <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
 
         <dt class="in_progress">
           [% display_value("bug_status", "IN_PROGRESS") FILTER html %]
         </dt>
         <dd class="in_progress">
-          This [% terms.bug %] is not yet resolved, but is assigned to the
-          proper person who is working on the [% terms.bug %]. From here,
-          [%+ terms.bugs %] can be given to another person and become
-          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>, or
-          resolved and become 
+          Эта [% terms.bug %] ещё не решена, но уже передана конкретному 
+          исполнителю который работает над [% terms.bug %]. Из этого состояния
+          [%+ terms.bugs %] может быть передана другому исполнителю и перейти
+          в состояние
+          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>, 
+          или может быть решена и получит состояние
           <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
         
-        [% Hook.process('open-status') %]
+        [% Hook.process('open-status') %]        
       </dl>
     </td>
 
     <td>
-      No resolution yet. All [% terms.bugs %] which are in one of
-      these "open" states have no resolution set.
+         Никакого решения пока нет. У всех [% terms.bugs %] которые 
+         находятся в одном из "открытых" состояний, поле решения не установлено.
     </td>
   </tr>
 
   <tr class="header_row">
-    <td colspan="2">Closed [% terms.Bugs %]</td>
+    <td colspan="2">Закрытые [% terms.Bugs %]</td>
   </tr>
-
   <tr>
     <td>
       <dl>
@@ -100,9 +101,9 @@
           [% display_value("bug_status", "RESOLVED") FILTER html %]
         </dt>
         <dd class="resolved">
-          A resolution has been performed, and it is awaiting verification by
-          QA. From here [% terms.bugs %] are either reopened and given some
-          open status, or are verified by QA and marked
+          Решение было произведено и ожидает проверки приемки.
+          Отсюда [% terms.bugs %] могут быть либо открыты вновь и получить
+          один из открытых статусов, либо проверены приемкой и помечены как
           <b>[% display_value("bug_status", "VERIFIED") FILTER html %]</b>.
         </dd>
 
@@ -110,12 +111,11 @@
           [% display_value("bug_status", "VERIFIED") FILTER html %]
         </dt>
         <dd class="verified">
-          QA has looked at the [% terms.bug %] and the resolution and
-          agrees that the appropriate resolution has been taken. This is
-          the final status for [% terms.bugs %].
+          Принятое решение подтверждено ответственным за приемку.
+          Это окончательное состояние для [% terms.bugs %]. 
         </dd>
         
-        [% Hook.process('closed-status') %]
+        [% Hook.process('closed-status') %]        
       </dl>
     </td>
 
@@ -125,54 +125,52 @@
           [% display_value("resolution", "FIXED") FILTER html %]
         </dt>
         <dd class="fixed">
-          A fix for this [% terms.bug %] is checked into the tree and 
-          tested.
+          Необходимые изменения внесены и протестированы.
         </dd>
 
         <dt class="invalid">
           [% display_value("resolution", "INVALID") FILTER html %]
         </dt>
         <dd class="invalid">
-          The problem described is not [% terms.abug %].
+          [% terms.Bug %] по описанию не является проблемой или оформлена неверно.
         </dd>
 
         <dt class="wontfix">
           [% display_value("resolution", "WONTFIX") FILTER html %]
         </dt>
         <dd class="wontfix">
-          The problem described is [% terms.abug %] which will never be 
-          fixed.
+          Описываемая проблема признана, но в её исправлении отказано.
         </dd>
 
         <dt class="duplicate">
          [% display_value("resolution", "DUPLICATE") FILTER html %]
         </dt>
         <dd class="duplicate">
-          The problem is a duplicate of an existing [% terms.bug %].
-          When [% terms.abug %] is marked as a
+          Повторная регистрация существующей [% terms.bug_gen %].
+          Когда [% terms.abug %] помечается как
           <b>[% display_value("resolution", "DUPLICATE") FILTER html %]</b>,
-          you will see which [% terms.bug %] it is a duplicate of,
-          next to the resolution.
+          то рядом с решением вы увидите номер существующей [% terms.bug %].
         </dd>
 
         <dt class="worksforme">
           [% display_value("resolution", "WORKSFORME") FILTER html %]
         </dt>
         <dd class="worksforme">
-          All attempts at reproducing this [% terms.bug %] were futile, 
-          and reading the code produces no clues as to why the described
-          behavior would occur. If more information appears later,
-          the [% terms.bug %] can be reopened.
+          Все попытки воспроизвести проблему были безуспешны,
+          анализ не позволил понять возможные причины появления 
+          описанной проблемы. При получении дополнительной информации, 
+          [% terms.bug %] следует открыть повторно, до тех пор работы над 
+          [% terms.bug %] прекращены.
         </dd>
         
-        [% Hook.process('resolution') %]
+        [% Hook.process('resolution') %]        
       </dl>
     </td>
   </tr>
-  </tbody>
+  </tbody>  
 </table>
 
-<h2>Other Fields</h2>
+<h2>Другие поля</h2>
 
 [% SET field_help_map = {} %]
 [% FOREACH field = bug_fields.keys %]
@@ -184,7 +182,7 @@
 [%# This field is not a real one, but its label is visible in bugs. %]
 
 [% field_help_map.Importance = { help  => help_html.importance,
-                                 field => "importance" } %]
+                                 field => "важность" } %]
 
 [%# These are fields that don't need to be documented, either because
   # they have docs somewhere else in the UI, or they don't show up on bugs. 

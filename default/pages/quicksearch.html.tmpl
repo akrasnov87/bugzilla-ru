@@ -7,125 +7,126 @@
   #%]
 
 [% INCLUDE global/header.html.tmpl
-  title = "$terms.Bugzilla QuickSearch"
-  bodyclasses = ['narrow_page']
+   title = "Быстрый поиск в $terms.Bugzilla",
+    bodyclasses = ['narrow_page']
  %]
 
 [% USE Bugzilla %]
 
-<p><label for="quicksearch">Type in one or more words (or pieces of words)
-  to search for:</label></p>
+<p><label for="quicksearch">Введите одно или несколько слов (или фрагментов слов)
+  для поиска:</label></p>
 
 <form name="f" action="buglist.cgi" method="get">
   <input size="40" name="quicksearch" id="quicksearch" autofocus required>
-  <input type="submit" value="Search" id="find">
+  <input type="submit" value="Искать" id="find">
 </form>
 
 <ul>
-  <li><a href="#basics">The Basics</a></li>
-  <li><a href="#basic_examples">Examples of Simple Queries</a></li>
-  <li><a href="#fields">Fields You Can Search On</a></li>
-  <li><a href="#advanced_features">Advanced Features</a></li>
-  <li><a href="#shortcuts">Advanced Shortcuts</a></li>
-  <li><a href="#advanced_examples">Examples of Complex Queries</a></li>
+  <li><a href="#basics">Основы</a></li>
+  <li><a href="#basic_examples">Примеры простых запросов</a></li>
+  <li><a href="#fields">Поля в которых можно вести поиск</a></li>
+  <li><a href="#advanced_features">Расширенные возможности</a></li>
+  <li><a href="#shortcuts">Дополнительные ярлыки</a></li>
+  <li><a href="#advanced_examples">Примеры сложных запросов</a></li>
 </ul>
 
-<h2 id="basics">The Basics</h2>
+<h2 id="basics">Основы</h2>
 
 <ul class="qs_help">
-  <li>If you just put a word or series of words in the search box, 
-    Bugzilla will search the
+  <li>Если вы просто введёте слово или несколько слов в поле поиска, 
+    [%+ terms.Bugzilla %] будет искать ваше слово или слова в полях 
     [%+ field_descs.product FILTER html %],
     [%+ field_descs.component FILTER html %], 
     [%+ IF use_keywords %][%+ field_descs.keywords FILTER html %],[% END %]
     [%+ field_descs.alias FILTER html %],
-    [%+ field_descs.short_desc FILTER html %], 
+    [%+ field_descs.short_desc FILTER html %] 
     [%+ IF Param('usestatuswhiteboard') %][% field_descs.status_whiteboard FILTER html %],[% END %]
-    and [% field_descs.longdesc FILTER html %] fields for your word or words.</li>
+    и [% field_descs.longdesc FILTER html %].</li>
 
-  <li>Typing just a <strong>number</strong> in the search box will take
-    you directly to the [% terms.bug %] with that ID. Also, just typing the
-    <strong>alias</strong> of [% terms.abug %] will take you to that [% terms.bug %].
-  </li>
+  <li>Введя только <strong>номер</strong> в поле поиска, вы перейдете прямо в
+     [% terms.bug %] с этим номером. Кроме того, введя только
+     <strong>имя</strong> [% terms.abug %], вы перейдете прямо в эту
+     [% terms.bug %].
+   </li>
 
-  <li>Adding more terms <strong>narrows down</strong> the search, it does not
-     expand it. (In other words, Bugzilla searches for
-     [%+ terms.bugs %] that match <em>all</em> your criteria, not
-     [%+ terms.bugs %] that match <em>any</em> of your criteria.)</li>
+  <li>Добавление дополнительных терминов <strong>сужает</strong> поиск, а не
+     расширяет его. (Другими словами, [% terms.Bugzilla %] ищет 
+     [%+ terms.bugs %] которые подходят под <em>все</em> ваши критерии, а не
+     [%+ terms.bugs %] которые подходят под <em>любой</em> из ваших критериев.)</li>
 
-  <li>Searching is <strong>case-insensitive</strong>. So <kbd>table</kbd>,
-    <kbd>Table</kbd>, and <kbd>TABLE</kbd> are all the same.</li>
+  <li>Поиск ведется <strong>без учета регистра</strong>. Так что
+      <kbd>таблица</kbd>, <kbd>Таблица</kbd> и <kbd>ТАБЛИЦА</kbd> дают одинаковый
+       результат.</li>
 
-  <li>Bugzilla does not just search for the exact word you put in,
-    but also for any word that <strong>contains</strong> that word.
-    So, for example, searching for "cat" would also find [% terms.bugs %]
-    that contain it as part of other words&mdash;for example, [% terms.abug %]
-    mentioning "<strong>cat</strong>ch" or "certifi<strong>cat</strong>e". It
-    will not find partial words in the [% field_descs.longdesc FILTER html %]
-    or [% field_descs.keywords FILTER html %] fields,
-    though&mdash;only full words are matched, there.</li>
+  <li>[% terms.Bugzilla %] не просто ищет введённое вами точное слово, но также
+     ищет любое слово <strong>содержащее</strong> это слово. Так, например, при
+     поиске слова "кот" найдутся [% terms.bugs %], которые содержат его в
+     качестве фрагментов других слов &mdash; например, [% terms.abug %] упоминающая
+     "с<strong>кот</strong>" или "ро<strong>кот</strong>". Однако, поиск не
+     найдет фрагментов слов в полях [% field_descs.longdesc FILTER html %] или 
+     [% field_descs.keywords FILTER html %] &mdash; только целые слова.</li>
 
-  <li>By default, only <strong>open</strong> [% terms.bugs %] are
-    searched. If you want to know how to also search closed [% terms.bugs %],
-    see the <a href="#shortcuts">Advanced Shortcuts</a> section.</li>
+  <li>По умолчанию, поиск производится только в <strong>открытых</strong> 
+     [% terms.bugs %]. Если вы хотите знать, как искать в закрытых [% terms.bugs %],
+     обратитесь к разделу <a href="#shortcuts">Дополнительные ярлыки</a>.</li>
 
-  <li>If you want to search <strong>specific fields</strong>, you do it like
-    <kbd>field:value</kbd>, where <kbd>field</kbd> is one of the 
-    <a href="#fields">field names</a> lower down in this
-    document and <kbd>value</kbd> is the value you want to search for
-    in that field. If you put commas in the <kbd>value</kbd>, then it is
-    interpreted as a list of values, and [% terms.bugs %] that match
-    <em>any</em> of those values will be searched for.</li>
-</ul>
+  <li>Если вы хотите искать в  областях <strong>конкретных полей</strong>, вы
+     можете сделать запрос в виде <kbd>поле:значение</kbd>, где <kbd>поле</kbd>
+     является одним из <a href="#fields">имен полей</a>, перечисленных ниже в
+     этом документе, а <kbd>значение</kbd> является значением поля, которое вы
+     хотите найти в этом поле. Если вы введёте в поле <kbd>значение</kbd>
+     запятые, то оно будет интерпретировано как список значений, и будет
+     произведён поиск [% terms.bugs %] подходящих под <em>любое</em> из этих
+     значений.</li>
+ </ul>
 
-<h2 id="basic_examples">Examples of Simple Queries</h2>
+<h2 id="basic_examples">Примеры простых запросов</h2>
 
-<p>Here are some examples of how to write some simple queries.
-  <a href="#advanced_examples">Examples for more complex queries</a> can be
-  found lower in this page.</p>
+<p>Здесь приведены примеры составления некоторых простых запросов.
+  Ниже на этой странице можно найти
+  <a href="#advanced_examples">Примеры составления более сложных запросов</a>.</p>
 
 <ul class="qs_help">
-  <li>All open [% terms.bugs %] where userA@company.com is in the CC list
-    (no need to mention open [% terms.bugs %], this is the default):<br>
+  <li>Все открытые [% terms.bugs %], в которых userA@company.com находится в списке подписчиков
+    (нет необходимости упоминать открытые [% terms.bugs %], так как это значение по умолчанию):<br>
     <kbd>cc:userA@company.com</kbd></li>
-  <li>All unconfirmed [% terms.bugs %] in product productA (putting the
-    [%+ terms.bug %] status at the first position make it being automagically
-    considered as [% terms.abug %] status):<br>
+  <li>Все неподтверждённые [% terms.bugs %] в продукте productA (помещение
+    состояния [%+ terms.bug %] в первую позицию автоматически делает его состоянием
+    искомых [% terms.abug %]):<br>
     <kbd>UNCONFIRMED product:productA</kbd>
-  <li>All open and closed [% terms.bugs %] reported by userB@company.com
-    (we must specify ALL as the first word, else only open [% terms.bugs %]
-    are taken into account):<br>
+  <li>Все открытые и закрытые [% terms.bugs %], зарегистрированные userB@company.com
+    (необходимо указать в качестве первого слова ALL, иначе будут выведены только
+     открытые [% terms.bugs %]):<br>
     <kbd>ALL reporter:userB@company.com</kbd>
-  <li>All open [% terms.bugs %] with severity blocker or critical with the
-    target milestone set to 2.5:<br>
+  <li>Все открытые [% terms.bugs %], имеющие серьёзность "чрезвычайная" и "критическая", и 
+    чей план установлен на 2.5:<br>
     <kbd>severity:blocker,critical milestone:2.5</kbd>
-  <li>All open [% terms.bugs %] in the component Research & Development
-    with priority P1 or P2 (we must use quotes for the component as its name
-    contains whitespaces):<br>
+  <li>Все открытые [% terms.bugs %] в компоненте Research & Development
+    имеющие важность P1 или P2 (необходимо использовать кавычки для компонента, так как его имя
+    содержит пробелы):<br>
     <kbd>component:"Research & Development" priority:P1,P2</kbd></li>
 </ul>
 
-<h2 id="fields">Fields You Can Search On</h2>
+<h2 id="fields">Поля в которых можно вести поиск</h2>
 
-<p>You can specify any of these fields like <kbd>field:value</kbd>
-  in the search box, to search on them. You can also abbreviate
-  the field name, as long as your abbreviation matches only one field name.
-  So, for example, searching on <kbd>stat:VERIFIED</kbd> will find all
-  [%+ terms.bugs %] in the <kbd>VERIFIED</kbd> status. Some fields have
-  multiple names, and you can use any of those names to search for them.</p>
+<p>Вы можете указать любое из этих полей в виде <kbd>поле:значение</kbd> в
+  панели поиска, чтобы произвести в них поиск. Вы также можете ввести
+  сократить имя поля, если сокращённое имя будет подходит лишь под имя одного
+  поля. Так, например, поиск по <kbd>stat:VERIFIED</kbd> найдет все
+  [%+ terms.bugs %] в состоянии <kbd>VERIFIED</kbd>. У некоторых полей есть
+  несколько имён, и вы можете использовать любое из этих имён для поиска
+  по ним.</p>
 
 [% IF Bugzilla.active_custom_fields.size %]
   [% SET first_field = Bugzilla.active_custom_fields.0 %]
-  <p>For custom fields, they can be used and abbreviated
-    based on the part of their name <em>after</em> the <kbd>cf_</kbd>
-    if you'd like, in addition to their standard name starting with
-    <kbd>cf_</kbd>. So for example, 
-    <kbd>[% first_field.name FILTER html %]</kbd> can be
-    referred to as 
-    <kbd>[% first_field.name.replace('^cf_') FILTER html %]</kbd>,
-    also. However, if this causes a conflict between the standard
-    Bugzilla field names and the custom field names, the
-    standard field names always take precedence.</p>
+  <p>Для настраиваемых полей можно использовать часть их имени (или сокращённую
+  часть их имени) расположенную <em>после</em> префикса <kbd>cf_</kbd>, в
+  дополнение к их стандартному имени начинающемся с <kbd>cf_</kbd>. Так,
+  например, на <kbd>[% first_field.name FILTER html %]</kbd> можно также
+  сослаться по имени <kbd>[% first_field.name.replace('^cf_') FILTER html %]</kbd>.
+  Однако, если это приведёт к конфликту между именами стандартных полей
+  Bugzilla и именами настраиваемых полей, приоритет всегда будет
+  отдан именам стандартных полей.</p>
 [% END %]
 
 [% SET field_table = {} %]
@@ -138,8 +139,8 @@
 <table class="qs_fields">
   <thead>
     <tr>
-      <th class="field_name">Field</th>
-      <th class="field_nickname">Field Name(s) For Search</th>
+      <th class="field_name">Поле</th>
+      <th class="field_nickname">Имя или имена поля для поиска</th>
     </tr>
   </thead>
   <tbody>
@@ -156,211 +157,211 @@
   </tbody>
 </table>
 
-<h2 id="advanced_features">Advanced Features</h2>
+<h2 id="advanced_features">Расширенные возможности</h2>
 
 <ul class="qs_help">
-  <li>If you want to search for a <strong>phrase</strong> or something that
-    contains spaces, commas, colons or quotes, you must put it in quotes, like:
-    <kbd>"yes, this is a phrase"</kbd>. You must also use quotes to search for
-    characters that would otherwise be interpreted specially by quicksearch.
-    For example, <kbd>"this|that"</kbd> would search for the literal string
-    <em>this|that</em> and would not be parsed as <kbd>"this OR that"</kbd>.
-    Also, <kbd>"-field:value"</kbd> would search for the literal phrase
-    <em>-field:value</em> and would not be parsed as
+  <li>Если вы хотите найти <strong>фразу</strong> или что-то, что содержит
+    пробелы, запятые, двоеточия или кавычки, вы должны поместить запрос в кавычки, например:
+    <kbd>"да, это фраза"</kbd>. Вы также должны использовать кавычки для поиска
+    символов, которые иначе были бы интерпретированы быстрым поиском
+    специальным образом. Например, <kbd>"this|that"</kbd> в буквальном смысле
+    будет искать фразу <em>this|that</em> и не будет распарсено как <kbd>"this OR that"</kbd>.
+    Также, <kbd>"-field:value"</kbd> в буквальном смысле будет искать
+    фразу <em>-field:value</em> и не будет распарсено как
     <kbd>"NOT field:value"</kbd>.</li>
 
-  <li>You can use <strong>AND</strong>, <strong>NOT</strong>,
-    and <strong>OR</strong> in searches. 
+  <li>При поиске вы можете использовать операторы <strong>AND</strong>,
+   <strong>NOT</strong> и <strong>OR</strong>. 
 
-    You can also use <kbd>-</kbd> to mean "NOT", and <kbd>|</kbd> to mean "OR".
-    There is no special character for "AND", because by default any search
-    terms that are separated by a space are joined by an "AND".
-    Examples:
+    Вы можете также использовать <kbd>-</kbd> что означает "NOT" и <kbd>|</kbd>
+    что означает "OR". Для "AND" нет специального символа, так как по умолчанию
+    любые условия поиска, разделенные пробелом, соединены "AND".
+    Примеры:
     <ul>
       <li>
         <strong>NOT</strong>:<br>
-        Use <kbd><strong>-</strong><em>summary:foo</em></kbd> to exclude 
-        [%+ terms.bugs %] with <kbd>foo</kbd> in the summary.<br>
-        <kbd><em>NOT summary:foo</em></kbd> would have the same effect.
+        Используйте <kbd><strong>-</strong><em>summary:foo</em></kbd> чтобы
+        исключить [%+ terms.bugs %] с <kbd>foo</kbd> в аннотации.<br>
+        <kbd><em>NOT summary:foo</em></kbd> будет иметь тот же эффект.
       </li>
       <li>
         <strong>AND</strong>:<br>
-        <kbd><em>foo bar</em></kbd> searches for [% terms.bugs %] that contains
-        both <kbd>foo</kbd> and <kbd>bar</kbd>.<br>
-        <kbd><em>foo AND bar</em></kbd> would have the same effect.
+        <kbd><em>foo bar</em></kbd> будет искать [% terms.bugs %] содержащие
+        и <kbd>foo</kbd> и <kbd>bar</kbd>.<br>
+        <kbd><em>foo AND bar</em></kbd> будет иметь тот же эффект.
       </li>
       <li>
         <strong>OR</strong>:<br>
-        <kbd><em>foo<strong>|</strong>bar</em></kbd> would search
-        for [% terms.bugs %] that contain <kbd>foo</kbd> OR <kbd>bar</kbd>.<br>
-        <kbd><em>foo OR bar</em></kbd> would have the same effect.<br>
+        <kbd><em>foo<strong>|</strong>bar</em></kbd> будет искать 
+        [% terms.bugs %] содержащие <kbd>foo</kbd> ИЛИ <kbd>bar</kbd>.<br>
+        <kbd><em>foo OR bar</em></kbd> будет иметь тот же эффект.<br>
       </li>
     </ul>
 
-    <p>You cannot use | nor OR to enumerate possible values for a given field.
-      You must use commas instead. So <kbd>field:value1,value2</kbd> does what
-      you expect, but <kbd>field:value1|value2</kbd> would be treated as
-      <kbd>field:value1 OR value2</kbd>, which means value2 is not bound to
-      the given field.</p>
+    <p>Вы не можете использовать ни | ни OR для перечисления возможных значений данного поля.
+      Вместо них вы должны использовать запятые. Так <kbd>field:value1,value2</kbd> будет делать
+      то, что вы ожидаете, но <kbd>field:value1|value2</kbd> будет интерпретировано как
+      <kbd>field:value1 OR value2</kbd>, что значит, что value2 не связано с
+      данным полем.</p>
 
-    <p>OR has higher precedence than AND; AND is the top level operation.
-      For example:</p>
-    <p>Searching for <em><kbd>url|location bar|field -focus</kbd></em> means
-      (<kbd>url</kbd> OR <kbd>location</kbd>) AND (<kbd>bar</kbd> OR 
-      <kbd>field</kbd>) AND (NOT <kbd>focus</kbd>)</p>
-  </li>
+    <p>OR имеет более высокий приоритет, чем AND; AND является оператором
+       верхнего уровня.
+      Например:</p>
+    <p>Поиск <em><kbd>url|location bar|field -focus</kbd></em> означает
+      (<kbd>url</kbd> ИЛИ <kbd>location</kbd>) И (<kbd>bar</kbd> ИЛИ 
+      <kbd>field</kbd>) И (НЕ <kbd>focus</kbd>)</p>
 
-  <li>
-    The default operator, colon (:), performs a <strong>substring</strong>
-    match of the value. The following operators are supported:
+    <li>
+    Оператор по умолчанию, двоеточие  (:), выполняет в <strong>подстрока</strong>
+    соответствие значения. Поддерживаются следующие операторы: 
     <ul>
       <li>
         <strong>:</strong> (substring):<br>
-        <kbd><em>summary:foo</em></kbd> will search for [% terms.bugs %]
-        where the <kbd>summary</kbd> contains <kbd>foo</kbd>.
+        <kbd><em>summary:foo</em></kbd> будет искать  [% terms.bugs %]
+        где <kbd>summary</kbd> содержит <kbd>foo</kbd>.
       </li>
       <li>
         <strong>=</strong> (equals):<br>
-        <kbd><em>summary=foo</em></kbd> will search for [% terms.bugs %]
-        where the <kbd>summary</kbd> is exactly <kbd>foo</kbd>.
+        <kbd><em>summary=foo</em></kbd> будет искать  [% terms.bugs %]
+        где <kbd>summary</kbd> равно <kbd>foo</kbd>.
       </li>
       <li>
         <strong>!=</strong> (notequals):<br>
-        <kbd><em>summary!=foo</em></kbd> will search for [% terms.bugs %]
-        where the <kbd>summary</kbd> is not <kbd>foo</kbd>.
+        <kbd><em>summary!=foo</em></kbd> будет искать  [% terms.bugs %]
+       где <kbd>summary</kbd> не равно <kbd>foo</kbd>.
       </li>
       <li>
         <strong>&gt;</strong> (greaterthan):<br>
-        <kbd><em>creation_ts&gt;-2w</em></kbd> will search for [% terms.bugs %]
-        where that were created between two weeks ago and now, excluding [%
-        terms.bugs %] exactly two weeks old.
+        <kbd><em>creation_ts&gt;-2w</em></kbd> будет искать  [% terms.bugs %]
+        где они были созданы две недели назад и сейчас, за исключением  [%
+        terms.bugs %] ровно две недели. 
       </li>
       <li>
         <strong>&gt;=</strong> (greaterthaneq):<br>
-        <kbd><em>creation_ts&gt;=-2w</em></kbd> will search for [% terms.bugs %]
-        where that were created between two weeks ago and now, including [%
-        terms.bugs %] exactly two weeks old.
+        <kbd><em>creation_ts&gt;=-2w</em></kbd> будет искать  [% terms.bugs %]
+        где они были созданы две недели назад и сейчас, в том числе  [%
+        terms.bugs %] ровно две недели. 
       </li>
       <li>
         <strong>&lt;</strong> (lessthan):<br>
-        <kbd><em>creation_ts&lt;-2w</em></kbd> will search for [% terms.bugs %]
-        where that were created more than two weeks ago, excluding [%
-        terms.bugs %] exactly two weeks old.
+        <kbd><em>creation_ts&lt;-2w</em></kbd> wбудет искать  [% terms.bugs %]
+        где они были созданы более двух недель назад, за исключением  [%
+        terms.bugs %] ровно две недели. 
       </li>
       <li>
         <strong>&lt;=</strong> (lessthaneq):<br>
-        <kbd><em>creation_ts&lt;=-2w</em></kbd> will search for [% terms.bugs %]
-        where that were created more than two weeks ago, including [%
-        terms.bugs %] exactly two weeks old.
+        <kbd><em>creation_ts&lt;=-2w</em></kbd> будет искать  [% terms.bugs %]
+        где они были созданы более двух недель назад, в том числе [%
+        terms.bugs %] ровно две недели. 
       </li>
     </ul>
   </li>
 </ul>
 
-<h2 id="shortcuts">Advanced Shortcuts</h2>
+<h2 id="shortcuts">Дополнительные ярлыки</h2>
 
-<p>In addition to using <a href="#fields">field names</a> to search
-  specific fields, there are certain characters or words that you can
-  use as a "shortcut" for searching certain fields:</p>
+<p>В дополнение к использованию <a href="#fields">имен полей</a> для поиска в
+   конкретных областях, есть определенные символы или слова, которые можно
+   использовать в качестве "ярлыков" для поиска в определенных областях:</p>
 
-<table class="qs_fields">
+<table cellspacing="0" cellpadding="0" border="0" class="qs_fields">
   <thead>
     <tr>
-      <th class="field_name">Field</th>
-      <th class="field_nickname">Shortcut(s)</th>
+      <th class="field_name">Поле</th>
+      <th class="field_nickname">Ярлык(и)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td class="field_name">[% field_descs.bug_status FILTER html %]</td>
       <td class="field_nickname">
-        Make the <strong>first word</strong> of your search the name of any
-        status, or even an abbreviation of any status, and [% terms.bugs %]
-        in that status will be searched. <strong><kbd>ALL</kbd></strong>
-        is a special shortcut that means "all statuses".
-        <strong><kbd>OPEN</kbd></strong> is a special shortcut that means
-        "all open statuses".
+        Делает <strong>первое слово</strong> вашего поиска именем любого
+        состояния, или даже аббревиатурой любого состояния, и производит поиск 
+        [% terms.bugs %] в этом состоянии. <strong><kbd>ALL</kbd></strong> это
+        специальный ярлык, который означает "все состояния".
+        <strong><kbd>OPEN</kbd></strong> это специальный ярлык, который
+        означает "все открытые состояния".
       </td>
     </tr>
     <tr>
       <td class="field_name">[% field_descs.resolution FILTER html %]</td>
       <td class="field_nickname">
-        Make the <strong>first word</strong> of your search the name of any
-        resolution, or even an abbreviation of any resolution, and 
-        [%+ terms.bugs %] with that resolution will be searched. For example,
-        making <kbd>FIX</kbd> the first word of your search will find all
-        [%+ terms.bugs %] with a resolution of <kbd>FIXED</kbd> .
+        Делает <strong>первое слово</strong> вашего поиска именем любого
+        решения, или даже аббревиатурой любого решения, и производит поиск
+        [%+ terms.bugs %] с этим решением. Например, сделав <kbd>FIX</kbd>
+        первым словом вашего поиска вы найдёте все [%+ terms.bugs %] с решением
+        <kbd>FIXED</kbd> .
     </tr>
     <tr>
       <td class="field_name">[% field_descs.priority FILTER html %]</td>
-      <td class="field_nickname">"<strong>P1</strong>" (as a word anywhere in
-        the search) means "find [% terms.bugs %] with the highest priority. 
-        "P2" means the second-highest priority, and so on.
-        <p>Searching for "<strong>P1-3</strong>" will find [% terms.bugs %] in
-        any of the three highest priorities, and so on.</p>
+      <td class="field_nickname">"<strong>P1</strong>" (как слово в любом месте
+      поискового запроса) означает "найти [% terms.bugs %] с наивысшим приоритетом". 
+        "P2" означает второй по важности приоритет и т.д.
+        <p>Поиск по "<strong>P1-3</strong>" найдёт [% terms.bugs %] с любым из
+        трёх самых высоких приоритетов и т.д.</p>
       </td>
     </tr>
     <tr>
       <td class="field_name">[% field_descs.assigned_to FILTER html %]</td>
-      <td class="field_nickname"><strong>@</strong><em>value</em></td>
+      <td class="field_nickname"><strong>@</strong><em>значение</em></td>
     </tr>
     <tr>
-      <td class="field_name">[% field_descs.product FILTER html %] or
+      <td class="field_name">[% field_descs.product FILTER html %] или
         [%+ field_descs.component FILTER html %]</td>
-      <td class="field_nickname"><strong>:</strong><em>value</em></td>
+      <td class="field_nickname"><strong>:</strong><em>значение</em></td>
     </tr>
     [% IF use_keywords %]
       <tr>
         <td class="field_name">[% field_descs.keywords FILTER html %]</td>
-        <td class="field_nickname"><strong>!</strong><em>value</em></td>
+        <td class="field_nickname"><strong>!</strong><em>значение</em></td>
       </tr>
     [% END %]
     <tr>
       [% SET key = "flagtypes.name" %]
       <td class="field_name">[% field_descs.$key FILTER html %]</td>
       <td class="field_nickname">
-        <em>flag</em><strong>?</strong><em>requestee</em>
+        <em>флаг</em><strong>?</strong><em>инициатор</em>
       </td>
     </tr>
     <tr>
       <td class="field_name">[% field_descs.longdesc FILTER html %]
-        or [% field_descs.short_desc FILTER html %]</td>
+        или [% field_descs.short_desc FILTER html %]</td>
       <td class="field_nickname">
-        <strong>#</strong><em>value</em>
+        <strong>#</strong><em>значение</em>
       </td>
     </tr>
     [% IF Param('usestatuswhiteboard') %]
       <tr>
         <td class="field_name">[% field_descs.short_desc FILTER html %]
-          or [% field_descs.status_whiteboard FILTER html %]</td>
-        <td class="field_nickname"><strong>[</strong><em>value</em></td>
+          или [% field_descs.status_whiteboard FILTER html %]</td>
+        <td class="field_nickname"><strong>[</strong><em>значение</em></td>
       </tr>
     [% END %]
   </tbody>
 </table>
 
-<h2 id="advanced_examples">Examples of Complex Queries</h2>
+<h2 id="advanced_examples">Примеры сложных запросов</h2>
 
-<p>It is pretty easy to write rather complex queries without too much effort.
-  For very complex queries, you have to use the
-  <a href="query.cgi?format=advanced">Advanced Search</a> form.</p>
+<p>Вы можете без особых усилий достаточно легко составлять сложные запросы.
+  Для составления очень сложных запросов, вам необходимо использовать
+  форму <a href="query.cgi?format=advanced">Расширенного поиска</a>.</p>
 
 <ul class="qs_help">
-  <li>All [% terms.bugs %] reported by userA@company.com or assigned to them
-    (the initial @ is a shortcut for the assignee, see the
-    <a href="#shortcuts">Advanced Shortcuts</a> section above):<br>
+  <li>Все [% terms.bugs %], зарегистрированные или назначенные userA@company.com 
+    (начальный @ является ярлыком для исполнителя, см. выше раздел
+    <a href="#shortcuts">Дополнительные ярлыки</a>):<br>
     <kbd>ALL @userA@company.com OR reporter:userA@company.com</kbd></li>
-  <li>All open [% terms.bugs %] in product productA with either severity
-    blocker, critical or major, or with priority P1, or with the blocker+
-    flag set, and which are neither assigned to userB@company.com nor to
-    userC@company.com (we make the assumption that there are only two users
-    matching userB and userC, else we would write the whole login name):<br>
+  <li>Все открытые [% terms.bugs %] в продукте productA либо с серьёзностью
+    "чрезвычайная", "критическая" или "серьёзная", либо с важностью P1, либо с установленным
+    согласованием blocker+, и которые не назначены ни userB@company.com ни
+    userC@company.com (предполагается, что у нас только два пользователя, подходящие
+    под userB и userC, иначе нужно будет писать логин целиком):<br>
     <kbd>:productA sev:blocker,critical,major OR pri:P1 OR flag:blocker+ -assign:userB,userC</kbd></li>
-  <li>All FIXED [% terms.bugs %] with the blocker+ flag set, but without
-    the approval+ nor approval? flags set:<br>
+  <li>Все РЕШЁННЫЕ [% terms.bugs %] с установленным согласованием blocker+, но для которых
+    не установлено ни согласование approval+ ни согласование approval?:<br>
     <kbd>FIXED flag:blocker+ -flag:approval+ -flag:approval?</kbd></li>
-  <li>[% terms.Bugs %] with <em>That's a "unusual" issue</em> in the
-    [%+ terms.bug %] summary (double quotes are escaped using <em>\"</em>):<br>
+  <li>[% terms.Bugs %], чья аннотация содержит фразу <em>That's a "unusual" issue</em>
+     (двойные кавычки экранируются при помощи <em>\"</em>):<br>
     <kbd>summary:"That's a \"unusual\" issue"</kbd></li>
 </ul>
 

@@ -6,156 +6,155 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% INCLUDE global/header.html.tmpl title = "$terms.Bug Writing Guidelines" %]
+[% INCLUDE global/header.html.tmpl title = "Руководство по описанию $terms.Bug" %] 
 
-  <p>Effective [% terms.bug %] reports are the most likely to be fixed. 
-  These guidelines explain how to write such reports.
+  <p>Чем эффективнее составлено сообщение об [% terms.bug %], 
+  тем вероятнее, что она будет исправлена. 
+  Это руководство о том, как писать такие сообщения.
 
-<h3>Principles</h3>
+<h3>Правила</h3>
 
   <ul>
-    <li>Be precise</li>
-    <li>Be clear - explain it so others can reproduce the [% terms.bug %]</li>
-    <li>One [% terms.bug %] per report</li>
-    <li>No [% terms.bug %] is too trivial to report - 
-    small [% terms.bugs %] may hide big [% terms.bugs %]</li>
-    <li>Clearly separate fact from speculation</li>
+    <li>Будьте точны</li>
+    <li>Выражайтесь ясно - так, чтобы другие могли повторить [% terms.bug %]</li>
+    <li>Одна [% terms.bug %] в одном сообщении</li>
+    <li>Нет [% terms.bug %], не заслуживающих упоминания - 
+    мелкие [% terms.bugs %] могут скрывать более крупные</li>
+    <li>Четко отделяйте факты от умозаключений</li>
   </ul>
 
-<h3>Preliminaries</h3>
+<h3>Прежде чем писать сообщение</h3>
 
 <ol>
-  <li>Reproduce your [% terms.bug %] using a recent build of the
-  software, to see whether it has already been fixed.
+  <li>Повторите [% terms.bug %] на наиболее свежей версии
+  программы, возможно она уже исправлена.
   </li>
 
-  <li><a href="query.cgi?format=specific">Search</a> 
-  [% terms.Bugzilla %], to see whether your [% terms.bug %] has
-  already been reported.</li>
+  <li>Выполните <a href="query.cgi?format=specific">поиск</a> 
+  в [% terms.Bugzilla %] среди уже зарегистрированных [% terms.bug %],
+  чтобы избежать дублирования.</li>
 </ol>
 
-<h3>Reporting a New [% terms.Bug %]</h3>
+<h3>Сообщение о новой [% terms.Bug %]</h3>
 
-<p>If you have reproduced the [% terms.bug %] in a recent build and 
-no-one else appears to have reported it, then:</p>
+<p>Если [% terms.bug %] повторяется в свежей версии и никто не 
+зарегистрировал ее ранее:</p>
 
 <ol>
- <li>Choose 
- "<a href="enter_bug.cgi">Enter a new [% terms.bug %]</a>"</li>
- <li>Select the product in which you've found the [% terms.bug %]</li>
- <li>Fill out the form. Here is some help understanding it:</li>
+ <li>На главной странице [% terms.Bugzilla %] выберите 
+ "<a href="enter_bug.cgi">Регистрация новой [% terms.bug %]</a>"</li>
+ <li>Выберите продукт, в котором обнаружена [% terms.bug %]</li>
+ <li>Заполните форму.  Необходимые пояснения для ее понимания:</li>
 </ol>
 
   <blockquote>
-    <p><b>Component:</b> In which sub-part of the software does it 
-          exist?<br>
-    This field is required.
-    Click the word "Component" to see a description of each 
-    component. If none seems appropriate, look for a "General" component.</p>
+    <p><b>Компонент</b>: В каком компоненте продукта проявляется 
+          [% terms.bug %]?<br>
+    Это поле обязательное.
+    Нажав на ссылку "Компонент", можно увидеть краткое описание компонентов 
+    продукта.  Если ничего не подходит, ищите компонент "General".</p>
 
-    <p><b>[% field_descs.op_sys FILTER html %]:</b> On which operating system (OS) did you find 
-          it?
-    (e.g. Linux, Windows XP, Mac OS X.)<br>
-    If you know the [% terms.bug %] happens on more than one type of 
-    operating system, choose <em>[% display_value("op_sys", "All") FILTER html %]</em>. 
-    If your [% field_descs.op_sys FILTER html %] isn't listed, choose 
+    <p><b>[% field_descs.op_sys FILTER html %]:</b> В какой операционной системе
+    проявляется [% terms.bug %]?
+    (например: Linux, Windows XP, Mac OS X.)<br>
+    Если известно, что [% terms.bug %] происходит в любой операционной системе,
+    выберите <em>[% display_value("op_sys", "All") FILTER html %]</em>.
+    Если вашей [% field_descs.op_sys FILTER html %] нет в списке, используйте
     <em>[% display_value("op_sys", "Other") FILTER html %]</em>.</p>
 
-    <p><b>Summary:</b> How would you describe the [% terms.bug %], in 
-    approximately 60 or fewer characters?<br>
-     A good summary should <b>quickly and uniquely identify [% terms.abug %]
-    report</b>. It should explain the problem, not your suggested solution.<br>
+    <p><b>Аннотация:</b> <b>Краткое, в пределах 60 символов, описание 
+    [% terms.bug_gen %].</b><br>
+    Хорошая аннотация должна <b>описывать [% terms.bug_acc %] ясно и 
+    однозначно</b>. Следует описывать именно проблему, а не варианты решения.<br>
     <ul>
-     <li>Good: "<kbd>Cancelling a File Copy dialog crashes
-     File Manager</kbd>"</li>
-     <li>Bad: "<kbd>Software crashes</kbd>"</li>
-     <li>Bad: "<kbd>Browser should work with my web site</kbd>"</li>
+     <li>Правильно: "<tt>Отмена диалогового окна копирования файла вызывает
+     аварию менеджера файлов</tt>"</li>
+     <li>Неудачно: "<tt>Сбой программы</tt>"</li>
+     <li>Неудачно: "<tt>Не отображается мой сайт</tt>"</li>
     </ul>
-    
-    <b>Description:</b>
-    The details of your problem report, including:</p>
+
+    <b>Описание:</b>
+    В этом поле нужно написать детальный отчет об [% terms.bug %], включающий в себя:</p>
 
     <blockquote>
-      <p><b>Overview:</b> More detailed restatement of
-      summary.</p>
+      <p><b>Общее описание:</b> Более развернутая аннотация.</p>
 
       <blockquote>
 <pre>
-Drag-selecting any page crashes Mac builds in the NSGetFactory function.
+В версии для Mac OS выделение мышью на любой странице вызывает сбой в функции NSGetFactory.
 </pre>
       </blockquote>
 
-      <p><b>Steps to Reproduce:</b> Minimized, easy-to-follow steps that
-      will trigger the [% terms.bug %]. Include any special setup steps.</p>
+      <p><b>Как воспроизвести:</b> Действия, которые приводят к 
+      [% terms.bug %] (по шагам, кратко и четко). Опишите особенности 
+      установки и настройки.</p>
 
       <blockquote>
 <pre>
-1) View any web page. (I used the default sample page, 
+1) Открыть любую страницу. (Например, используемую по умолчанию 
 resource:/res/samples/test0.html)
 
-2) Drag-select the page. (Specifically, while holding down 
-the mouse button, drag the mouse pointer downwards from any 
-point in the browser's content region to the bottom of the 
-browser's content region.)
+2) Выделите текст мышью. (Точнее, нажав клавишу мыши в любой точке страницы,
+тяните указатель вниз к границе окна.)                   
 </pre>
       </blockquote>
 
-      <p><b>Actual Results:</b> What the application did after performing
-      the above steps.</p>
+      <p><b>Реальные результаты:</b> Что произошло после описанных шагов 
+      на самом деле.</p>
 
       <blockquote>
 <pre>
-The application crashed.
+Крах приложения.
 </pre>
       </blockquote>
 
-      <p><b>Expected Results:</b> What the application should have done,
-      were the [% terms.bug %] not present.</p>
+      <p><b>Ожидаемые результаты:</b> Что должно было произойти, если бы 
+      [% terms.bug_gen %] не было.</p>
 
       <blockquote>
 <pre>
-The window should scroll downwards. Scrolled content should be selected. 
-(Or, at least, the application should not crash.)
+Должна быть прокрутка окна вниз с выделением текста. (Или, как минимум, 
+приложение не должно завершаться аварийно.)
 </pre>
       </blockquote>
 
-      <p><b>Build Date &amp; [% field_descs.rep_platform FILTER html %]:</b>
-      Date and [% field_descs.rep_platform FILTER lower FILTER html %] of the build
-      in which you first encountered the [% terms.bug %].</p>
+      <p><b>Версия и [% field_descs.rep_platform FILTER html %]:</b>
+      Дата и [% field_descs.rep_platform FILTER lower FILTER html %] версии,
+      в которой впервые замечена [% terms.bug %].</p>
 
       <blockquote>
 <pre>
-Build 2006-08-10 on Mac OS 10.4.3
+Релиз от 10.08.2006 для Mac OS 10.4.3
 </pre>
       </blockquote>
 
-      <p><b>Additional Builds and Platforms:</b> Whether or not 
-      the [% terms.bug %] takes place on other platforms (or browsers, 
-      if applicable).</p>
+      <p><b>Другие версии и платформы:</b> Воспроизводится или нет 
+      [% terms.bug %] на других версиях или платформах (или других продуктах,
+      если это уместно).</p>
 
       <blockquote>
 <pre>
-Doesn't Occur On Build 2006-08-10 on Windows XP Home (Service Pack 2)
+Не воспроизводится на релизе от 2006-08-10 на Windows XP Home (Service Pack 2)
 </pre>
       </blockquote>
 
-      <p><b>Additional Information:</b> Any other useful information.
-      <br><br>For crashing [% terms.bugs %]:</p>
+      <p><b>Дополнительная информация:</b> Любая другая полезная информация.
+      <br><br>Для случаев аварийного завершения:</p>
 
       <ul>
-        <li><b>Windows:</b> Note the type of the crash, and the module that the
-        application crashed in (e.g. access violation in apprunner.exe).</li>
+        <li><b>Windows:</b> укажите тип аварийного завершения и имя модуля, в котором замечена [% terms.bug %].
+        (Например, ошибка защиты в модуле apprunner.exe)</li>
 
-        <li><b>Mac OS X:</b> Attach the "Crash Reporter" log that appears
-        upon crash.
-        Only include the section directly below the crashing thread, usually 
-        titled "Thread 0 Crashed". Please do not paste the entire log!</li>
+        <li><b>Mac OS X:</b> приложите журнал анализатора Crash Reporter, который 
+        вызывается при аварии.
+        Включайте только раздел отказавшей нити, как правило озаглавленный</li>
+        "Thread 0 Crashed". Пожалуйста не вставляйте журнал целиком!</li>
       </ul>
     </blockquote>
 
-  <p>Double-check your report for errors and omissions, then press "Commit".
-  Your [% terms.bug %] report will now be in 
-  the [% terms.Bugzilla %] database.<br>
+  <p>Еще раз проверьте всю указанную вами информацию, затем нажмите кнопку
+  "Сохранить". Ваш отчет попадет в базу 
+  данных [% terms.Bugzilla %].<br>
   </p>
 </blockquote>
 
