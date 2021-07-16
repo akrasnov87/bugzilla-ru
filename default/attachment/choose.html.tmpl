@@ -7,21 +7,21 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-   title = "Locate or Create Attachment"
-%]
+   title = "Поиск приложения"
+ %]
 
 <form name="choose-id" method="get" action="attachment.cgi">
-  <p>Access an attachment by entering its ID into the form below:</p>
-  <p>Attachment ID: <input name="id" size="6" autofocus required>
-  <button name="action" value="edit" id="edit">Details</button>
-  <button name="action" value="view" id="view">View</button>
+  <p>Доступ к приложению по его номеру:</p>
+  <p>ID приложения: <input name="id" size="6">
+  <button name="action" value="edit" id="edit">Изменить</button>
+  <button name="action" value="view" id="view">Перейти</button>
   </p>
 </form>
 
 <form method="get" action="show_bug.cgi">
-  <p>Or, Access it from the list of attachments in its associated [% terms.bug %] report:</p>
-  <p>[% terms.Bug %] ID: <input name="id" size="6" required>
-  <input type="submit" name="action" value="View" id="action">
+  <p>Доступ через список приложений [% terms.bug_gen %]:</p>
+  <p>Номер [% terms.bug_gen %]: <input name="id" size="6">
+  <input type="submit" name="action" value="Перейти" id="action">
   </p>
 </form>
 

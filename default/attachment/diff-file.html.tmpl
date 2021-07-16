@@ -19,7 +19,7 @@
  onclick="return twisty_click(this)">[% collapsed ? '(+)' : '(-)' %]</a><input
  type="checkbox" name="[% file.filename FILTER html %]"[% collapsed ? '' : ' checked' %]
  class="bz_default_hidden">
-  [% file.filename FILTER html %]
+    [% file.filename FILTER html %]
   [% IF file.plus_lines %]
     [% IF file.minus_lines %]
       (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;lines)
@@ -43,20 +43,21 @@ incremental_restore()
     <th colspan="4" class="section_head">
       <span id="[% file.filename FILTER html %]_sec[% section_num %]" class="lines_count">
         [% IF file.is_add %]
-          Added
-        [% ELSIF file.is_remove %]
-          Removed
-        [% ELSE %]
-          [% IF section.old_lines > 1 %]
-            Lines&nbsp;[% section.old_start %]-[% section.old_start + section.old_lines - 1 %]
-          [% ELSE %]
-            Line&nbsp;[% section.old_start %]
-          [% END %]
+    Добавлен
+  [% ELSIF file.is_remove %]
+    Удален
+    [% ELSE %]
+    [% IF section.old_lines > 1 %]
+      &nbsp;Строки&nbsp;[% section.old_start %]-[% section.old_start + 
+                                             section.old_lines - 1 %]
+    [% ELSE %]
+      Строка&nbsp;[% section.old_start %]
+    [% END %]
           [%+ section.func_info FILTER html IF section.func_info %]
-        [% END %]
-      </span>
+    [% END %]
+          </span>
       <span class="link_here">
-        <a href="#[% file.filename FILTER html %]_sec[% section_num %]">Link&nbsp;Here</a>
+        <a href="#[% file.filename FILTER html %]_sec[% section_num %]">Ссылка</a>
       </span>
     </th>
   </tr>

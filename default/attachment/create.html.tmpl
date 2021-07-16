@@ -7,9 +7,9 @@
   #%]
 
 [%# Define strings that will serve as the title and header of this page %]
-[% title = BLOCK %]Create New Attachment for [% terms.Bug %] #[% bug.bug_id %][% END %]
-[% header = BLOCK %]Create New Attachment for
-  [%+ "$terms.Bug $bug.bug_id" FILTER bug_link(bug) FILTER none %][% END %]
+[% title = BLOCK %]Создать новое приложение для [% terms.bug_gen %] #[% bug.bug_id %][% END %]
+[% header = BLOCK %]Создать новое приложение для
+  [%+ "$terms.bug_gen $bug.bug_id" FILTER bug_link(bug) FILTER none %][% END %]
 [% subheader = BLOCK %][% bug.short_desc FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -42,9 +42,9 @@ TUI_hide_default('attachment_text_field');
     [%# Additional fields for attachments on existing bugs: %]
     [% IF attachments.size %]
       <tr>
-        <th>Obsoletes:</th>
+        <th>Заменяет:</th>
         <td>
-          <em>(optional) Check each existing attachment made obsolete by your new attachment.</em><br>
+          <em>(необязательно) Укажите приложения к [% terms.bug_dat %], которые заменены этим.</em><br>
           [% FOREACH attachment = attachments %]
             <input type="checkbox" id="[% attachment.id %]"
                  name="obsolete" value="[% attachment.id %]">
@@ -56,12 +56,12 @@ TUI_hide_default('attachment_text_field');
 
     [% IF (user.id != bug.assigned_to.id) AND user.in_group("editbugs", bug.product_id) %]
       <tr>
-        <th>Reassignment:</th>
+        <th>Изменение исполнителя:</th>
         <td>
-          <em>If you want to assign this [% terms.bug %] to yourself,
-              check the box below.</em><br>
+          <em>Если вы хотите стать исполнителем [% terms.bug_gen %],
+              выберите этот вариант.</em><br>
           <input type="checkbox" id="takebug" name="takebug" value="1">
-          <label for="takebug">take [% terms.bug %]</label>
+          <label for="takebug">взять [% terms.bug_acc %] на себя</label>
           [% bug_statuses = [] %]
           [% FOREACH bug_status = bug.status.can_change_to %]
             [% NEXT IF bug_status.name == "UNCONFIRMED" 
@@ -69,9 +69,9 @@ TUI_hide_default('attachment_text_field');
             [% bug_statuses.push(bug_status) IF bug_status.is_open %]
           [% END %]
           [% IF bug_statuses.size %]
-            <label for="takebug">and set the [% terms.bug %] status to</label>
+            <label for="takebug">и установить состояние [% terms.bug_gen %]</label>
             <select id="bug_status" name="bug_status">
-              <option value="[% bug.status.name FILTER html %]">[% display_value("bug_status", bug.status.name) FILTER html %] (current)</option>
+              <option value="[% bug.status.name FILTER html %]">[% display_value("bug_status", bug.status.name) FILTER html %] (текущее)</option>
               [% FOREACH bug_status = bug_statuses %]
                 [% NEXT IF bug_status.id == bug.status.id %]
                 <option value="[% bug_status.name FILTER html %]">[% display_value("bug_status", bug_status.name) FILTER html %]</option>
@@ -82,14 +82,14 @@ TUI_hide_default('attachment_text_field');
       </tr>
     [% END %]
     <tr>
-      <th><label for="comment">Comment:</label></th>
+      <th><label for="comment">Комментарий:</label></th>
       <td>
-        <em>(optional) Add a comment about this attachment to the [% terms.bug %].</em><br>
+        <em>(дополнительно) Добавьте комментарий для этого приложения к [% terms.bug_dat %].</em><br>
         [% INCLUDE bug/comment.html.tmpl
-           minrows = 6
-           maxrows = 15
-           cols    = constants.COMMENT_COLS
-           wrap    = 'soft'
+          minrows = 6
+          maxrows = 15
+          cols    = constants.COMMENT_COLS
+          wrap    = 'soft'
         %]
         [% IF NOT bug.cc.contains(user.login) %]
           <br>
@@ -98,30 +98,30 @@ TUI_hide_default('attachment_text_field');
                 IF user.settings.state_addselfcc.value == 'always'
                    || (!bug.user.has_any_role
                        && user.settings.state_addselfcc.value == 'cc_unless_role') %]>
-          <label for="addselfcc">Add me to CC list</label>
-        [% END %]
+          <label for="addselfcc">Добавить меня в список подписанных пользователей</label>
+        [% END %]        
       </td>
     </tr>
     [% IF user.is_insider %]
       <tr>
-        <th>Privacy:</th>
+        <th>Конфиденциальность:</th>
         <td>
           <input type="checkbox" name="isprivate" id="isprivate"
           value="1" onClick="updateCommentPrivacy(this)">
           <label for="isprivate">
-            Make attachment and comment private (visible only to members of
-            the <strong>[% Param('insidergroup') FILTER html %]</strong>
-            group)
+            Сделать приложение и комментарий конфиденциальными 
+            (видимыми только членам группы
+            <strong>[% Param('insidergroup') FILTER html %]</strong>)
           </label>
         </td>
       </tr>
     [% END %]
-
+    
     [% Hook.process('form_before_submit') %]
-
+    
     <tr>
       <th>&nbsp;</th>
-      <td><input type="submit" id="create" value="Submit"></td>
+      <td><input type="submit" id="create" value="Сохранить"></td>
     </tr>
   </table>
 

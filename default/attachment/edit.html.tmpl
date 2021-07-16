@@ -8,12 +8,12 @@
 
 [%# Define strings that will serve as the title and header of this page %]
 [% title = BLOCK %]
-  Attachment [% attachment.id %] Details for [% terms.Bug %] [%+ attachment.bug_id %]
+  Свойства приложения [% attachment.id %] для [% terms.bug_gen %] [%+ attachment.bug_id %]
   &ndash; [% attachment.description FILTER html %]
 [% END %]
 [% header = BLOCK %]
-  Attachment [% attachment.id %] Details for
-  [%+ "$terms.Bug ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]
+  Свойства приложения [% attachment.id %] для
+  [%+ "$terms.bug_gen ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]
 [% END %]
 [% subheader = BLOCK %][% attachment.bug.short_desc FILTER html %][% END %]
 
@@ -52,7 +52,7 @@
             [% attachment.description FILTER html %]
           </span>
           [% IF can_edit %]
-            <span class="bz_edit">(<a href="javascript:toggle_attachment_details_visibility()">edit details</a>)</span>
+            <span class="bz_edit">(<a href="javascript:toggle_attachment_details_visibility()">изменить информацию</a>)</span>
           [% END %]
         </div>
         <div class="details">
@@ -60,10 +60,10 @@
           [% IF attachment.datasize %]
             [%+ attachment.datasize FILTER unitconvert %]
           [% ELSE %]
-            <em>deleted</em>
-          [% END %], created by [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %] on [%+ attachment.attached FILTER time %]
+            <em>удалено</em>
+          [% END %], создано [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %] в [%+ attachment.attached FILTER time %]
           [% IF attachment.isprivate %];
-            <span class="bz_private">only visible to <strong>[% Param('insidergroup') FILTER html %]</strong> members</span>
+            <span class="bz_private">видимо только для <strong>[% Param('insidergroup') FILTER html %]</strong> членов группы</span>
           [% END %]
         </div>
       </div>
@@ -72,7 +72,7 @@
           (<a href="javascript:toggle_attachment_details_visibility();">hide</a>)
         </span>
         <div id="attachment_description">
-          <label for="description">Description:</label>&nbsp;
+          <label for="description">Описание:</label>&nbsp;
           [% INCLUDE global/textarea.html.tmpl
             id             = 'description'
             name           = 'description'
@@ -81,46 +81,46 @@
             wrap           = 'soft'
             classes        = 'block' _ editable_or_hide
             defaultcontent = attachment.description
-          %]          
+          %]
         </div>
 
           <div id="attachment_filename">
-            <label for="filename">Filename:</label>
+            <label for="filename">Имя файла:</label>
             <input type="text" size="20"  class="text block[% editable_or_hide %]"
                    id="filename" name="filename"
-                   value="[% attachment.filename FILTER html %]">     
+                   value="[% attachment.filename FILTER html %]">
           </div>
 
           <div id="attachment_mimetype">
-            <label for="contenttypeentry">MIME Type:</label>
+            <label for="contenttypeentry">Тип файла:</label>
             <input type="text" size="20" class="text block[% editable_or_hide %]"
                    id="contenttypeentry" name="contenttypeentry"
-                   value="[% attachment.contenttype FILTER html %]">                   
+                   value="[% attachment.contenttype FILTER html %]">
           </div>
           
           <div id="attachment_creator">
-            <span class="label">Creator:</span>
+            <span class="label">Автор:</span>
             [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
           </div>
-
+          
           <div id="attachment_created">
-            <span class="label">Created:</span>
+            <span class="label">Дата создания:</span>
             [%+ attachment.attached FILTER time %]
           </div>
 
           <div id="attachment_size">
-            <span class="label">Size:</span>
+            <span class="label">Размер:</span>
             [% IF attachment.datasize %]
               [%+ attachment.datasize FILTER unitconvert %]
             [% ELSE %]
-              <em>deleted</em>
+              <em>удалено</em>
             [% END %]
           </div>
 
           <div id="attachment_ispatch">
             <input type="checkbox" id="ispatch" name="ispatch" value="1"
                    [%+ 'checked="checked"' IF attachment.ispatch %]>
-                   <label for="ispatch">patch</label>
+              <label for="ispatch">патч</label>
           </div>
 
         <div class="readonly">
@@ -128,7 +128,7 @@
             <div id="attachment_isobsolete">
               <input type="checkbox" id="isobsolete" name="isobsolete" value="1"                     
                      [%+ 'checked="checked"' IF attachment.isobsolete %]>
-                <label for="isobsolete">obsolete</label>
+                <label for="isobsolete">неактуально</label>
             </div>
 
             [% IF user.is_insider %]
@@ -136,12 +136,12 @@
                 <input type="checkbox" id="isprivate" name="isprivate" value="1"
                        [%+ 'checked="checked"' IF attachment.isprivate %]>
                 [% IF can_edit %]
-                  <label for="isprivate">private (only visible to
+                  <label for="isprivate">конфиденциально (видимо только членам группы
                     <strong>[% Param('insidergroup') FILTER html %]</strong>)
                   </label>
                 [% ELSE %]
-                  <span class="label">Is Private:</span>
-                  [%+ attachment.isprivate ? "yes" : "no" %]
+                  <span class="label">Конфиденциально:</span>
+                  [%+ attachment.isprivate ? "да" : "нет" %]
                 [% END %]
               </div>
             [% END %]
@@ -151,16 +151,16 @@
 
       <div id="attachment_view_window">
         [% IF !attachment.datasize %]
-          <div><b>The content of this attachment has been deleted.</b></div>
+          <div><b>Содержание приложения удалено.</b></div>
         [% ELSIF !Param("allow_attachment_display") %]
           <div id="view_disabled">
             <p><b>
-              The attachment is not viewable in your browser due to security
-              restrictions enabled by your [% terms.Bugzilla %] administrator.
+              Приложение недоступно для просмотра в целях безопасности
+            согласно ограничениям установленным администратором [% terms.Bugzilla %].
             </b></p>
             <p><b>
-              In order to view the attachment, you first have to
-              <a href="attachment.cgi?id=[% attachment.id %]">download it</a>.
+              Для просмотра содержимого приложения следует
+              <a href="attachment.cgi?id=[% attachment.id %]">его загрузить</a>.
             </b></p>
           </div>
         [% ELSIF attachment.is_viewable %]
@@ -199,31 +199,31 @@
                  readonly = 'readonly'
               %]
             [% ELSE %]
-              <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" sandbox>
-                <b>You cannot view the attachment while viewing its details because your browser does not support IFRAMEs.
-                <a href="attachment.cgi?id=[% attachment.id %]">View the attachment on a separate page</a>.</b>
+              <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]">
+                <b>Вы не можете одновременно редактировать и просматривать сообщения, потому что ваш браузер не поддерживает IFRAME.
+                <a href="attachment.cgi?id=[% attachment.id %]">Просмотреть приложение на отдельной странице</a>.</b>
               </iframe>
             [% END %]
-
+          
             [% IF use_patchviewer %]
               <iframe id="viewDiffFrame" class="bz_default_hidden"></iframe>
             [% END %]
 
-            [% IF user.id %]
+                        [% IF user.id %]
               <button type="button" id="editButton" class="bz_default_hidden"
-                      onclick="editAsComment([% use_patchviewer %]);">Edit Attachment As Comment</button>
+                      onclick="editAsComment([% use_patchviewer %]);">Изменить приложение как текст</button>
               <button type="button" id="undoEditButton" class="bz_default_hidden"
-                      onclick="undoEditAsComment([% use_patchviewer %]);">Undo Edit As Comment</button>
+                      onclick="undoEditAsComment([% use_patchviewer %]);">Отменить изменения</button>
               <button type="button" id="redoEditButton" class="bz_default_hidden"
-                      onclick="redoEditAsComment([% use_patchviewer %]);">Redo Edit As Comment</button>
+                      onclick="redoEditAsComment([% use_patchviewer %]);">Вернуть изменения</button>
             [% END %]
 
             [% IF use_patchviewer %]
               <button type="button" id="viewDiffButton" class="bz_default_hidden"
-                      onclick="viewDiff([% attachment.id %], [% use_patchviewer %]);">View Attachment As Diff</button>
+                      onclick="viewDiff([% attachment.id %], [% use_patchviewer %]);">Просмотр в режиме сравнения</button>
             [% END %]
             <button type="button" id="viewRawButton" class="bz_default_hidden"
-                    onclick="viewRaw([% use_patchviewer %]);">View Attachment As Raw</button>
+                    onclick="viewRaw([% use_patchviewer %]);">Просмотр в исходном виде</button>
 
             <script type="text/javascript">
               [% IF user.id %]
@@ -236,20 +236,20 @@
         [% ELSE %]
           <div id="noview">
             <p><b>
-              Attachment is not viewable in your browser because its MIME type 
-              ([% attachment.contenttype FILTER html %]) is not one that your browser is 
-              able to display.
+            Просмотр приложения невозможен, потому что
+            ваш браузер не поддерживает тип файлов
+            ([% attachment.contenttype FILTER html %]).
             </b></p>
             <p><b>
-              <a href="attachment.cgi?id=[% attachment.id %]">Download the attachment</a>.
-            </b></p>
+              <a href="attachment.cgi?id=[% attachment.id %]">Загрузить приложение</a>.
+          </b></p>
           </div>
         [% END %]
       </div>
       <div id="attachment_comments_and_flags">
         [% IF user.id %]
           <div id="smallCommentFrame" >
-            <label for="comment">Comment (on the [% terms.bug %]):</label>
+            <label for="comment">Комментарий (на [% terms.bug_acc %]):</label>
             [% classNames = 'block' %]
             [% classNames = "$classes bz_private" IF attachment.isprivate %]
             [% INCLUDE bug/comment.html.tmpl
@@ -265,9 +265,9 @@
                     IF user.settings.state_addselfcc.value == 'always'
                        || (!attachment.bug.user.has_any_role
                            && user.settings.state_addselfcc.value == 'cc_unless_role') %]>
-              <label for="addselfcc">Add me to CC list</label>
+              <label for="addselfcc">Добавить меня в список подписанных пользователей</label>
             [% END %]
-            [% Hook.process('after_comment_textarea') %]
+                        [% Hook.process('after_comment_textarea') %]
           </div>
         [% END %]
         <div id="attachment_flags">
@@ -283,7 +283,7 @@
 
         [% IF user.id %]       
           <div id="update_container">
-            <input type="submit" value="Submit" id="update">
+            <input type="submit" value="Отправить" id="update">
           </div>
         [% END %]        
       </div>        
@@ -292,21 +292,21 @@
 </form>
 
 <div id="attachment_actions">
-  <span class="label">Actions:</span>
-  <a href="attachment.cgi?id=[% attachment.id %]">View</a>
+  <span class="label">Действия:</span>
+  <a href="attachment.cgi?id=[% attachment.id %]">Просмотреть</a>
   [% IF use_patchviewer %]
-    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Diff</a>
+    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Сравнить</a>
   [% END %]
   [% IF Param("allow_attachment_deletion")
         && user.in_group('admin')
         && attachment.datasize > 0 %]
-    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=delete">Delete</a>
+    | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=delete">Удалить</a>
   [% END %]
   [% Hook.process('action') %]
 </div>
 
 <div id="attachment_list">
-  Attachments on [% "$terms.bug ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]:
+  Приложения к этой [% "$terms.bug_dat ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]:
   [% FOREACH a = attachments %]
     [% IF a.isobsolete %]
       <span class="bz_obsolete">
