@@ -6,19 +6,19 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-Normal templates go in this directory. You can load them in your
-code like this:
+Обычные шаблоны размещаются в этом каталоге. Вы можете загружать их в
+свой код следующим образом:
 
-use Bugzilla::Error;
-my $template = Bugzilla->template;
+use B[% %]ugzilla::Error;
+my $template = B[% %]ugzilla->template;
 $template->process('[% name FILTER lower %]/some-template.html.tmpl')
   or ThrowTemplateError($template->error());
 
-That would be how to load a file called <kbd>some-template.html.tmpl</kbd> that
-was in this directory.
+Это приведёт к загрузке файла с именем <kbd>some-template.html.tmpl</kbd>, который
+был размещён в этом каталоге.
 
-Note that you have to be careful that the full path of your template
-never conflicts with a template that exists in Bugzilla or in 
-another extension, or your template might override that template. That's why
-we created this directory called '[% name FILTER lower %]' for you, so you
-can put your templates in here to help avoid conflicts.
+Примите во внимание, что вы должны убедиться, что полный путь вашего шаблона
+никогда не должен конфликтовать с шаблоном существующим в [% terms.Bugzilla %]
+или в другом расширении, или ваш шаблон может нарушить работу того шаблона.
+Вот почему мы создали для вас этот каталог называемый '[% name FILTER lower %]',
+чтобы вы могли положить сюда ваши шаблоны и избежать конфликтов.
