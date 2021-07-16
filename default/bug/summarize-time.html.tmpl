@@ -6,24 +6,24 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% title = "Time Summary " %]
+[% title = "Анализ затрат времени " %]
 [% IF do_depends %]
-    [% title = title _ "for " %]
-    [% header = "$terms.Bug $ids.0" FILTER bug_link(ids.0) FILTER none %]
-    [% header = title _ header _ " (and $terms.bugs blocking it)" %]
-    [% title = title _ "$terms.Bug $ids.0" %]
+    [% title = title _ "для " %]
+    [% header = "$terms.bug_gen $ids.0" FILTER bug_link(ids.0) FILTER none %]
+    [% header = title _ header _ " ( и ${terms.bugs_gen}, блокирующих ее)" %]
+    [% title = title _ "$terms.bug_gen $ids.0: " %]
 [% ELSE %]
     [% title = title _ "($ids.size $terms.bugs selected)" %]
     [% header = title %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl 
-    title = title
-    header = header
+    title = title 
+    header = header 
     style_urls = ['skins/standard/buglist.css']
     doc_section = "using/editing.html#time-tracking"
     yui = ['calendar']
-    javascript_urls = [ "js/util.js", "js/field.js" ]
+    javascript_urls = [ "js/util.js", "js/field.js" ]    
     %]
 
 [% INCLUDE query_form %]
@@ -36,12 +36,12 @@
     [%# parts contains date ranges (from, to). %]
     [% part = parts.shift %]
     <h4>
-      [% IF part.0 or part.1 %]
-        [% part.0 OR "Up" FILTER html %] to [% part.1 OR "now" FILTER html %]
-      [% ELSE %]
-        Full summary (no period specified)
-      [% END %]
-    </h4>
+        [% IF part.0 or part.1 %]
+          С [% part.0 OR "начала" FILTER html %] по [% part.1 OR "настоящее время" FILTER html %]
+        [% ELSE %]
+          Полный анализ (период не указан)
+        [% END %]
+      </h4>
     [% IF group_by == "number" %]
       [% INCLUDE number_report %]
     [% ELSE %]
@@ -51,22 +51,22 @@
 
   [% IF detailed %]
     <h4>
-      Total of [% global.remaining FILTER format("%.2f") %]h remains from
-      original estimate of [% global.estimated FILTER format("%.2f") %]h
+      От первоначальной оценки в [% global.estimated FILTER format("%.2f") %]ч
+      осталось [% global.remaining FILTER format("%.2f") %]ч
       [% IF global.deadline %]
-        (deadline [% global.deadline FILTER html %])
+        (срок [% global.deadline FILTER html %])
       [% END %]
     </h4>
   [% END %]
 
   [% IF monthly %]
-    <h4>Total of [% global.grand_total FILTER format("%.2f") %] hours worked</h4>
+    <h4>Итого отработано [% global.grand_total FILTER format("%.2f") %] часов</h4>
     <hr>
   [% END %]
 
   [% IF null.size > 0 %]
     [% INCLUDE inactive_report %]
-    <h4>Total of [% null.size %] inactive [% terms.bugs %]</h4>
+    <h4>Итого [% null.size %] [% terms.bugs_gen %] неактивно</h4>
   [% END %]
 
 [% END %]
@@ -110,9 +110,9 @@
         [% subtotal = subtotal + bugdata.total_time %]
     [% END %]
     <tr>
-      <th colspan="4" class="right">Total:</th>
+      <th colspan="4" class="right">Итого:</th>
       <td class="subtotal">[% subtotal FILTER format("%.2f") %]</td>
-    </tr>
+      </tr>
     [% global.total = global.total + subtotal %]
 [% END %]
 
@@ -125,7 +125,7 @@
 [% BLOCK number_report %]
     [% global.total = 0 global.owner_count = {} global.bug_count = {} %]
 
-    <table class="realitems number">
+        <table class="realitems number">
     [% FOREACH bug = workdata.keys.nsort %]
         [% INCLUDE do_one_bug id=bug bugdata=workdata.$bug
                               detailed=detailed %]
@@ -159,7 +159,7 @@
         [% END %]
     [% END %]
     <tr>
-      <th colspan="3" class="right">Total:</th>
+    <th colspan="3" class="right">Итого:</th>
       <td class="subtotal">[% subtotal FILTER format("%.2f") %]</td>
     </tr>
     [% global.total = global.total + subtotal %]
@@ -180,14 +180,14 @@
       <tr class="bug_header[% '2' IF cid % 2 %]">
         <td>&nbsp;</td>
         <td colspan="3">
-          <span class="time_info">
-            Estimated: [% bugs.$id.estimated_time FILTER format("%.2f") %]h
+        <span class="time_info">
+            Первоначальная оценка: [% bugs.$id.estimated_time FILTER format("%.2f") %]h
           </span>
           <span class="time_info">
-            Remaining: [% bugs.$id.remaining_time FILTER format("%.2f") %]h
+            Осталось: [% bugs.$id.remaining_time FILTER format("%.2f") %]h
           </span>
           <span class="time_info">
-            Deadline: [% bugs.$id.deadline || "<b>Not set</b>" %]
+            Срок: [% bugs.$id.deadline || "<b>Не установлен/b>" %]
           </span>
         </td>
         [% IF extra %]
@@ -209,7 +209,7 @@
 [% END %]
 
 [% BLOCK inactive_report %]
-    <h3>Inactive [% terms.bugs %]</h3>
+    <h3>Неактивные [% terms.bugs %]</h3>
     <table class="zeroitems">
     [% cid = 0 %]
     [% FOREACH bug_id = null.nsort %]
@@ -229,7 +229,7 @@
     </tr>
   [% ELSE %]
     <tr>
-      <td>No time allocated during the specified period.</td>
+      <td>Затрат времени в течение указанного периода не было.</td>
     </tr>
   [% END %]
   [% global.grand_total = global.grand_total + global.total %]
@@ -249,50 +249,49 @@
 <input type="hidden" name="do_report" value="1">
 
 [% IF warn_swap_dates %]
-  <p class="warning_swapped_data">
-    The end date specified occurs before the start date, which doesn't
-    make sense; the dates below have therefore been swapped.
-  </p>
+  <p class="warning_swapped_data">В
+     указанная дата окончания наступает раньше даты начала, что не
+     имеет смысл; поэтому даты, указанные ниже, были поменяны местами. 
+     </p>
 [% END %]
 
 <table>
-  <tr>
-    <th>
-      <label accesskey="s" for="start_date">Period <u>s</u>tarting</label>:
+<tr>
+<th>
+      <label accesskey="s" for="start_date">Период <u>с</u>tarting</label>:
     </th>
     <td>
       <input id="start_date" name="start_date" size="10" autofocus
              value="[% start_date FILTER html %]" maxlength="10"
-             onchange="updateCalendarFromField(this)">
-      <button type="button" class="calendar_button" id="button_calendar_start_date"
-              onclick="showCalendar('start_date')"><span>Calendar</span>
-      </button>
-      <div id="con_calendar_start_date"></div>
-      <span class="label">
-        and <label accesskey="e" for="end_date"><u>e</u>nding</label>:
+         onchange="updateCalendarFromField(this)">
+         <button type="button" class="calendar_button" id="button_calendar_start_date"
+              onclick="showCalendar('start_date')"><span>Календарь</span>
+  </button>
+  <div id="con_calendar_start_date"></div>
+   <span class="label">
+        и <label accesskey="e" for="end_date"><u>по</u>nding</label>:
       </span>
-      <input type="text" name="end_date" size="10" id="end_date"
+ <input type="text" name="end_date" size="10" id="end_date"
              value ="[% end_date FILTER html %]" maxlength="10"
              onchange="updateCalendarFromField(this)">
       <button type="button" class="calendar_button" id="button_calendar_end_date"
-              onclick="showCalendar('end_date')"><span>Calendar</span>
-      </button>
-      <div id="con_calendar_end_date"></div>
-      <br>
-      <span class="bz_info">(Dates are optional, and in YYYY-MM-DD format)</span>
+              onclick="showCalendar('end_date')"><span>Календарь</span>
+  </button>
+  <div id="con_calendar_end_date"></div>
+  <br>
+      <span class="bz_info">(Указание дат не обязательно, формат ГГГГ-ММ-ДД)</span>
     </td>
-    <th><input type="submit" id="summarize" value="Summarize"></th>
-  </tr>
+    <th><input type="submit" id="summarize" value="Анализировать"></th>
 
-  <tr>
-    <th>Group by:</th>
+<tr>
+    <th>Группировать по</th>
     <td>
       <input type="radio" name="group_by" id="number" value="number"
              [% 'checked="checked"' IF group_by == "number" %]>
-      <label for="number" accesskey="n">[% terms.Bug %] <u>N</u>umber</label>
+      <label for="number" accesskey="n"><u>Номеру</u> [% terms.Bug %]</label>
       <input type="radio" name="group_by" id="owner" value="owner"
              [% 'checked="checked"' IF group_by == "owner" %]>
-      <label for="owner" accesskey="d"><u>D</u>eveloper</label>
+      <label for="owner" accesskey="d"><u>Исполнителю</u></label>
     </td>
     <th>
       <label for="ctype">Format</label>:
@@ -300,24 +299,24 @@
         <option value="html">HTML Report</option>
       </select>
     </th>
-  </tr>
+     </tr>
 
   <tr>
     <th>&nbsp;</th>
-    <td colspan="2">
-      <input type="checkbox" name="monthly" id="monthly"
+<td colspan="2">
+<input type="checkbox" name="monthly" id="monthly"
              [% 'checked="checked"' IF monthly %]>
-      <label for="monthly" accesskey="m">Split by <u>m</u>onth</label>
+      <label for="monthly" accesskey="m">По месяцам</label>
       [%# XXX: allow splitting by other intervals %]
       <input type="checkbox" name="detailed" id="detailed"
              [% 'checked="checked"' IF detailed %]>
-      <label for="detailed" accesskey="t">De<u>t</u>ailed summaries</label>
+      <label for="detailed" accesskey="t">Подробно</label>
       <input type="checkbox" name="inactive" id="inactive"
              [% 'checked="checked"' IF inactive %]>
-      <label for="inactive" accesskey="i">Also show <u>i</u>nactive
+      <label for="inactive" accesskey="i">С учетом неактивных
         [%+ terms.bugs %]</label>
-    </td>
-  </tr>
+</td>
+ </tr>
 </table>
 
 </form>

@@ -18,14 +18,14 @@
                        dependencies. (Optional)
   #%]
 
-[% title = "Dependency Graph"
+[% title = "Диаграмма зависимостей"
    header = title
  %]
 
 [% IF NOT multiple_bugs %]
   [% filtered_desc = short_desc FILTER html %]
-  [% title = "$title for $terms.bug $bug_id"
-     header = "$header for $terms.bug <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
+  [% title = "$title $terms.bug_gen номер $bug_id"
+     header = "$header для $terms.bug_gen номер <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
      subheader = filtered_desc
    %]
 [% END %]
@@ -35,14 +35,14 @@
 [% image_map %]
 
 <p>
-  Green circles represent open [% terms.bugs %].
+  Незакрытые [% terms.bugs %] обозначены зеленым цветом.
 </p>
 
 [% IF image_map %]
-  <img src="[% image_url %]" alt="Dependency graph" usemap="#imagemap">
+  <img src="[% image_url %]" alt="Диаграмма зависимостей" usemap="#imagemap">
 [% ELSE %]
   <a href="[% map_url %]">
-    <img src="[% image_url %]" alt="Dependency graph" ismap="ismap">
+    <img src="[% image_url %]" alt="Диаграмма зависимостей" ismap="ismap">
   </a>
 [% END %]
 
@@ -51,39 +51,39 @@
 <form action="showdependencygraph.cgi" method="GET">
   <table>
     <tr>
-      <th><label for="id">[% terms.Bug %] numbers</label>:</th>
+      <th><label for="id">Номера [% terms.bugs_gen %]</label>:</th>
       <td><input id="id" name="id" value="[% bug_id %]"></td>
       <td>
         <input type="checkbox" id="showsummary" name="showsummary" [% " checked" IF showsummary %]>
-        <label for="showsummary">Show the summaries of all displayed [% terms.bugs %]</label>
+        <label for="showsummary">Показать аннотации [% terms.bugs_gen %]</label>
       </td>
     </tr>
 
     <tr>
-      <th><label for="display">Display:</label></th>
+      <th><label for="display">Показать:</label></th>
       <td colspan="2">
         <select id="display" name="display">
           <option value="tree"[% 'selected="selected"' IF (!display || display == "tree") %]>
-            Restrict to [% terms.bugs %] having a direct relationship with entered [% terms.bugs %]</option>
+            только [% terms.bugs %], непосредственно связанные с перечисленными</option>
           <option value="web" [% 'selected="selected"' IF display == "web" %]>
-            Show all [% terms.bugs %] having any relationship with entered [% terms.bugs %]</option>
+            все [% terms.bugs %], имеющие любые связи с перечисленными</option>
         </select>
       </td>
     </tr>
 
     <tr>
-      <th><label for="rankdir">Orientation:</label></th>
+      <th><label for="rankdir">Ориентация:</label></th>
       <td colspan="2">
         <select id="rankdir" name="rankdir">
-          <option value="TB"[% " selected" IF rankdir == "TB" %]>Top to bottom</option>
-          <option value="BT"[% " selected" IF rankdir == "BT" %]>Bottom to top</option>
-          <option value="LR"[% " selected" IF rankdir == "LR" %]>Left to right</option>
-          <option value="RL"[% " selected" IF rankdir == "RL" %]>Right to left</option>
+          <option value="TB"[% " selected" IF rankdir == "TB" %]>сверху вниз</option>
+          <option value="BT"[% " selected" IF rankdir == "BT" %]>снизу вверх</option>
+          <option value="LR"[% " selected" IF rankdir == "LR" %]>слева направо</option>
+          <option value="RL"[% " selected" IF rankdir == "RL" %]>справа налево</option>
         </select>
       </td>
     </tr>
   </table>
-  <input type="submit" id="change" value="Change Parameters">
+  <input type="submit" id="change" value="Применить">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

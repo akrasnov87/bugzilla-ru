@@ -7,14 +7,14 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-   title = "Search by $terms.bug number"
+   title = "Поиск по номеру $terms.bug_gen"
  %]
 
 <form method="get" action="show_bug.cgi">
   <p>
-    You may find a single [% terms.bug %] by entering its [% terms.bug %] id here:
+    Поиск конкретной [% terms.bug_gen %] по номеру:
     <input name="id" size="6">
-    <input type="submit" id="show" value="Show Me This [% terms.Bug %]">
+    <input type="submit" id="show" value="Найти">
   </p>
 </form>
 

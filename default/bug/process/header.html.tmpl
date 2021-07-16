@@ -17,14 +17,14 @@
 [% IF    title_tag == "bug_processed" %]
   [% title = BLOCK %]
     [% IF Bugzilla.cgi.param('id') %]
-      [%+ id FILTER html %]
+      [%+ id FILTER html %] обработана
     [% ELSE %]
-      [% terms.Bugs %]
+      [% terms.Bugs %] обработаны
     [% END %]
-    processed
+    в работе
   [% END %]
 [% ELSIF title_tag == "mid_air" %]
-  [% title = "Mid-air collision!" %]
+  [% title = "Обнаружен конфликт доступа!" %]
 [% END %]
 
 [% Hook.process('title') %]

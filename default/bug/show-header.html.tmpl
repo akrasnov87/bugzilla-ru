@@ -32,17 +32,17 @@
      IF user.id && Param('comment_taggers_group') %]
 [% IF bug.defined %]
   [% header = "$terms.Bug&nbsp;$bug.bug_id" %]
-  [% header_addl_info = "Last modified: $filtered_timestamp" %]
-  [% unfiltered_title = "$bug.bug_id – " %]
-  [% IF bug.alias.size %]
+  [% header_addl_info = "Дата последней модификации: $filtered_timestamp" %]
+   [% unfiltered_title = "$bug.bug_id – " %]
+     [% IF bug.alias.size %]
     [% unfiltered_title = unfiltered_title _ "(" _ bug.alias.join(', ') _ ") " %]
   [% END %]
   [% unfiltered_title = unfiltered_title _ bug.short_desc %]
   [% javascript =  BLOCK %]
     if (history && history.replaceState) {
       if(!document.location.href.match(/show_bug\.cgi/)) {
-        history.replaceState( null,
-                             "[% unfiltered_title FILTER js %]",
+        history.replaceState( null, 
+                             "[% unfiltered_title FILTER js %]",  
                              "show_bug.cgi?id=[% bug.bug_id FILTER js %]" );
         document.title = "[% unfiltered_title FILTER js %]";
       }
@@ -55,7 +55,7 @@
     YAHOO.util.Event.onDOMReady(function() {
       initDirtyFieldTracking();
 
-      [% IF user.id AND user.is_involved_in_bug(bug) %]
+            [% IF user.id AND user.is_involved_in_bug(bug) %]
         YAHOO.bugzilla.bugUserLastVisit.update([% bug.bug_id FILTER none %]);
       [% END %]
     });

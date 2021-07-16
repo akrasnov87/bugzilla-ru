@@ -18,9 +18,9 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Verify New Product Details...'
+  title = 'Изменения при смене продукта...' 
   style_urls = ['skins/standard/buglist.css']
-%]
+  %]
 
 <form action="process_bug.cgi" method="post">
 
@@ -36,8 +36,8 @@
 <input type="hidden" name="confirm_product_change" value="1">
     
 [%# Verify the version, component, and target milestone fields. %]
-<h3>Verify Version, Component
-  [%- ", Target Milestone" 
+<h3>Подтвердите версию, компонент 
+  [%- ", план" 
       IF Param("usetargetmilestone")
          && bug.check_can_change_field('target_milestone', 0, 1) %]</h3>
 
@@ -45,22 +45,22 @@
 [% IF Param("usetargetmilestone") 
    && bug.check_can_change_field('target_milestone', 0, 1) 
 %]
-  You are moving the [% terms.bug %](s) to the product 
+  Вы перемещаете [% terms.bug_acc %] в продукт
   <b>[% product.name FILTER html %]</b>,
-  and the version, component, and/or target milestone fields are no longer
-  correct.  Please set the correct version, component, and target milestone now:
+  в результате версия, компонент и/или план должны быть приведены 
+  в соответствие.  Установите значения для нового продукта:
 [% ELSE %]
-  You are moving the [% terms.bug %](s) to the product 
+  Вы перемещаете [% terms.bug_acc %] в продукт
   <b>[% product.name FILTER html %]</b>,
-  and the version and component fields are no longer correct.
-  Please set the correct version and component now:
+  в результате версия и компонент должны быть приведены 
+  в соответствие.  Установите значения для нового продукта:
 [% END %]
 </p>
 
 <table>
   <tr>
     <td>
-      <b>Version:</b><br>
+      <b>Версия:</b><br>
       [% IF versions.size == 1 %]
         [% SET default_version = versions.0 %]
       [% ELSE %]
@@ -73,7 +73,7 @@
                  size=10 %]
     </td>
     <td>
-      <b>Component:</b><br>
+      <b>Компонент:</b><br>
       [% IF components.size == 1 %]
         [% SET default_component = components.0 %]
       [% ELSE %]
@@ -89,7 +89,7 @@
           && bug.check_can_change_field('target_milestone', 0, 1) 
     %]
       <td>
-        <b>Target Milestone:</b><br>
+        <b>Запланировано:</b><br>
       [% PROCESS "global/select-menu.html.tmpl"
                  name="target_milestone"
                  options=milestones
@@ -119,14 +119,14 @@
   [% END %]
   
   [% IF old_groups.size || optional_groups.size || mandatory_groups.size %]
-    <h3>Verify [% terms.Bug %] Group</h3>
+    <h3>Подтвердите права доступа</h3>
   [% END %]
   
   [% IF old_groups.size %]
-    <p>These groups are not legal for the '[% product.name FILTER html %]'
-    product or you are not allowed to restrict [% terms.bugs %] to these groups.
-    [%+ terms.Bugs %] will no longer be restricted to these groups and may become
-    public if no other group applies:<br>
+    <p>Перечисленные группы недопустимы для продукта '[% product.name FILTER html %]'
+    или недостаточно прав доступа для назначения этих групп [% terms.bugs_acc -%].
+    Доступ к [%+ terms.bugs_dat %] не будет в дальнейшем ограничен этими группами, [%+ terms.bugs %]
+    могут стать общедоступными, если не будут указаны другие группы:
     [% FOREACH group = old_groups %]
       <input type="checkbox" id="group_[% group.id FILTER html %]"
              name="groups" disabled="disabled" value="[% group.name FILTER html %]">
@@ -140,8 +140,8 @@
 
 
   [% IF optional_groups.size %]
-    <p>These groups are optional. You can decide to restrict [% terms.bugs %] to
-    one or more of the following groups:<br>
+    <p>Следующие группы не обязательны. Вы можете ограничить видимость [% terms.bugs_gen %]
+    членами следующих групп:<br>
     [% IF multiple_bugs %]
       <script type="text/javascript">
         function turn_off(myself, id) {
@@ -154,9 +154,9 @@
 
       <table id="groups_edit_multiple">
         <tr>
-          <th class="narrow_column">Remove [% terms.bugs %] from this group</th>
-          <th class="narrow_column">Add [% terms.bugs %] to this group</th>
-          <th>Group Name</th>
+          <th class="narrow_column">Удалить [% terms.bugs_acc %] из этой группы</th>
+          <th class="narrow_column">Добавить [% terms.bugs_acc %] в эту группу</th>
+          <th>Имя группы:</th>
         </tr>
 
         [% FOREACH group = optional_groups %]
@@ -201,8 +201,8 @@
   [% END %]
 
   [% IF mandatory_groups.size %]
-    <p>These groups are mandatory and [% terms.bugs %] will be automatically
-    restricted to these groups:<br>
+    <p>Следующие группы обязательны. Видимость [% terms.bugs_gen %] автоматически
+    ограничена членами следующих групп:<br>
     [% FOREACH group = mandatory_groups %]
       <input type="checkbox" id="group_[% group.group.id FILTER html %]"
               checked="checked" disabled="disabled"
@@ -216,7 +216,7 @@
   [% END %]
 [% END %]
 
-<input type="submit" id="change_product" value="Commit">
+<input type="submit" id="change_product" value="Сохранить">
 
 </form>
 <hr>
@@ -226,9 +226,9 @@
 
 [% IF cgi.param('id') AND cgi.param('id').match('^\d+$') %]
   [% id = cgi.param('id') %]
-  Cancel and Return to [% "$terms.bug $id" FILTER bug_link(id) FILTER none %]
+  Отменить и вернуться к [% "$terms.bug_dat $id" FILTER bug_link(id) FILTER none %]
 [% ELSE %]
-  Cancel and Return to <a href="buglist.cgi?regetlastlist=1">the last search results</a>
+  Отменить и вернуться к <a href="buglist.cgi?regetlastlist=1">результатам поиска</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

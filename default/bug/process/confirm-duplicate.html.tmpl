@@ -14,27 +14,28 @@
   # cclist_accessible: boolean; whether or not users on the cc: list
   #   of the original bug can access that bug.
   #%]
-
-[% PROCESS global/header.html.tmpl title="Duplicate Warning" %]
+  
+[% PROCESS global/header.html.tmpl title="Предупреждение о дублировании" %]
 [% orig_bug = "$terms.bug $original_bug_id"
      FILTER bug_link(original_bug_id) %]
 
 <p>
-  When marking [% terms.abug %] as a duplicate, the reporter of the duplicate
-  is normally added to the CC list of the original. The permissions
-  on [% orig_bug FILTER none %] (the original) are currently set
-  such that the reporter would not normally be able to see it.
+  При признании [% terms.bug_gen %] дубликатом существующей, ее инициатор
+  добавляется в число подписчиков оригинала.  Настройки доступа к
+  оригиналу — [% terms.bug_dat %] [% orig_bug FILTER none %] — таковы,
+  что инициатор дубликата не имеет доступа к ней.
 </p>
 
 <p>
-  <b>Adding the reporter to the CC list of [% orig_bug FILTER none %]
+  <b>Добавление инициатора в список подписчиков [% terms.bug_gen %] 
+    [%+ orig_bug FILTER none %]
   [% IF cclist_accessible %]
-    will immediately
+    немедленно даст
   [% ELSE %]
-    might, in the future,
+    может в будущем дать
   [% END %]
-  allow them access to view this [% terms.bug %].</b>
-  Do you wish to do this?
+  инициатору доступ к оригиналу.</b>
+  Продолжить регистрацию дубликата?
 </p>
 
 <form method="post" action="process_bug.cgi">
@@ -43,18 +44,18 @@
 
 <p>
   <input type="radio" name="confirm_add_duplicate" value="1">
-    Yes, add the reporter to CC list on [% orig_bug FILTER none %]
+    Да, подписать инициатора на [% terms.bug_acc %] [%+ orig_bug FILTER none %]
 </p>
 <p>
   <input type="radio" name="confirm_add_duplicate" value="0" checked="checked">
-    No, do not add the reporter to CC list on [% orig_bug FILTER none %]
+    Нет, не подписывать инициатора на [% terms.bug_acc %] [%+ orig_bug FILTER none %]
 </p>
 <p>
-  [% "Throw away my changes, and revisit $terms.bug $duplicate_bug_id"
+  [% "Отменить изменения и вернуться к $terms.bug_dat $duplicate_bug_id"
      FILTER bug_link(duplicate_bug_id) FILTER none %]
 </p>
 <p>
-  <input type="submit" id="process" value="Submit">
+  <input type="submit" id="process" value="Сохранить">
 </p>
 
 </form>

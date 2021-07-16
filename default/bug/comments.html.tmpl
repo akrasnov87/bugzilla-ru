@@ -13,9 +13,9 @@
 
 <script type="text/javascript">
 <!--
-  /* Adds the reply text to the 'comment' textarea */
+  /* Adds the reply text to the `comment' textarea */
   function replyToComment(id, real_id, name) {
-      var prefix = "(In reply to " + name + " from comment #" + id + ")\n";
+      var prefix = "(Ответ " + name + " на комментарий" + id + ")\n";
       var replytext = "";
       [% IF user.settings.quote_replies.value == 'quoted_reply' %]
         /* pre id="comment_name_N" */
@@ -62,7 +62,7 @@
   <div class="bz_add_comment">
     <a href="#" 
        onclick="return goto_add_comments();">
-       Add Comment</a>
+       Добавить комментарий</a>
   </div>
 [% END %]
 
@@ -75,17 +75,17 @@
 <td>
   [% IF mode == "edit" %]
     <ul class="bz_collapse_expand_comments">
-      <li><a href="#" onclick="toggle_all_comments('collapse');
-                               return false;">Collapse All Comments</a></li>
+      <li><a href="#" onclick="toggle_all_comments('collapse'); 
+                               return false;">Свернуть все комментарии</a></li>
       <li><a href="#" onclick="toggle_all_comments('expand');
-                               return false;">Expand All Comments</a></li>
+                               return false;">Развернуть все комментарии</a></li>
       [% IF Param('comment_taggers_group') %]
         <li><div id="comment_tags_collapse_expand_container"></div></li>
       [% END %]
       [% IF user.settings.comment_box_position.value == "after_comments" && user.id %]
         <li class="bz_add_comment"><a href="#" 
             onclick="return goto_add_comments('bug_status_bottom');">
-            Add Comment</a></li>
+            Добавить комментарий</a></li>
       [% END %]
     </ul>
   [% END %]
@@ -108,10 +108,10 @@
                 [% " bz_first_comment" IF comment.count == 0 %]">
       [% IF comment.count == 0 %]
         [% class_name = "bz_first_comment_head" %]
-        [% comment_label = "Description" %]
+        [% comment_label = "Описание" %]
       [% ELSE %]
         [% class_name = "bz_comment_head" %]
-        [% comment_label = "Comment " _ comment.count %]
+        [% comment_label = "Комментарий " _ comment.count %]
       [% END %]
 
       <div class="[% class_name FILTER html %]">
@@ -129,8 +129,8 @@
                 [% IF user.settings.quote_replies.value != 'off' %]
                   onclick="replyToComment('[% comment.count %]', '[% comment.id %]', '[% comment.author.name || comment.author.nick FILTER html FILTER js %]'); return false;"
                 [% END %]
-              >reply</a>]
-            [% END %]
+              >ответить</a>]
+            [% END %]          
             [% IF comment.collapsed %]
               </span>
             [% END %]
@@ -146,7 +146,7 @@
           </span>
         [% END %]
 
-        [% IF mode == "edit" && can_edit_comments && user.is_insider %]
+                [% IF mode == "edit" && can_edit_comments && user.is_insider %]
           <div class="bz_private_checkbox">
             <input type="hidden" value="1"
                    name="defined_isprivate_[% comment.id %]">
@@ -155,7 +155,7 @@
                    id="isprivate_[% comment.id %]"
                    onClick="updateCommentPrivacy(this, [% comment.count %])"
                    [% " checked=\"checked\"" IF comment.is_private %]>
-            <label for="isprivate_[% comment.id %]">Private</label>
+            <label for="isprivate_[% comment.id %]">Конфиденциально</label>
           </div>
         [% END %]
 
@@ -188,7 +188,7 @@
           [%+ comment.creation_ts FILTER time %]
         </span>
 
-        [% IF comment.collapsed %]
+                [% IF comment.collapsed %]
           <span id="cr[% comment.count %]" class="bz_comment_collapse_reason"
              title="[% comment.author.name || comment.author.login FILTER html %]
                     [%~ %] [[% comment.creation_ts FILTER time %]]">
@@ -200,7 +200,7 @@
       [% IF user.is_timetracker &&
             (comment.work_time > 0 || comment.work_time < 0) %]
          <br>
-         Additional hours worked: 
+         Отработанное время: 
          [% PROCESS formattimeunit time_unit=comment.work_time %]
       [% END %]
 
@@ -229,7 +229,7 @@
 <pre class="bz_comment_text[% " collapsed" IF comment.collapsed %]"
   [% IF mode == "edit" || comment.collapsed %]
     id="comment_text_[% comment.count FILTER none %]"
-  [% END %]>
+  [% END %]>  
   [%- comment_text FILTER quoteUrls(bug, comment) -%]
 </pre>
     [% Hook.process('a_comment-end', 'bug/comments.html.tmpl') %]

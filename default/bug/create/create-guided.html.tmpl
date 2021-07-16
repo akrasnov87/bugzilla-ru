@@ -14,11 +14,11 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/header.html.tmpl
-   title = "Enter $terms.ABug"
+   title = "Регистрация $terms.bug_gen"
    onload = "PutDescription()"
    style_urls = ['skins/standard/bug.css']
  %]
-
+ 
 [%# This script displays the descriptions for selected components. %]
 <script type="text/javascript">
 var descriptions = [
@@ -38,20 +38,20 @@ function PutDescription() {
 }
 </script>
 
-<h3 id="step1">Step 1 of 3 - has your [% terms.bug %] already been reported?</h3>
+<h3 id="step1">Шаг 1 из 3 - поиск [% terms.bug_gen %] среди уже зарегистрированных</h3>
 
 <p class="warning">
-  Please don't skip this step - half of all [% terms.bugs %] filed are
-  reported already.
+  Пожалуйста, не пропускайте этот шаг — значительная часть вновь вводимых 
+  [% terms.bugs_gen %] уже зарегистрирована ранее.
 </p>
 
-<p>Check the two lists of frequently-reported [% terms.bugs %]:</p>
+<p>Проверьте списки часто регистрируемых [% terms.bugs_gen %]:</p>
 
 <p>
   <a href="duplicates.cgi?product=[% product.name FILTER uri %]&amp;format=simple"
-     target="somebugs">All-time Top 100</a> (loaded initially) |
+     target="somebugs">100 наиболее частых</a> (за всю историю) |
   <a href="duplicates.cgi?product=[% product.name FILTER uri %]&amp;format=simple&amp;sortby=delta&amp;reverse=1&amp;maxrows=100&amp;changedsince=14"
-     target="somebugs">Hot in the last two weeks</a>
+     target="somebugs"Наиболее частые за последние две недели</a>
 </p>
 
 <iframe name="somebugs" id="somebugs"
@@ -59,40 +59,40 @@ function PutDescription() {
 </iframe>
 
 <p>
-    If your [% terms.bug %] isn't there, search [% terms.Bugzilla %] by entering
-    a few key words having to do with your [% terms.bug %] in this box.
-    For example: <kbd><b>pop3 mail</b></kbd> or <kbd><b>copy paste</b></kbd>.
-    The results will appear above.
-</p>
+    Если вашей [% terms.bug_gen %] там нет, выполните поиск в [% terms.Bugzilla %] 
+    по нескольким ключевым словам, имеющим отношение к [% terms.bug_dat %].
+    Например: <tt><b>почта pop3</b></tt> или <tt><b>копировать вставить</b></tt>.
+    Результат будет представлен выше.
+  </p>
 
 [%# All bugs opened inside the past six months %]
   <form action="buglist.cgi" method="get" target="somebugs">
     <input type="hidden" name="format" value="simple">
     <input type="hidden" name="order" value="relevance desc">
     <input type="hidden" name="bug_status" value="__all__">
-    <input type="hidden" name="product" value="[% product.name FILTER html %]">
+    <input type="hidden" name="product" value="[% product.name FILTER html %]">    
     <input type="hidden" name="chfieldfrom" value="-6m">
     <input type="hidden" name="chfieldto" value="Now">
     <input type="hidden" name="chfield" value="[Bug creation]">
     <input type="text" name="content" size="40">
-    <input type="submit" id="search" value="Search">
+    <input type="submit" id="search" value="Найти">
   </form>
 
 <p>
-  Look through the search results. If you get the
-  <kbd><b>[% terms.zeroSearchResults %]</b></kbd> message, [% terms.Bugzilla %]
-  found no [% terms.bugs %] that
-  match. Check for typing mistakes, or try fewer or different keywords.
-  If you find [% terms.abug %] that looks the same as yours, please add
-  any useful extra information you have to it, rather than opening a new one.
+  Изучите результаты поиска.  Если получено сообщение
+  <tt><b>[% terms.zeroSearchResults %]</b></tt>, [% terms.bugs_gen %] 
+  по заданным словам не найдено.  Проверьте возможные опечатки в словах,
+  попробуйте меньше слов или другие слова.  Если найдена [% terms.bug %], 
+  по описанию похожая на вашу, добавьте к ней комментарий с известной вам 
+  новой информацией, но не регистрируйте новую [% terms.bug_acc %].
 </p>
 
 
-<h3 id="step2">Step 2 of 3 - give information</h3>
+<h3 id="step2">Шаг 2 из 3 - сбор информации</h3>
 
 <p>
-  If you've tried a few searches and your [% terms.bug %] really isn't in 
-  there, tell us all about it.
+  Если по результатам поиска подобных [% terms.bugs_gen %] не найдено,
+  следует зарегистрировать новую [% terms.bug_acc %].
 </p>
 
 <form id="guided_form" method="post" action="post_bug.cgi">
@@ -106,15 +106,15 @@ function PutDescription() {
 
 <table>
   <tr class="guided_form_field">
-    <th>Product</th>
+    <th>Продукт</th>
     <td>
       <input type="hidden" name="product" value="[% product.name FILTER html %]">
       [% product.name FILTER html %]
     </td>
   </tr>
 
-  <tr>
-    <th>Component</th>
+<tr>
+    <th>Компонент</th>
     <td>
       <select name="component" id="component" size="5" onchange="PutDescription()">
         [% IF NOT default.component_ %]
@@ -128,23 +128,23 @@ function PutDescription() {
           </option>
         [% END %]
       </select>
-
+      
       <div id="description" class="comment bz_default_hidden">
-        Select a component to see its description here.
-      </div>
-
+        Выберите компонент, чтобы увидеть его описание здесь.
+              </div>
+      
       <p>
-        The area where the problem occurs.
-        To pick the right component, you could use the same one as
-        similar [% terms.bugs %] you found in your search, or read the full list of
-        <a href="describecomponents.cgi?product=[% product.name FILTER uri %]"
-           target="_blank" >component descriptions</a> (opens in new window) if
-        you need more help.
+        Область возникновения проблемы.
+        Для правильного выбора компонента ориентируйтесь на значения, указанные
+        в подобных [% terms.bugs_obj %] или ознакомьтесь с полным списком
+        <a target="_blank" href="describecomponents.cgi?product=
+            [% product.name FILTER uri %]">описаний 
+        компонентов</a> (будет открыт в отдельном окне).
       </p>
     </td>
   </tr>
 
-  [%# We override rep_platform and op_sys for simplicity. %]
+[%# We override rep_platform and op_sys for simplicity. %]
   [% rep_platform = [ "PC", "Macintosh", "All", "Other" ] %]
 
   <tr class="guided_form_field">
@@ -158,28 +158,28 @@ function PutDescription() {
                 "Mac OS X", "Linux", "All", "Other" ] %]
 
   <tr>
-    <th>Operating System</th>
+      <th>Операционная система</th>
     <td>
       [% PROCESS select sel = 'op_sys' %]
     </td>
   </tr>
-
+  
   [%# Accept URL parameter build ID for non-browser products %]
   [% IF cgi.param("buildid") %]
     [% buildid = cgi.param("buildid") %]
   [% END %]
 
   <tr class="guided_form_field">
-    <th>Build Identifier</th>
+    <th>Идентификатор версии</th>
     <td>
       <input type="text" size="80" name="buildid" value="[% buildid FILTER html %]">
       <p>
-        This should identify the exact version of the product you were using.  
-        If the above field is blank or you know it is incorrect, copy the 
-        version text from the product's Help | 
-        About menu (for browsers this will begin with "Mozilla/5.0...").  
-        If the product won't start, instead paste the complete URL you downloaded 
-        it from.
+        Это точное описание продукта, использованного вами в момент [% terms.bug_gen %].
+        Если поле не заполнено или заполнено неверно, скопируйте текст 
+        версии из справки.  В случае Mozilla или Firefox это строка, 
+        начинающаяся с <tt>"Mozilla/5.0"</tt> в меню <tt>Справка | О Mozilla Firefox</tt>.
+        Если программа не запускается вовсе, укажите полный адрес, откуда она была
+        скачана.
       </p>
     </td>
   </tr>
@@ -189,84 +189,83 @@ function PutDescription() {
     <td>
       <input type="text" size="80" name="bug_file_loc" value="http://">
       <p>
-        URL that demonstrates the problem you are seeing (optional).
+        Адрес URL, при обращении к которому возникает проблема (заполнять не обязательно).
       </p>
    </td>
   </tr>
 
   <tr class="guided_form_field">
-    <th>Summary</th>
+    <th>Аннотация</th>
     <td>
       <input type="text" size="80" name="short_desc" id="short_desc" 
              maxlength="255" spellcheck="true">
       <p>
-        A sentence which summarises the problem.
-        Please be descriptive and use lots of keywords.
+        Краткое описание проблемы.
+        Пожалуйста будьте точны и используйте максимум ключевых слов.
       </p>
       <p>
-        <kbd>
-          <span class="bad">Bad example</span>: mail crashed
+      <kbd>
+          <span class="bad">Неправильно</span>: почта сыпется
         </kbd>
         <br>
-        <kbd>
-          <span class="good">Good example</span>:
-          crash if I close the mail window while checking for new POP mail
+                <kbd>
+          <span class="good">Правильно</span>:
+          авария при закрытии окна во время проверки новых сообщений POP
         </kbd>
       </p>
     </td>
   </tr>
 
   <tr>
-    <th>Details</th>
+    <th>Подробности</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
-        name      = 'comment'
-        minrows   = 6
-        cols      = constants.COMMENT_COLS
+        name    = 'comment'
+        minrows = 6
+        cols    = constants.COMMENT_COLS
         mandatory = 1
       %]
       <p>
-        Expand on the Summary. Please be
-        as specific as possible about what is wrong.
+        Подробное описание этой проблемы. Пожалуйста подробно
+        опишите, что именно не так.
       </p>
       <p>
         <kbd>
-          <span class="bad">Bad example</span>: Mozilla crashed.
-          You suck!
+          <span class="bad">Неправильно</span>: Mozilla сыпется.
+          Идиоты!
         </kbd>
         <br>
         <kbd>
-          <span class="good">Good example</span>: After a crash which
-          happened when I was sorting in the Bookmark Manager,<br> all of my
-          top-level bookmark folders beginning with the letters Q to Z are 
-          no longer present.
+          <span class="good">Правильно</span>: После аварии 
+          во время сортировки закладок,<br> исчезли все папки закладок
+          первого уровня с именами, начинающимися с Q по Z.
         </kbd>
       </p>
     </td>
   </tr>
 
   <tr class="guided_form_field">
-    <th>Reproducibility</th>
+    <th>Воспроизводимость</th>
     <td>
       <select name="reproducible">
-        <option name="AlwaysReproducible" value="Always">
-          Happens every time.
+        <option name="AlwaysReproducible" value="Всегда">
+          Происходит каждый раз.
         </option>
-        <option name="Sometimes" value="Sometimes">
-          Happens sometimes, but not always.
+        <option name="Sometimes" value="Иногда">
+          Происходит иногда, но не каждый раз.
         </option>
-        <option name="DidntTry" value="Didn't try">
-          Haven't tried to reproduce it.
+        <option name="DidntTry" value="Не пробовали">
+          Не пытались повторить ситуацию.
         </option>
-        <option name="NotReproducible" value="Couldn't Reproduce">
-          Tried, but couldn't reproduce it.
+        <option name="NotReproducible" value="Не удается">
+          Пытались повторить, безуспешно.
         </option>
       </select>
     </td>
   </tr>
 
   <tr>
-    <th>Steps to Reproduce</th>
+    <th>Как повторить ситуацию</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
         name           = 'reproduce_steps'
@@ -275,14 +274,14 @@ function PutDescription() {
         defaultcontent = "1.\n2.\n3."
       %]
       <p>
-        Describe how to reproduce the problem, step by
-        step. Include any special setup steps.
+        Опишите, что необходимо сделать, чтобы возникла проблема.
+        Подробности установки продукта тоже имеют значение.
       </p>
     </td>
   </tr>
 
   <tr class="guided_form_field">
-    <th>Actual Results</th>
+    <th>Что происходит</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
         name    = 'actual_results'
@@ -290,13 +289,13 @@ function PutDescription() {
         cols    = constants.COMMENT_COLS
       %]
       <p>
-        What happened after you performed the steps above?
+        Что именно происходит после выполнения описанных выше шагов?
       </p>
     </td>
   </tr>
 
   <tr>
-    <th>Expected Results</th>
+    <th>Ожидаемый результат</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
         name    = 'expected_results'
@@ -304,13 +303,13 @@ function PutDescription() {
         cols    = constants.COMMENT_COLS
       %]
       <p>
-        What should the software have done instead?
+        Что должно было произойти при правильной работе?
       </p>
     </td>
   </tr>
 
   <tr class="guided_form_field">
-    <th>Additional Information</th>
+    <th>Дополнительные сведения</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
         name    = 'additional_info'
@@ -343,54 +342,53 @@ function PutDescription() {
     <td>
       <select name="bug_severity">
         <option name="critical" value="critical">
-          Critical: The software crashes, hangs, or causes you to
-          lose data.
+          Критичная: Приводит к аварии, зависанию или потере данных.
         </option>
         <option name="major" value="major">
-          Major: A major feature is broken.
+          Серьезная: Нарушена работа важной функции.
         </option>
         <option name="normal" value="normal" selected="selected">
-          Normal: It's [% terms.abug %] that should be fixed.
+          Существенная: Это [% terms.bug %] и она должна быть исправлена.
         </option>
         <option name="minor" value="minor">
-          Minor: Minor loss of function, and there's an easy workaround.
+          Незначительная: Несущественная потеря функциональности или известно обходное решение.
         </option>
         <option name="trivial" value="trivial">
-          Trivial: A cosmetic problem, such as a misspelled word or
-          misaligned text.
+          Тривиальная: Косметическая проблема: опечатка, размещение
+          на экране, оформление.
         </option>
         <option name="enhancement" value="enhancement">
-          Enhancement: Request for new feature or enhancement.
+          Пожелание: Предложение о добавлении или совершенствовании функций.
         </option>
       </select>
       <p>
-        Say how serious the problem is, or if your [% terms.bug %] is a 
-        request for a new feature.
+        Насколько серьезна обнаруженная проблема, или это 
+        пожелание по развитию продукта.
       </p>
     </td>
   </tr>
-
-  [% Hook.process('form') %]
+  
+  [% Hook.process('form') %]  
 </table>
 
 
-<h3 id="step3">Step 3 of 3 - submit the [% terms.bug %] report</h3>
+<h3 id="step3">Шаг 3 из 3 - зарегистрировать [% terms.bug_acc %]</h3>
 
 <p>
-  <input type="submit" id="report" value="Submit [% terms.Bug %] Report">
+  <input type="submit" id="report" value="Сохранить [% terms.bug_acc %]">
 </p>
 
 <p>
-  That's it! Thanks very much. You'll be notified by email about any
-  progress that is made on fixing your [% terms.bug %]. 
+  Готово.  Большое спасибо!  Обо всех изменениях по существу [% terms.bug_gen %]
+  будут отправлены оповещения по электронной почте.
 
 <p>  
-  Please be warned
-  that we get a lot of [% terms.bug %] reports filed - it may take quite a 
-  while to get around to yours. You can help the process by making sure your 
-  [%+ terms.bug %] is
-  complete and easy to understand, and by quickly replying to any questions
-  which may arrive by email.
+  Пожалуйста примите к сведению, что мы обрабатываем
+  большое количество [% terms.bugs_gen %] - может пройти некоторое время
+  до передачи [% terms.bug_gen %]в работу.  Ваша помощь заключается в 
+  предоставлении полной информации в понятной форме и 
+  в своевременных ответах на вопросы, которые могут поступить
+  по электронной почте.
 </p>
 
     </form>

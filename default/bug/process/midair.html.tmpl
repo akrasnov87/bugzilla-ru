@@ -23,13 +23,13 @@
   [% PROCESS bug/process/header.html.tmpl %]
 [% END %]
 
-<h1>Mid-air collision detected!</h1>
+<h1>Обнаружен конфликт доступа!</h1>
 
 <p>
-  Someone else has made changes to
-  [%+ "$terms.bug $bug.id" FILTER bug_link(bug) FILTER none %]
-  at the same time you were trying to.
-  The changes made were:
+  Содержимое
+  [%+ "$terms.bug_gen $bug.id" FILTER bug_link(bug) FILTER none %]
+  изменено другим пользователем во время редактирования.
+  Сводка изменений:
 </p>
 
 <p>
@@ -38,7 +38,7 @@
 
 [% IF comments.size %]
 <p>
-  Added the comment(s):
+  Добавлены комментарии:
   <blockquote>
     [% PROCESS "bug/comments.html.tmpl" %]
   </blockquote>
@@ -47,7 +47,7 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Your comment was:<br>
+  Ваш комментарий:<br>
   <blockquote><pre class="bz_comment_text">
     [% cgi.param("comment") FILTER html %]
   </pre></blockquote>
@@ -55,7 +55,7 @@
 [% END %]
 
 <p>
-You have the following choices:
+Возможные варианты:
 </p>
 
 <ul>
@@ -65,9 +65,9 @@ You have the following choices:
              value="[% bug.delta_ts FILTER html %]">
       [% PROCESS "global/hidden-fields.html.tmpl" 
           exclude="^Bugzilla_login|Bugzilla_password|delta_ts$" %]
-      <input type="submit" id="process" value="Submit my changes anyway">
-        This will cause all of the above changes to be overwritten
-        [% ", except for the added comment(s)" IF comments.size %].
+      <input type="submit" id="process" value="Сохранить изменения">
+        Все перечисленные изменения будут потеряны
+        [% ", кроме добавленных комментариев" IF comments.size %].
     </form>
   </li>
   [% IF cgi.param("comment") %]
@@ -79,13 +79,13 @@ You have the following choices:
         <input type="hidden" name="comment_is_private"
                value="[% cgi.param("comment_is_private") FILTER html %]">
         <input type="hidden" name="token" value="[% cgi.param("token") FILTER html %]">
-        <input type="submit" id="process_comment" value="Submit only my new comment">
+        <input type="submit" id="process_comment" value="Сохранить только мой комментарий">
       </form>
     </li>
   [% END %]
   <li>
-    Throw away my changes, and
-    [%+ "revisit $terms.bug $bug.id" FILTER bug_link(bug) FILTER none %]
+    Отменить мои изменения,
+    [%+ "вернуться к $terms.bug_dat $bug.id" FILTER bug_link(bug) FILTER none %]
   </li>
 </ul>
 

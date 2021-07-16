@@ -30,8 +30,8 @@
 
   [% INCLUDE "bug/field-label.html.tmpl" hidden = field_hidden %]
   <td class="field_value [% ' bz_hidden_field' IF field_hidden %]"
-      id="field_container_[% field.name FILTER html %]" 
-      [% " colspan=\"$value_span\"" FILTER none IF value_span %]>
+    id="field_container_[% field.name FILTER html %]" 
+    [% " colspan=\"$value_span\"" FILTER none IF value_span %]>
 [% END %]
 [% Hook.process('start_field_column') %]
 [% IF editable %]
@@ -61,7 +61,7 @@
       <button type="button" class="calendar_button"
               id="button_calendar_[% field.name FILTER html %]"
               onclick="showCalendar('[% field.name FILTER js %]')">
-        <span>Calendar</span>
+        <span>Календарь</span>
       </button>
 
       <div id="con_calendar_[% field.name FILTER html %]"></div>
@@ -94,7 +94,7 @@
         </script>
     [% CASE [ constants.FIELD_TYPE_SINGLE_SELECT 
               constants.FIELD_TYPE_MULTI_SELECT ] %]
-      [%# The 'product' field needs its own template if classifications are enabled. %]
+                    [%# The 'product' field needs its own template if classifications are enabled. %]
       [% IF field.name == "product" AND Param('useclassification') %]
         [% INCLUDE "global/product-select.html.tmpl"
                    id = "product", name = "product", value = value
@@ -104,11 +104,11 @@
         <select id="[% field.name FILTER html %]" 
                 name="[% field.name FILTER html %]" 
                 [% IF field.type == constants.FIELD_TYPE_MULTI_SELECT %]
-                  [% SET field_size = 5 %]
-                  [% IF field.legal_values.size < 5 %]
-                    [% SET field_size = field.legal_values.size %]
-                  [% END %]
-                  size="[% field_size FILTER html %]" multiple="multiple"
+                    [% SET field_size = 5 %]
+                    [% IF field.legal_values.size < 5 %]
+                        [% SET field_size = field.legal_values.size %]
+                    [% END %]
+                    size="[% field_size FILTER html %]" multiple="multiple"
                   [% IF field.is_mandatory %]
                     data-required="true" [% 'aria-required="true" required' UNLESS field_hidden %]
                   [% END %]
@@ -125,7 +125,7 @@
             [% legal_values = field.legal_values %]
           [% END %]
           [% FOREACH legal_value = legal_values %]
-            [% NEXT IF NOT legal_value.is_active AND NOT value.contains(legal_value.name).size %]
+            [% NEXT IF NOT legal_value.is_active AND NOT value.contains(legal_value.name).size %]          
             <option value="[% legal_value.name FILTER html %]"
                     id="v[% legal_value.id FILTER html %]_
                         [%- field.name FILTER html %]"
@@ -150,18 +150,18 @@
         [% IF field.type == constants.FIELD_TYPE_MULTI_SELECT %]
           <input type="hidden" name="defined_[% field.name FILTER html %]">
         [% END %]
-      [% END %]
+              [% END %]
 
-      <script type="text/javascript">
+        <script type="text/javascript">
         <!--
           initHidingOptionsForIE('[% field.name FILTER js %]');
           [%+ INCLUDE "bug/field-events.js.tmpl"
                       field = field, product = bug.product_obj %]
         //-->
-      </script>
+        </script>
 
-    [% CASE constants.FIELD_TYPE_TEXTAREA %]
-       <div id="[% field.name FILTER html %]_edit_container" class="bz_default_hidden">
+     [% CASE constants.FIELD_TYPE_TEXTAREA %]
+            <div id="[% field.name FILTER html %]_edit_container" class="bz_default_hidden">
          <div>
              (<a href="#" id="[% field.name FILTER html %]_edit_action">edit</a>)
          </div>
@@ -171,10 +171,10 @@
          [% END %]
        </div>
        <div id="[% field.name FILTER html %]_input">
-         [% INCLUDE global/textarea.html.tmpl
-            id = field.name name = field.name minrows = 4 maxrows = 8
-            cols = 60 defaultcontent = value mandatory = field.is_mandatory %]
-       </div>
+       [% INCLUDE global/textarea.html.tmpl
+           id = field.name name = field.name minrows = 4 maxrows = 8
+           cols = 60 defaultcontent = value mandatory = field.is_mandatory %]
+                  </div>
        <script type="text/javascript">
          hideEditableField('[% field.name FILTER js %]_edit_container',
                            '[% field.name FILTER js %]_input',
@@ -184,35 +184,35 @@
                            '',
                            true);
        </script>
-    [% CASE constants.FIELD_TYPE_BUG_URLS %]
+     [% CASE constants.FIELD_TYPE_BUG_URLS %]
        [% IF bug.id && value.size %]
          <ul class="bug_urls">
-         [% FOREACH bug_url = value %]
-           <li>
-             [% PROCESS bug_url_link bug_url = bug_url %]
-             <label><input type="checkbox" value="[% bug_url.name FILTER html %]"
+       [% FOREACH bug_url = value %]
+         <li>
+           [% PROCESS bug_url_link bug_url = bug_url %]
+           <label><input type="checkbox" value="[% bug_url.name FILTER html %]"
                            name="remove_[% field.name FILTER html %]">
-               Remove</label>
-           </li>
-         [% END %]
+               Удалить</label>
+         </li>
+       [% END %]
          </ul>
        [% END %]
        [% IF Param('use_see_also') %]
          <span id="container_showhide_[% field.name FILTER html %]"
                class="bz_default_hidden">
-           (<a href="#" id="showhide_[% field.name FILTER html %]">add</a>)
+           (<a href="#" id="showhide_[% field.name FILTER html %]">добавить</a>
          </span>
          <div id="container_[% field.name FILTER html %]">
            <input type="text" id="[% field.name FILTER html %]" size="40"
                   class="text_input" name="[% field.name FILTER html %]"
                   [% IF !bug.id %]value="[% value FILTER html %]"[% END %]>
          </div>
-         [% IF bug.id %]
-           <script type="text/javascript">
+                  [% IF bug.id %]
+         <script type="text/javascript">
              setupEditLink('[% field.name FILTER js %]');
-           </script>
-         [% END %]
+         </script>
        [% END %]
+              [% END %]
      [% CASE constants.FIELD_TYPE_KEYWORDS %]
        <div id="[% field.name FILTER html %]_container">
          <input type="text" id="[% field.name FILTER html %]" size="40"
@@ -229,7 +229,7 @@
              [%- "," IF NOT loop.last %][% END %]];
          YAHOO.bugzilla.fieldAutocomplete.init('[% field.name FILTER js %]',
                                                '[% field.name FILTER js %]_autocomplete');
-       </script>
+       </script>       
   [% END %]
 [% ELSE %]
   [% SWITCH field.type %]

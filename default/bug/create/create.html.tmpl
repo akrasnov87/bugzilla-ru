@@ -6,12 +6,12 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% title = BLOCK %]Enter [% terms.Bug %]: [% product.name FILTER html %][% END %]
+[% title = BLOCK %]Регистрация [% terms.bug_gen %]: [% product.name FILTER html %][% END %]
 [% use_qa_contact = Param("useqacontact") %]
 
 [% PROCESS global/header.html.tmpl
   title = title
-  generate_api_token = 1
+    generate_api_token = 1
   yui = [ 'autocomplete', 'calendar', 'datatable', 'button' ]
   style_urls = ['skins/standard/bug.css']
   javascript_urls = [ "js/attachment.js", "js/util.js",
@@ -68,7 +68,7 @@ var status_comment_required = new Array();
     [% status.comment_required_on_change_from() ? 'true' : 'false' %]
 [% END %]
 
-TUI_alternates['expert_fields'] = 'Show Advanced Fields';
+TUI_alternates['expert_fields'] = 'Показать дополнительные поля';
 // Hide the Advanced Fields by default, unless the user has a cookie
 // that specifies otherwise.
 TUI_hide_default('expert_fields');
@@ -97,8 +97,8 @@ TUI_hide_default('attachment_text_field');
   <tr>
     <td colspan="2">
       <a id="expert_fields_controller" class="controller bz_default_hidden"
-         href="javascript:TUI_toggle_class('expert_fields')">Hide
-        Advanced Fields</a>
+         href="javascript:TUI_toggle_class('expert_fields')">Скрыть
+        дополнительные поля</a>
       [%# Show the link if the browser supports JS %]
       <script type="text/javascript">
         YAHOO.util.Dom.removeClass('expert_fields_controller', 
@@ -107,7 +107,7 @@ TUI_hide_default('attachment_text_field');
     </td>
     <td colspan="2">
       (<span class="required_star">*</span> =
-      <span class="required_explanation">Required Field</span>)
+      <span class="required_explanation">Необходимое поле</span>)
    </td>
   </tr>
 
@@ -130,7 +130,7 @@ TUI_hide_default('attachment_text_field');
       desc_url = component_desc_url
     %]      
     <td id="field_container_component">
-      <select name="component" id="component" onchange="set_assign_to([% Param("useqacontact") %]);"
+            <select name="component" id="component" onchange="set_assign_to([% Param("useqacontact") %]);"
               size="7" aria-required="true" class="required">
         [%# Build the lists of assignees and QA contacts if "usemenuforusers" is enabled. %]
         [% IF Param("usemenuforusers") %]
@@ -174,8 +174,8 @@ TUI_hide_default('attachment_text_field');
         <tr>
           <td>
             <fieldset>
-              <legend>Component Description</legend>
-              <div id="comp_desc" class="comment">Select a component to read its description.</div>
+              <legend>Описание компонента</legend>
+              <div id="comp_desc" class="comment">Выберите компонент для просмотра описания.</div>
             </fieldset>
           </td>
         </tr>
@@ -228,17 +228,17 @@ TUI_hide_default('attachment_text_field');
   [% IF (!Param('defaultplatform') || !Param('defaultopsys')) && !cloned_bug_id %]
     <tr>
       <td colspan="2" class="expert_fields">&nbsp;</td>
-      <td>&nbsp;</td>
+            <td>&nbsp;</td>
       <td id="os_guess_note" class="comment">
-        <div>We've made a guess at your
+        <div>Ваша
         [% IF Param('defaultplatform') %]
-          operating system. Please check it
+          операционная система определена автоматически. Проверьте это значение
         [% ELSIF Param('defaultopsys') %]
-          platform. Please check it
+          платформа определена автоматически. Проверьте это значение
         [% ELSE %]
-          operating system and platform. Please check them
+          операционная система и платформа определены автоматически. Проверьте эти значения
         [% END %]
-        and make any corrections if necessary.</div>
+        и при необходимости внесите исправления.</div>
       </td>
     </tr>
   [% END %]
@@ -252,7 +252,7 @@ TUI_hide_default('attachment_text_field');
       <td colspan="2">&nbsp;</td>
     [% END %]
 
-    <td colspan="2">&nbsp;</td>
+      <td colspan="2">&nbsp;</td>
   </tr>
 </tbody>
 
@@ -308,7 +308,7 @@ TUI_hide_default('attachment_text_field');
          emptyok => 1
          custom_userlist => assignees_list
        %]
-      <noscript>(Leave blank to assign to component's default assignee)</noscript>
+      <noscript>(По умолчанию — ответственный исполнитель компонента)</noscript>
     </td>
   </tr>
   
@@ -327,7 +327,7 @@ TUI_hide_default('attachment_text_field');
          emptyok => 1
          custom_userlist => qa_contacts_list
        %]
-        <noscript>(Leave blank to assign to default qa contact)</noscript>
+        <noscript>(По умолчанию — ответственный за приемку компонента)</noscript>
       </td>
     </tr>
 [% END %]
@@ -349,7 +349,7 @@ TUI_hide_default('attachment_text_field');
   </tr>
 
   <tr>
-    <th>Default [% field_descs.cc FILTER html %]:</th>
+    <th>[% field_descs.cc FILTER html %] по умолчанию:</th>
     <td colspan="2">
       <div id="initial_cc">
       </div>
@@ -430,7 +430,7 @@ TUI_hide_default('attachment_text_field');
   [% IF feature_enabled('jsonrpc') AND !cloned_bug_id
         AND user.settings.possible_duplicates.value == 'on' %]
     <tr id="possible_duplicates_container" class="bz_default_hidden">
-      <th>Possible<br>Duplicates:</th>
+      <th>Возможные<br>дубликаты:</th>
       <td colspan="3">
         <div id="possible_duplicates"></div>
         <script type="text/javascript">
@@ -453,23 +453,23 @@ TUI_hide_default('attachment_text_field');
             product_name: '[% product.name FILTER js %]',
             summary_field: 'short_desc',
             options: {
-              MSG_LOADING: 'Searching for possible duplicates...',
-              MSG_EMPTY:   'No possible duplicates found.',
-              SUMMARY:     'Possible Duplicates'
+              MSG_LOADING: 'Поиск возможных дубликатов...',
+              MSG_EMPTY:   'Возможные дубликаты не найдены.',
+              SUMMARY:     'Возможные дубликаты'
             }
           });
         </script>
-      </td>
-    </tr>
+    </td>
+  </tr>
   [% END %]
 
   <tr>
-    <th>Description:</th>
+    <th>Описание:</th>
     <td colspan="3">
-
+    
       [% defaultcontent = BLOCK %]
         [% IF cloned_bug_id %]
-+++ This [% terms.bug %] was initially created as a clone of [% terms.Bug %] #[% cloned_bug_id %] +++
++++ Данная [% terms.bug %] создана размножением [% terms.bug_gen %] [%+ cloned_bug_id %] +++
 
 
         [% END %]
@@ -477,7 +477,7 @@ TUI_hide_default('attachment_text_field');
           # by global/textarea.html.tmpl. So we must not escape the comment here. %]
         [% comment FILTER none %]
       [%- END %]
-      [% INCLUDE bug/comment.html.tmpl
+            [% INCLUDE bug/comment.html.tmpl
          minrows        = 10
          maxrows        = 25
          cols           = constants.COMMENT_COLS
@@ -496,29 +496,30 @@ TUI_hide_default('attachment_text_field');
           [% ' checked="checked"' IF comment_is_private %]
                onClick="updateCommentTagControl(this, 'comment')">
         <label for="comment_is_private">
-          Make description and any new attachment private (visible only to members 
-          of the <strong>[% Param('insidergroup') FILTER html %]</strong> group)
+          Сделать описание [% terms.bug_gen %] и все новые приложения
+          конфиденциальными (видимыми только членам группы
+          <strong>[% Param('insidergroup') FILTER html %]</strong>)
         </label>
-      </td>
+              </td>
     </tr>
-    <script>
-      updateCommentTagControl(document.getElementById('comment_is_private'), 'comment');
-    </script>
+        <script>
+          updateCommentTagControl(document.getElementById('comment_is_private'), 'comment');
+        </script>
   [% END %]
 
   [% IF Param("maxattachmentsize") || Param("maxlocalattachment") %]
   <tr>
-    <th>Attachment:</th>
+    <th>Приложение:</th>
     <td colspan="3">
       <div id="attachment_false" class="bz_default_hidden">
-        <input type="button" value="Add an attachment" onClick="handleWantsAttachment(true)">
+        <input type="button" value="Добавить приложение" onClick="handleWantsAttachment(true)">
       </div>
 
       <div id="attachment_true">
-        <input type="button" id="btn_no_attachment" value="Don't add an attachment"
+        <input type="button" id="btn_no_attachment" value="Не добавлять приложение"
                class="bz_default_hidden"  onClick="handleWantsAttachment(false)">
         <fieldset>
-          <legend>Add an attachment</legend>
+          <legend>Добавить приложение</legend>
           <table class="attachment_entry">
             [% PROCESS attachment/createformcontents.html.tmpl
                        flag_types = product.flag_types.attachment
@@ -533,16 +534,16 @@ TUI_hide_default('attachment_text_field');
 </tbody>
 
 <tbody class="expert_fields">
-  [% IF use_keywords %]
-    <tr>
-      [% INCLUDE bug/field.html.tmpl
-        bug = default, field = bug_fields.keywords, editable = 1,
-        value = keywords, possible_values = all_keywords,
-        desc_url = "describekeywords.cgi", value_span = 3
-      %]
-    </tr>
-  [% END %]
-  
+    [% IF use_keywords %]
+      <tr>
+        [% INCLUDE bug/field.html.tmpl
+           bug = default, field = bug_fields.keywords, editable = 1,
+           value = keywords, possible_values = all_keywords,
+           desc_url = "describekeywords.cgi", value_span = 3
+        %]
+      </tr>
+    [% END %]
+
   [% IF user.in_group('editbugs', product.id) %]
     <tr>
       [% INCLUDE "bug/field-label.html.tmpl"
@@ -561,7 +562,7 @@ TUI_hide_default('attachment_text_field');
       </td>
     </tr>
   [% END %]
-
+  
   [% IF Param('use_see_also') %]
     <tr>
       [% INCLUDE bug/field.html.tmpl
@@ -581,18 +582,17 @@ TUI_hide_default('attachment_text_field');
     <td colspan="3">
       <br>
         <strong>
-          Only users in [%+ IF Param('or_groups') %]at least one[% ELSE %]all[% END %] of the selected groups can view this 
-          [%+ terms.bug %]:
+          [%+ terms.bug %] доступна только членам следующих групп:
         </strong>
       <br>
       <span class="bz_info">
-        (Leave all boxes unchecked to make this a public [% terms.bug %].)
+        (Снятие всех отметок делает [% terms.bug_acc %] общедоступной.)
       </span>
       <br>
       <br>
 
       <!-- Checkboxes -->
-      <input type="hidden" name="defined_groups" value="1">
+      <input type="hidden" name="defined_groups" value="1">      
       [% FOREACH group = product.groups_available %]
         <input type="checkbox" id="group_[% group.id FILTER html %]"
                name="groups" value="[% group.name FILTER html %]"
@@ -613,10 +613,10 @@ TUI_hide_default('attachment_text_field');
   <tr>
     <th>&nbsp;</th>
     <td colspan="3">
-      <input type="submit" id="commit" value="Submit [% terms.Bug %]">
+      <input type="submit" id="commit" value="Зарегистрировать [% terms.bug_acc %]">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate" id="maketemplate"
-             value="Remember values as bookmarkable template"
+             value="Сохранить в качестве образца"
              onclick="bz_no_validate_enter_bug=true" class="expert_fields">
     </td>
   </tr>

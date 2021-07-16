@@ -12,18 +12,18 @@
   #%]
 
 <dl>
-  <dt>Email sent to:</dt>
-  <dd>
+  <dt>Оповещение отправлено:</dt>
+<dd>
   [% IF user.can_see_bug(mailing_bugid) %]
     [% IF sent_bugmail.sent.size %]
       [% FOREACH name = sent_bugmail.sent %]
         <code>[% name FILTER html %]</code>[% ", " UNLESS loop.last() %]
       [% END %]
     [% ELSE %]
-      no one
+      никому
     [% END %]
   [% ELSE %]
-    (list of e-mails not available)
+    (список получателей недоступен)
   [% END %]
   </dd>
 </dl>

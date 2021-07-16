@@ -16,10 +16,10 @@
   <div id="comment_tabs" role="tablist">
     <div id="comment_tab" class="comment_tab active_comment_tab"
           role="tab" aria-selected="true"
-          onclick="show_comment_edit()">Comment</div>
+          onclick="show_comment_edit()">Комментарий</div>
     <div id="comment_preview_tab" class="comment_tab"
           role="tab" aria-selected="false"
-          onclick="show_comment_preview([% bug.id FILTER none %])">Preview</div>
+          onclick="show_comment_preview([% bug.id FILTER none %])">Предварительный просмотр </div>
   </div>
 [% END %]
 
@@ -30,7 +30,7 @@
 
 [% IF feature_enabled('jsonrpc') %]
   <div id="comment_preview" class="bz_default_hidden bz_comment">
-    <div id="comment_preview_loading" class="bz_default_hidden">Generating Preview...</div>
+    <div id="comment_preview_loading" class="bz_default_hidden">Создание предварительного просмотра ...</div>
     <div id="comment_preview_error" class="bz_default_hidden"></div>
     <pre id="comment_preview_text" class="bz_comment_text"></pre>
   </div>

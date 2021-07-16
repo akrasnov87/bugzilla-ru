@@ -8,9 +8,9 @@
 
 [% filtered_desc = blocked_tree.$bugid.short_desc FILTER html %]
 [% PROCESS global/header.html.tmpl
-   title           = "Dependency tree for $terms.Bug $bugid"
-   header          = "Dependency tree for 
-                      <a href=\"show_bug.cgi?id=$bugid\">$terms.Bug $bugid</a>"
+   title           = "Дерево зависимостей $terms.bug_gen номер $bugid"
+   header          = "Дерево зависимостей 
+                      <a href=\"show_bug.cgi?id=$bugid\">$terms.bug_gen номер $bugid</a>"
    javascript_urls = ["js/expanding-tree.js"]
    style_urls      = ['skins/standard/bug.css']
    subheader       = filtered_desc
@@ -45,16 +45,16 @@
     [% IF type == 1 %]
         [% tree_name = "dependson_tree" %]
         [% IF ids.size %]
-            depends on 
+            зависит от 
         [% ELSE %]
-            does not depend on any [% 'open ' IF hide_resolved %][% terms.bugs %].
+            не зависит от других [% 'незакрытых ' IF hide_resolved %][% terms.bugs_gen %].
         [% END %]
     [% ELSIF type == 2 %]
         [% tree_name = "blocked_tree" %]
         [% IF ids.size %] 
-            blocks 
+            блокирует 
         [% ELSE %]
-            does not block any [% 'open ' IF hide_resolved %][% terms.bugs %].
+            не блокирует другие [% 'незакрытые ' IF hide_resolved %][% terms.bugs_acc %].
         [% END %]
     [% END %]
     [% IF ids.size %]
@@ -71,17 +71,17 @@
       <input type="hidden" name="bug_id" value="[% ids.join(",") %]">
     [% END %]
 
-    [% IF maxdepth -%]Up to [% maxdepth %] level[% "s" IF maxdepth > 1 %] deep | [% END -%]
+    [% IF maxdepth -%]До [% maxdepth %] уровня | [% END -%]
     [% IF use_post %]
-      <button>view as [% terms.bug %] list</button>
+      <button>В виде списка [% terms.bugs_gen %]</button>
       [% IF user.in_group('editbugs') && ids.size > 1 %]
-        | <button type="submit" name="tweak" value="1">change several</button>
+        | <button type="submit" name="tweak" value="1">Групповое редактирование</button>
       [% END %]
       </form>
     [% ELSE %]
-      <a href="buglist.cgi?bug_id=[% ids.join(",") %]">view as [% terms.bug %] list</a>
+      <a href="buglist.cgi?bug_id=[% ids.join(",") %]">В виде списка [% terms.bugs_gen %]</a>
       [% IF user.in_group('editbugs') && ids.size > 1 %]
-        | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">change several</a>
+        | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">Групповое редактирование</a>
       [% END %]
     [% END %]
 
@@ -109,7 +109,7 @@
       [%- INCLUDE buglink bug=bug bugid=bugid %]
     </span>
     [% IF global.seen.$bugid %]
-      <b><a title="Already displayed above; click to locate"
+      <b><a title="Показана ранее, щелкните для перехода"
             onclick="duplicated('[% bugid FILTER html %]')"
             href="#b[% bugid %]">(*)</a></b>
     [% ELSIF tree.dependencies.$bugid.size %]
@@ -130,7 +130,7 @@
   [% END %]
   <a id="b[% bugid %]" 
      class="b [%+ extra_class FILTER none %]"
-     title="Click to expand or contract this portion of the tree. Hold down the Ctrl key while clicking to expand or contract all subtrees."
+     title="Щелкните для развертывания или свертывания части дерева. Щелкните, удерживая Ctrl, для развертывания или свертывания всех уровней."
      [% extra_args FILTER none %]>&nbsp;&nbsp;</a>
 [% END %]
 
@@ -146,7 +146,7 @@
     <a href="showdependencytree.cgi?id=[% bugid FILTER uri %]"
        class="tree_link">
       <img src="skins/standard/dependency-tree/tree.png"
-           title="See dependency tree for [% terms.bug %] [%+ bugid FILTER html %]">
+           title="Показать дерево зависимостей [% terms.bug_gen %] [%+ bugid FILTER html %]">
     </a>
   [% END %]
 [% END %]
@@ -154,9 +154,9 @@
 [% BLOCK buginfo %]
   [% display_value("bug_status", bug.bug_status) FILTER html -%]
   [%- IF bug.resolution %] [%+ display_value("resolution", bug.resolution) FILTER html %][% END %];
-  [%-%] assigned to [% bug.assigned_to.login FILTER email FILTER html %]
+  [%-%] исполнитель [% bug.assigned_to.login FILTER email FILTER html %]
   [% IF Param("usetargetmilestone") AND bug.target_milestone %]
-    [%-%]; target: [% bug.target_milestone FILTER html %]
+    [%-%]; План: [% bug.target_milestone FILTER html %]
   [% END %]
 [% END %]
 
@@ -177,12 +177,12 @@
      [% END %]
      <input type="hidden" name="hide_resolved" value="[% hide_resolved ? 0 : 1 %]">
      <input type="submit" id="toggle_visibility"
-            value="[% IF hide_resolved %]Show[% ELSE %]Hide[% END %] Resolved">
+            value="[% IF hide_resolved %]Показать[% ELSE %]Скрыть[% END %] завершенные">
    </form>
    </td>
 
    <td>
-     Max Depth:
+     Уровни:
    </td>
 
    <td>
@@ -191,7 +191,7 @@
 
    <td>
    <form method="get" action="showdependencytree.cgi">
-     [%# set to one form %]
+        [%# set to one form %]
      <input type="submit" id="change_maxdepth" value="1"
        [% "disabled" IF realdepth < 2 || maxdepth == 1 %]>
      <input name="id" type="hidden" value="[% bugid %]">
@@ -215,7 +215,7 @@
    </form>
    </td>
 
-   <td>
+    <td>
    <form method="get" action="showdependencytree.cgi">
      [%# Limit entry form: the button cannot do anything when total depth
          is less than two, so disable it %]
@@ -251,7 +251,7 @@
      <input name="id" type="hidden" value="[% bugid %]">
      <input name="hide_resolved" type="hidden" value="[% hide_resolved %]">
      <input type="submit" id="remove_limit"
-       value="Unlimited"
+       value="&nbsp;Все&nbsp;"
        [% "disabled" IF maxdepth == 0 || maxdepth == realdepth %]>
    </form>
    </td>

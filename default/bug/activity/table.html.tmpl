@@ -24,22 +24,22 @@
 
 [% IF incomplete_data %]
   <p>
-    There used to be an issue in <a href="http://www.bugzilla.org/">Bugzilla</a>
-    which caused activity data to be lost if there were a large number of cc's
-    or dependencies.  That has been fixed, but some data was already lost in
-    your activity table that could not be regenerated.  The changes that the
-    script could not reliably determine are prefixed by '?'.
+    В предыдущих версиях <a href="http://www.bugzilla.org/">Bugzilla</a>
+    содержалась ошибка, которая приводила к потере данных журнала изменений
+    при большом количестве подписанных пользователей или зависимостей.
+    Ошибка исправлена, однако данные, накопленные до ее исправления, уже 
+    невозможно восстановить.  Такие изменения отмечены знаком '?'.
   </p>
 [% END %]
 
 [% IF operations.size > 0 %]
   <table id="bug_activity">
     <tr class="column_header">
-      <th>Who</th>
-      <th>When</th>
-      <th>What</th>
-      <th>Removed</th>
-      <th>Added</th>
+      <th>Кто</th>
+      <th>Когда</th>
+      <th>Что</th>
+      <th>Удалено</th>
+      <th>Добавлено</th>
     </tr>
 
     [% FOREACH operation = operations %]
@@ -55,15 +55,15 @@
             <td>
               [% IF change.attachid %]
                 <a href="attachment.cgi?id=[% change.attachid %]">
-                Attachment #[% change.attachid %]</a>
+                Приложение #[% change.attachid %]</a>
               [% END %]
               [% IF change.comment.defined %]
                  [% comment_desc = field_descs.${change.fieldname} %]
                  [% comment_num = "Comment $change.comment.count" FILTER bug_link(bug.bug_id, comment_num => change.comment.count) %]
                  [% comment_desc.replace('^(Comment )?', "$comment_num ") FILTER none %]
-              [% ELSE %]
-                [%+ field_descs.${change.fieldname} FILTER html %]
-              [% END %]
+              [% ELSE %]              
+              [%+ field_descs.${change.fieldname} FILTER html %]
+              [% END %]              
             </td>
             [% PROCESS change_column change_type = change.removed %]
             [% PROCESS change_column change_type = change.added %]
@@ -71,9 +71,9 @@
       </tr>
     [% END %]
   </table>
-[% ELSE %]
+  [% ELSE %]
   <p>
-    No changes have been made to this [% terms.bug %] yet.
+    В этой [% terms.bug_dat %] пока не было произведено изменений.
   </p>
 [% END %]
 
@@ -94,7 +94,7 @@
                change.fieldname == 'flagtypes.name' %]
         [% display_value(change.fieldname, change_type) FILTER email FILTER html %]
       [% ELSE %]
-        [% display_value(change.fieldname, change_type) FILTER html FILTER html_line_break %]
+                [% display_value(change.fieldname, change_type) FILTER html FILTER html_line_break %]
       [% END %]
     [% ELSE %]
       &nbsp;
