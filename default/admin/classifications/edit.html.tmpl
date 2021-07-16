@@ -7,19 +7,19 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit classification"
-  style_urls = ['skins/standard/admin.css']
+  title = "Изменение раздела"
+   style_urls = ['skins/standard/admin.css']
 %]
 
 <form method=post action="editclassifications.cgi">
   <table id="admin_table_edit">
-
+  
     [% PROCESS "admin/classifications/edit-common.html.tmpl" %]
 
     <tr>
       <th>
         <a href="editproducts.cgi?classification=[% classification.name FILTER uri %]">
-        Edit Products</a>:
+        Продукты</a>:
       </th>
       <td>
         [% IF classification.products.size > 0 %]
@@ -32,7 +32,7 @@
             [% END %]
           </table>
         [% ELSE %]
-          <span class="warning">none</span>
+          <span class="warning">нет продуктов</span>
         [% END %]
       </td>
     </tr>
@@ -42,7 +42,7 @@
          value="[% classification.name FILTER html %]">
   <input type=hidden name="action" value="update">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type=submit value="Update">
+  <input type=submit value="Сохранить">
 </form>
 
 [% PROCESS admin/classifications/footer.html.tmpl %] 

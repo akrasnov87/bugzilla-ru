@@ -7,8 +7,8 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Add new classification"
-  style_urls = ['skins/standard/admin.css']
+  title = "Создание раздела"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 <form method=post action="editclassifications.cgi">
@@ -18,7 +18,7 @@
 
   </table>
   <hr>
-  <input type=submit value="Add">
+  <input type=submit value="Создать">
   <input type=hidden name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </FORM>

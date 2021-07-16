@@ -7,40 +7,41 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Delete classification"
-  style_urls = ['skins/standard/admin.css']
+  title = "Удаление раздела"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 <table id="admin_table">
   <tr class="column_header">
-    <th>Field</th>
-    <th>Value</th>
-  </tr>
-  <tr>
-    <td>Classification</td>
-    <td>[% classification.name FILTER html %]</td>
-  </tr>
-  <tr>
-    <td>Description</td>
-    <td>
-      [% IF classification.description %]
-        [% classification.description FILTER html_light %]
-      [% ELSE %]
-        <span class="warning">description missing</span>
-      [% END %]
-    </td>
-  </tr>
-  <tr>
-    <td>Sortkey</td>
-    <td>[% classification.sortkey FILTER html %]</td>
-  </tr>
+  <th>Поле</th>
+  <th>Значение</th>
+
+</tr><tr>
+  <td>Раздел:</td>
+  <td>[% classification.name FILTER html %]</td>
+
+</tr><tr>
+  <td>Описание:</td>
+  <td>
+    [% IF classification.description %]
+      [% classification.description FILTER html_light %]
+    [% ELSE %]
+      <span class="warning">не указано</span>
+    [% END %]
+  </td>
+
+</tr><tr>
+  <td>Порядок сортировки:</td>
+  <td>[% classification.sortkey FILTER html %]</td>
+
+</tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Подтверждение</h2>
 
-<p>Do you really want to delete this classification?</p>
+<p>Удалить этот раздел?<p>
 <form method=post action="editclassifications.cgi">
-  <input type=submit value="Yes, delete">
+  <input type=submit value="Да, удалить">
   <input type=hidden name="action" value="delete">
   <input type=hidden name="classification" value="[% classification.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
