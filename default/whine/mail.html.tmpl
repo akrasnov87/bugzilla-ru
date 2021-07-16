@@ -33,10 +33,10 @@
 
     <p>
       [% IF author.login == recipient.login %]
-        <a href="[%+ urlbase FILTER html %]editwhines.cgi">Click
-            here to edit your whine schedule</a>
+        <a href="[%+ urlbase FILTER html %]editwhines.cgi">Настройка 
+            оповещений</a>
       [% ELSE %]
-        This search was scheduled by [% author.login FILTER html %].
+        Оповещение установлено пользователем [% author.login FILTER html %].
       [% END %]
     </p>
 
@@ -47,7 +47,7 @@
 
     <table>
       <tr>
-        <th>ID</th>
+        <th>Номер</th>
         [% FOREACH col = query.columnlist %]
           [% NEXT IF col == 'bug_id' %]
           <th>[% field_descs.$col FILTER html %]</th>
@@ -68,13 +68,13 @@
 
     [% IF author.login == recipient.login %]
       <p>
-        <a href="[% urlbase FILTER html %]buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% query.name FILTER uri %]">View as [% terms.bug %] list</a>
+        <a href="[% urlbase FILTER html %]buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% query.name FILTER uri %]">Показать как список [% terms.bug %]</a>
       </p>
     [% END %]
   [% END %]
 [% ELSE %]
 
-  <h3>No [% terms.bugs %] were found that matched the search criteria.</h3>
+  <h3>Ни одной [% terms.bugs %] подходящей под поисковый запрос не найдено.</h3>
 [% END %]
   </body>
 </html>

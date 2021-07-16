@@ -21,10 +21,10 @@
 [% body %]
 
 [% IF author.login == recipient.login %]
-  To edit your whine schedule, visit the following URL:
+  Для настройки оповещений перейдите по ссылке:
   [%+ urlbase %]editwhines.cgi
 [% ELSE %]
-  This search was scheduled by [% author.login %].
+  Оповещение установлено пользователем [% author.login %].
 [% END %]
 
 [% IF queries.size %]
@@ -52,10 +52,10 @@
   [% END %]
 
   [% IF author.login == recipient.login %]
-View as [% terms.bug %] list: [% urlbase %]buglist.cgi?cmdtype=runnamed&namedcmd=[% query.name FILTER uri %]
+Показать как список [% terms.bugs_gen %]: [% urlbase %]buglist.cgi?cmdtype=runnamed&namedcmd=[% query.name FILTER uri %]
   [% END %]
   [% END %]
 [% ELSE %]
 
-  No [% terms.bugs %] were found that matched the search criteria.
+  Ни одной [% terms.bugs %] подходящей под поисковый запрос не найдено.
 [% END %]
