@@ -7,22 +7,22 @@
   #%]
 
 [% SET reason_descs = {
-  ${constants.REL_ASSIGNEE} => "You are the assignee for the ${terms.bug}.",
-  ${constants.REL_REPORTER} => "You reported the ${terms.bug}.",
-  ${constants.REL_QA}       => "You are the QA Contact for the ${terms.bug}.",
-  ${constants.REL_CC}       => "You are on the CC list for the ${terms.bug}.",
-  ${constants.REL_GLOBAL_WATCHER} => "You are watching all $terms.bug changes.",
+  ${constants.REL_ASSIGNEE} => "Вы — исполнитель ${terms.bug_gen}.",
+  ${constants.REL_REPORTER} => "Вы зарегистрировали ${terms.bug_acc}.",
+  ${constants.REL_QA}       => "Вы — ответственный за приемку ${terms.bug_gen}.",
+  ${constants.REL_CC}       => "Вы подписаны на ${terms.bug_acc}.",
+  ${constants.REL_GLOBAL_WATCHER} => "Вы получаете все изменения ${terms.bugs_gen}.",
 } %]
 
 [% SET watch_reason_descs => {
   ${constants.REL_ASSIGNEE} =>
-    "You are watching the assignee of the ${terms.bug}.",
+    "Вы замещаете исполнителя ${terms.bug_gen}.",
   ${constants.REL_REPORTER} =>
-    "You are watching the reporter of the ${terms.bug}.",
+    "Вы замещаете зарегистрировавшего ${terms.bug_acc}.",
   ${constants.REL_QA}       =>
-    "You are watching the QA Contact of the ${terms.bug}.",
+    "Вы замещаете ответственного за приемку ${terms.bug_gen}.",
   ${constants.REL_CC}       =>
-    "You are watching someone on the CC list of the ${terms.bug}.",
+    "Вы замещаете кого-либо из подписчиков ${terms.bug_gen}.",
 } %]
 
 [% Hook.process('end') %]

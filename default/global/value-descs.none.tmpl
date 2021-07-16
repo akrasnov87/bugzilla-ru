@@ -12,13 +12,53 @@
   #%]
 [% value_descs = {
   "bug_status" => {
-    # "UNCONFIRMED" => "UNCO",
-    # "CONFIRMED"   => "ITSABUG",
+    "UNCONFIRMED" => "Неподтвержденная",
+    "NEW"         => "Новая",
+    "CONFIRMED"   => "Подтвержденная",
+    "ASSIGNED"    => "Назначена",
+    "REOPENED"    => "Повторная",
+    "IN_PROGRESS" => "Решается",
+    "RESOLVED"    => "Решена",
+    "VERIFIED"    => "Принята",
+    "CLOSED"      => "Закрыта",
   },
 
   "resolution" => {
-    ""        => "---",
-    # "FIXED"      => "NO LONGER AN ISSUE",
-    # "WORKSFORME" => "NOTMYPROBLEM!",
+    ""           => "---",
+    "FIXED"      => "Исправлена",
+    "INVALID"    => "Аннулирована",
+    "WONTFIX"    => "Отказано",
+    "DUPLICATE"  => "Дублирующая",
+    "WORKSFORME" => "Невоспроизводимая",
+    "MOVED"      => "Перемещена",
+    ""           => "---",
+  },
+
+  "bug_severity" => {
+    "blocker"     => "Чрезвычайная",
+    "critical"    => "Критическая",
+    "major"       => "Серьезная",
+    "normal"      => "Существенная",
+    "minor"       => "Незначительная",
+    "trivial"     => "Тривиальная",
+    "enhancement" => "Пожелание",
+  },
+
+  "priority" => {
+    "Highest"    => "Наивысший",
+    "High"       => "Высокий",
+    "Normal"     => "Обычный",  
+    "Low"        => "Низкий", 
+    "Lowest"     => "Наинизший",   
+  },  
+
+  "op_sys" => {
+    "All"   => "Любая",
+    "Other" => "Другая",
+  },
+
+  "rep_platform" => {
+    "All"   => "Любая",
+    "Other" => "Другая",
   },
 } %]

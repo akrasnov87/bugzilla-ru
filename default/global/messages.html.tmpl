@@ -14,192 +14,189 @@
 
 [% message = BLOCK %]
   [% IF    message_tag == "account_created" %]
-    The user account [% otheruser.login FILTER html %] has been created
-    successfully.
+    Учетная запись [% otheruser.login FILTER html %] создана успешно.
     [% IF groups.size %]
-      You may want to edit the group settings now, using the form below.
+      Проверьте и измените при необходимости принадлежность к группам.
     [% END %]
 
   [% ELSIF message_tag == "account_creation_canceled" %]
-    [% title = "User Account Creation Canceled" %]
-    The creation of the user account [% account FILTER html %] has been
-    canceled.
+    [% title = "Создание учетной записи отменено" %]
+    Создание учетной записи [% account FILTER html %] 
+    отменено.
 
   [% ELSIF message_tag == "account_updated" %]
-    [% IF changes.size %]
-      [% title = "User $loginold updated" %]
-      The following changes have been made to the user account
+      [% IF changes.size %]
+      [% title = "Учетная запись $loginold изменена" %]
+      Выполнены следующие изменения учетной записи
       [%+ loginold FILTER html %]:
       <ul>
         [% FOREACH field = changes.keys %]
           <li>
             [% IF    field == 'login_name' %]
-              The login is now [% otheruser.login FILTER html %].
+              Адрес электронной почты [% otheruser.login FILTER html %].
             [% ELSIF field == 'realname' %]
-              The real name has been updated.
+              Изменено имя пользователя.
             [% ELSIF field == 'cryptpassword' %]
-              A new password has been set.
+              Установлен новый пароль.
             [% ELSIF field == 'disabledtext' %]
-              The "login disabled" text has been modified.
+               Текст сообщения "вход заблокирован" был изменен.
             [% ELSIF field == 'is_enabled' %]
-              Logging in with this user account has been [% otheruser.is_enabled ? 'enabled' : 'disabled' %].
+              Вход под этой учётной записью пользователя был [% otheruser.is_enabled ? 'включён' : 'отключён' %].
             [% ELSIF field == 'extern_id' %]
-              The user's External Login ID has been modified.
+              ID внешней учетной записи пользователя был изменён.              
             [% ELSIF field == 'disable_mail' %]
               [% IF otheruser.email_disabled %]
-                [% terms.Bug %]mail has been disabled.
+                Отключены почтовые оповещения.
               [% ELSE %]
-                [% terms.Bug %]mail has been enabled.
+                Включены почтовые оповещения.
               [% END %]
-            [% ELSIF field == 'groups' %]
+              [% ELSIF field == 'groups' %]
               [% IF changes.groups.1.size %]
-                The account has been added to the
+                Учетная запись добавлена в
                 [%+ changes.groups.1.join(', ') FILTER html %]
-                group[% 's' IF changes.groups.1.size > 1 %].
-              [% END %]
-              [% IF changes.groups.0.size %]
-                The account has been removed from the
-                [%+ changes.groups.0.join(', ') FILTER html %]
-                group[% 's' IF changes.groups.0.size > 1 %].
-              [% END %]
-            [% ELSIF field == 'bless_groups' %]
-              [% IF changes.bless_groups.1.size %]
-                The account has been granted rights to bless the
-                [%+ changes.bless_groups.1.join(', ') FILTER html %]
-                group[% 's' IF changes.bless_groups.1.size > 1 %].
-              [% END %]
-              [% IF changes.bless_groups.0.size %]
-                The account has been denied rights to bless the
-                [%+ changes.bless_groups.0.join(', ') FILTER html %]
-                group[% 's' IF changes.bless_groups.0.size > 1 %].
-              [% END %]
+                группу[% 's' IF changes.groups.1.size > 1 %].
             [% END %]
-          </li>
+          [% IF changes.groups.0.size %]
+                Учетная запись исключена из 
+                [%+ changes.groups.0.join(', ') FILTER html %]
+                группы[% 's' IF changes.groups.0.size > 1 %].
+        [% END %]
+          [% ELSIF field == 'bless_groups' %]
+                        [% IF changes.bless_groups.1.size %]
+                Учетной записи делегировано управление
+                [%+ changes.bless_groups.1.join(', ') FILTER html %]
+                группой[% 's' IF changes.bless_groups.1.size > 1 %].
+        [% END %]
+             [% IF changes.bless_groups.0.size %]
+                У учетной записи отозвано управление
+                [%+ changes.bless_groups.0.join(', ') FILTER html %]
+                группой[% 's' IF changes.bless_groups.0.size > 1 %].
+        [% END %]
+        [% END %]
+                  </li>
         [% END %]
       </ul>
     [% ELSE %]
-      [% title = "User $otheruser.login not changed" %]
-      You didn't request any changes to the user's account
-      [%+ otheruser.login FILTER html %].
+      [% title = "Учетная запись $otheruser.login не изменена" %]
+      Никаких изменений учетной записи [%+ otheruser.login FILTER html %] не указано.
     [% END %]
 
   [% ELSIF message_tag == "account_deleted" %]
-    [% title = "User $otheruser.login deleted" %]
-    The user account [% otheruser.login FILTER html %] has been deleted
-    successfully.
+    [% title = "Учетная запись $otheruser.login удалена" %]
+    Учетная запись [% otheruser.login FILTER html %] успешно удалена.
 
   [% ELSIF message_tag == "account_disabled" %]
-    Logging in with this user account [% account FILTER html %] is disabled, so
-    you cannot change its password.
+    Вход под учётной записью пользователя [% account FILTER html %] заблокирован,
+    изменение пароля запрещено.
 
   [% ELSIF message_tag == "attachment_creation_failed" %]
-    The [% terms.bug %] was created successfully, but attachment creation
-    failed.
-    Please add your attachment by clicking the "Add an Attachment" link
-    below.
+    [% terms.Bug %] зарегистрирована успешно, но при создании приложения
+    произошел сбой.
+    Добавьте приложение повторно, используя ссылку "Создать новое приложение"
+    ниже.
 
   [% ELSIF message_tag == "bug_group_description" %]
-    Access to [% terms.bugs %] in the [% product.name FILTER html %] product
+    Доступ к [% terms.bugs_dat %] продукта [% product.name FILTER html %]
 
   [% ELSIF message_tag == "buglist_adding_field" %]
-    [% title = "Adding field to search page..." %]
-    [% link  = "Click here if the page does not redisplay automatically." %]
+    [% title = "Добавляем поле в форму поиска..." %]
+    [% link  = "Выберите эту ссылку если страница не обновилась автоматически." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
-    [% title = "Search updated" %]
-    Your search named <code><a 
+    [% title = "Условие отбора обновлено" %]
+    Условие отбора <code><a 
      href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% queryname FILTER uri %]"
-    >[% queryname FILTER html %]</a></code> has been updated.
+    >[% queryname FILTER html %]</a></code> обновлено.
 
   [% ELSIF message_tag == "buglist_new_default_query" %]
-    OK, you now have a new default search.  You may
-    also bookmark the result of any individual search.
+    Условия отбора по умолчанию сохранены.  Кроме того, вы можете создать
+    закладку (добавить в "Избранное") на результат любого поиска.
 
   [% ELSIF message_tag == "buglist_new_named_query" %]
-    [% title = "Search created" %]
-    OK, you have a new search named <code><a
+    [% title = "Условие отбора создано" %]
+    Создано новое условие отбора <code><a
      href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% queryname FILTER uri %]"
     >[% queryname FILTER html %]</a></code>.
 
   [% ELSIF message_tag == "buglist_query_gone" %]
-    [% title = "Search is gone" %]
-    [% link  = "Un-forget the search" %]
-    OK, the <b>[% namedcmd FILTER html %]</b> search is gone.
+    [% title = "Условие отбора удалено" %]
+    [% link  = "Вернуться к поиску." %]
+    Условие отбора <b>[% namedcmd FILTER html %]</b> удалено.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
-    [% terms.Bugs %] on this list are sorted by relevance, with the most
-    relevant [% terms.bugs %] at the top.
+    [% terms.Bugs %] в данном списке отсортированы по соответствию,
+    начиная с наиболее подходящих.
 
   [% ELSIF message_tag == "change_columns" %]
-    [% title = "Change columns" %]
-    Resubmitting your search with new columns...
-    Click <a href="[% redirect_url FILTER html %]">here</a>
-    if the page does not automatically refresh.
+    [% title = "Изменение списка колонок" %]
+    Повторяем поиск с новым списком колонок...
+    Выберите <a href="[% redirect_url FILTER html %]">эту ссылку</a>
+    если страница не обновилась автоматически.
 
   [% ELSIF message_tag == "classification_created" %]
-    [% title = "New Classification Created" %]
-    The <em>[% classification.name FILTER html %]</em> classification has been created.
+    [% title = "Раздел создан" %]
+    Раздел <em>[% classification.name FILTER html %]</em> создан.
 
   [% ELSIF message_tag == "classification_deleted" %]
-    [% title = "Classification Deleted" %]
-    The <em>[% classification.name FILTER html %]</em> classification has been deleted.
+    [% title = "Раздел удален" %]
+    Раздел <em>[% classification.name FILTER html %]</em> удален.
 
   [% ELSIF message_tag == "classification_updated" %]
-    [% title = "Classification Updated" %]
+    [% title = "Изменения раздела сохранены" %]
     [% IF changes.keys.size %]
-      Changes to the <em>[% classification.name FILTER html %]</em> classification
-      have been saved:
+      Изменения раздела <em>[% classification.name FILTER html %]</em>
+      сохранены:
       <ul>
         [% IF changes.name.defined %]
-          <li>Name updated to '[% classification.name FILTER html %]'</li>
+          <li>Название раздела изменено на '[% classification.name FILTER html %]'</li>
         [% END %]
         [% IF changes.description.defined %]
           [% IF classification.description %]
-            <li>Description updated to '[% classification.description FILTER html %]'</li>
+            <li>Описание изменено на '[% classification.description FILTER html %]'</li>
           [% ELSE %]
-            <li>Description removed</li>
+            <li>Описание удалено</li>
           [% END %]
         [% END %]
         [% IF changes.sortkey.defined %]
-          <li>Sortkey updated to '[% classification.sortkey FILTER html %]'</li>
+          <li>Порядок сортировки изменен на '[% classification.sortkey FILTER html %]'</li>
         [% END %]
         [% Hook.process('classification_updated_fields') %]
       </ul>
     [% ELSE %]
-      No changes made to <em>[% classification.name FILTER html %]</em>.
+      Никаких изменений раздела <em>[% classification.name FILTER html %]</em> не указано.
     [% END %]
 
   [% ELSIF message_tag == "component_created" %]
-    [% title = "Component Created" %]
-    The component <em>[% comp.name FILTER html %]</em> has been created.
+    [% title = "Компонент создан" %]
+    Компонент <em>[% comp.name FILTER html %]</em> создан.
 
   [% ELSIF message_tag == "component_deleted" %]
-    [% title = "Component Deleted" %]
-    The component <em>[% comp.name FILTER html %]</em> has been deleted.
+    [% title = "Компонент удален" %]
+    Компонент <em>[% comp.name FILTER html %]</em> удален.
     [% IF comp.bug_count %]
-      All [% terms.bugs %] being in this component and all references
-      to them have also been deleted.
+      Все [% terms.bugs %] для этого компонента и все ссылки
+      на них также удалены.
     [% END %]
 
   [% ELSIF message_tag == "component_updated" %]
-    [% title = "Component Updated" %]
+    [% title = "Компонент изменен" %]
     [% IF changes.keys.size %]
-      Changes to the component <em>[% comp.name FILTER html %]</em> have been saved:
+      Изменения компонента <em>[% comp.name FILTER html %]</em> сохранены:
       <ul>
       [% IF changes.name.defined %]
-        <li>Name updated to '[% comp.name FILTER html %]'</li>
+        <li>Наименование изменено на '[% comp.name FILTER html %]'</li>
       [% END %]
       [% IF changes.description.defined %]
-        <li>Description updated to '[% comp.description FILTER html_light %]'</li>
+        <li>Описание изменено на '[% comp.description FILTER html_light %]'</li>
       [% END %]
       [% IF changes.initialowner.defined %]
-        <li>Default assignee updated to '[% comp.default_assignee.login FILTER html %]'</li>
+        <li>Ответственный исполнитель заменен на '[% comp.default_assignee.login FILTER html %]'</li>
       [% END %]
       [% IF changes.initialqacontact.defined %]
         [% IF comp.default_qa_contact %]
-          <li>Default QA contact updated to '[% comp.default_qa_contact.login FILTER html %]'</li>
+          <li>Ответственный за приемку заменен на '[% comp.default_qa_contact.login FILTER html %]'</li>
         [% ELSE %]
-          <li>Default QA contact deleted</li>
+          <li>Ответственный за приемку не назначен</li>
         [% END %]
       [% END %]
       [% IF changes.cc_list.defined %]
@@ -208,123 +205,123 @@
           [% FOREACH cc_user = comp.initial_cc %]
             [% cc_list.push(cc_user.login) %]
           [% END %]
-          <li>Default CC list updated to [% cc_list.join(", ") FILTER html %]</li>
+          <li>Список подписчиков изменен на [% cc_list.join(", ") FILTER html %]</li>
         [% ELSE %]
-          <li>Default CC list deleted</li>
+          <li>Список подписчиков очищен</li>
         [% END %]
       [% END %]
       [% IF changes.isactive.defined %]
-        <li>[% comp.is_active ? "Enabled" : "Disabled" %] for [% terms.bugs %]</li>
-      [% END %]
+        <li>[% comp.is_active ? "Включён" : "Отключён" %] для [% terms.bugs_gen %]</li>
+      [% END %]      
       [% Hook.process('component_updated_fields') %]
       </ul>
     [% ELSE %]
-      No changes made to <em>[% comp.name FILTER html %]</em>.
+      Никаких изменений компонента <em>[% comp.name FILTER html %]</em> не задано.
     [% END %]
 
   [% ELSIF message_tag == "custom_field_created" %]
-    [% title = "Custom Field Created" %]
-    The new custom field '[% field.name FILTER html %]' has been
-    successfully created.
+    [% title = "Атрибут создан" %]
+    Пользовательский атрибут '[% field.name FILTER html %]' создан
+    успешно.
 
   [% ELSIF message_tag == "custom_field_deleted" %]
-    [% title = "Custom Field Deleted" %]
-    The custom field '[% field.name FILTER html %]' has been
-    successfully deleted.
+    [% title = "Атрибут удален" %]
+    Настраиваемый атрибут '[% field.name FILTER html %]'
+    успешно удален.
 
   [% ELSIF message_tag == "custom_field_updated" %]
-    [% title = "Custom Field Updated" %]
-    Properties of the '[% field.name FILTER html %]' field have been
-    successfully updated.
+    [% title = "Атрибут изменен" %]
+    Свойства атрибута '[% field.name FILTER html %]' изменены
+    успешно.
 
   [% ELSIF message_tag == "default_settings_updated" %]
     [% IF changes_saved %]
-      Changes to default preferences have been saved.
+      Изменения стандартных настроек пользователей сохранены.
     [% ELSE %]
-      No changes made.
+      Изменений не задано.
     [% END %]
 
   [% ELSIF message_tag == "emailold_change_canceled" %]
-    [% title = "Cancel Request to Change Email Address" %]
-    The request to change the email address for your account to
-    [%+ new_email FILTER html %] has been canceled.
+    [% title = "Отмена запроса на изменение адреса электронной почты" %]
+    Запрос на изменение адреса электронной почты пользователя на
+    [%+ new_email FILTER html %] аннулирован.
 
   [% ELSIF message_tag == "email_change_canceled" %]
-    [% title = "Cancel Request to Change Email Address" %]
-    The request to change the email address for the
-    account [%+ old_email FILTER html %] to
-    [%+ new_email FILTER html %] has been canceled.
+    [% title = "Отмена запроса на изменение адреса электронной почты" %]
+    Запрос на изменение адреса электронной почты пользователя
+    [%+ old_email FILTER html %] на [%+ new_email FILTER html %]
+    аннулирован.
 
   [% ELSIF message_tag == "email_change_canceled_reinstated" %]
-    [% title = "Cancel Request to Change Email Address" %]
-    The request to change the email address for the
-    account [%+ old_email FILTER html %] to 
-    [%+ new_email FILTER html %] has been canceled.
-    Your old account settings have been reinstated.
+    [% title = "Отмена запроса на изменение адреса электронной почты" %]
+    Запрос на изменение адреса электронной почты 
+    пользователя [%+ old_email FILTER html %] на 
+    [%+ new_email FILTER html %] аннулирован.
+   Восстановлены старые параметры пользователя.
 
   [% ELSIF message_tag == "extension_created" %]
-    An extension named [% name FILTER html %] has been created
-    in [% path FILTER html %].
+    По адресу [% path FILTER html %] было создано расширение с именем
+    [% name FILTER html %].
 
   [% ELSIF message_tag == "field_value_created" %]
-    [% title = "New Field Value Created" %]
-    The value <em>[% value.name FILTER html %]</em> has been added as a 
-    valid choice for the <em>[% field.description FILTER html %]</em>
+    [% title = "Значение атрибута создано" %]
+    Значение <em>[% value.name FILTER html %]</em> добавлено в список возможных
+    значений атрибута <em>[% field_descs.${field.name} FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>) field.
     [% IF field.name == "bug_status" %]
-      You should now visit the <a href="editworkflow.cgi">status workflow 
-      page</a> to include your new [% terms.bug %] status.
+      Следует перейти к <a href="editworkflow.cgi">настройке состояний</a>
+      и описать новое состояние [% terms.bug_gen %].
     [% END %]
 
   [% ELSIF message_tag == "field_value_deleted" %]
-    [% title = "Field Value Deleted" %]
-    The value <em>[% value.name FILTER html %]</em> of the
-    <em>[% field.description FILTER html %]</em>
-    (<em>[% field.name FILTER html %]</em>) field has been deleted.
+    [% title = "Значение атрибута удалено" %]
+    Значение <em>[% value.name FILTER html %]</em> атрибута
+    <em>[% field_descs.${field.name} FILTER html %]</em>
+    (<em>[% field.name FILTER html %]</em>) field удалено.
 
   [% ELSIF message_tag == "field_value_updated" %]
-    [% title = "Field Value Updated" %]
+    [% title = "Значение атрибута изменено" %]
     [% IF changes.keys.size %]
-      The <em>[% value_old FILTER html %]</em> value of the
-      <em>[% field.description FILTER html %]</em>
-      (<em>[% field.name FILTER html %]</em>) field has been changed:
+      Изменения значения <em>[% value_old FILTER html %]</em> атрибута
+      <em>[% field_descs.${field.name} FILTER html %]</em>
+      (<em>[% field.name FILTER html %]</em>) сохранены:
       <ul>
         [% IF changes.value %]
-          <li>Field value updated to 
+          <li>Значение изменено на 
             <em>[% changes.value.1 FILTER html %]</em>.
             [% IF value.is_default %]
-              (Note that this value is the default for this field. All
-              references to the default value will now point to this new value.)
+            (это значение по умолчание для данного атрибута. Все
+            ссылки на значение по умолчанию теперь указывают на новое значение)
             [% END %]
           </li>
         [% END %]
         [% IF changes.sortkey %]
-          <li>Sortkey updated to 
+          <li>Порядок сортировки изменен на 
             <em>[% changes.sortkey.1 FILTER html %]</em>.</li>
         [% END %]
         [% IF changes.visibility_value_id %]
           [% IF value.visibility_value.defined %]
-            <li>It only appears when 
-              [%+ value.field.value_field.description FILTER html %] is set to
+            <li>Отображается при установке атрибуту 
+              '[% field_descs.${value.field.value_field.name} FILTER html %]' значения
               '[%+ value.visibility_value.name FILTER html %]'.</li>
           [% ELSE %]
-            <li>It now always appears, no matter what 
-              [%+ value.field.value_field.description FILTER html %] is set to.
+            <li>Отображается вне зависимости от значений атрибута 
+              '[%+ field_descs.${value.field.value_field.name} FILTER html %]'.
             </li>
           [% END %]
         [% END %]
       </ul>
     [% ELSE %]
-      No changes made to the field value <em>[% value_old FILTER html %]</em>.
+      Никаких изменений значения <em>[% value_old FILTER html %]</em> не указано.
     [% END %]
 
   [% ELSIF message_tag == "flag_cleared" %]
-    Some flags didn't apply in the new product/component
-    and have been cleared.
+    Некоторые согласования недопустимы для нового продукта (компонента)
+    и были удалены.
 
   [% ELSIF message_tag == "flag_creation_failed" %]
-    [% title = "Flag Creation Failure" %]
-    An error occured while validating flags:
+    [% title = "Ошибка создания согласования" %]
+    Ошибка при проверке согласования:
     [%+ flag_creation_error FILTER none %]
 
   [% ELSIF message_tag == "get_field_desc" %]
@@ -337,81 +334,81 @@
     [% display_value("bug_status", status) FILTER html %]
 
   [% ELSIF message_tag == "group_created" %]
-    [% title = "New Group Created" %]
-    The group <em>[% group.name FILTER html %]</em> has been created.
+    [% title = "Группа создана" %]
+    Группа <em>[% group.name FILTER html %]</em> создана.
 
   [% ELSIF message_tag == "group_deleted" %]
-    [% title = "Group Deleted" %]
-    The group <em>[% name FILTER html %]</em> has been deleted.
+    [% title = "Группа" %]
+    Группа <em>[% name FILTER html %]</em> удалена.
 
   [% ELSIF message_tag == "group_membership_removed" %]
-    [% title = "Group Membership Removed" %]
+    [% title = "Пользователи исключены из группы" %]
     [% IF users.size %]
-      Explicit membership to the <em>[% group FILTER html %]</em> group removed
-      [% IF regexp %] for users matching '[% regexp FILTER html %]'[% END %]:
+      Из группы <em>[% group FILTER html %]</em> исключены пользователи
+      [%- IF regexp %], соответствующие регулярному выражению '[% regexp FILTER html %]'[% END %]:
       [% FOREACH user = users %]
         [%+ user.login FILTER html %]
       [% END %]
     [% ELSE %]
-      No users are being affected by your action.
+      Никаких изменений состава группы не указано.
     [% END %]
 
   [% ELSIF message_tag == "group_updated" %]
     [% IF changes.keys.size %]
-      The following changes have been made to the '[% group.name FILTER html %]'
-      group:
+      Изменения группы '[% group.name FILTER html %]'
+      сохранены:
       <ul>
       [% FOREACH field = changes.keys.sort %]
         [% SWITCH field %]
           [% CASE 'name' %]
-            <li>The name was changed to '[% changes.name.1 FILTER html %]'</li>
+            <li>Имя группы изменено на '[% changes.name.1 FILTER html %]'</li>
           [% CASE 'description' %]
-            <li>The description was updated.</li>
+            <li>Изменено описание группы.</li>
           [% CASE 'userregexp' %]
-            <li>The regular expression was updated.</li>
+            <li>Изменено регулярное выражение.</li>
           [% CASE 'isactive' %]
             [% IF changes.isactive.1 %]
-              <li>The group will now be used for [% terms.bugs %].</li>
+              <li>Группа может быть использована для доступа к [% terms.bugs_dat %].</li>
             [% ELSE %]
-              <li>The group will no longer be used for [% terms.bugs %].</li>
+              <li>Группа не может быть использована для доступа к [% terms.bugs_dat %].</li>
             [% END %]
           [% CASE 'icon_url' %]
-            <li>The group icon URL has been updated.</li>
+            <li>Изменен значок группы.</li>
           [% CASE 'members_add' %]
-            <li>The following groups are now members of this group:
+            <li>Следующие группы включены в данную:
               [%+ changes.members_add.join(', ') FILTER html %]</li>
           [% CASE 'members_remove' %]
-            <li>The following groups are no longer members of this group:
+            <li>Следующие группы исключены из данной:
               [%+ changes.members_remove.join(', ') FILTER html %]</li>
           [% CASE 'member_of_add' %]
-            <li>This group is now a member of the following groups:
+            <li>Данная группа включена в группы:
               [%+ changes.member_of_add.join(', ') FILTER html %]</li>
           [% CASE 'member_of_remove' %]
-            <li>This group is no longer a member of the following groups:
+            <li>Данная группа исключена из групп:
               [%+ changes.member_of_remove.join(', ') FILTER html %]</li>
           [% CASE 'bless_from_add' %]
-            <li>The following groups may now add users to this group:
+            <li>Следующие группы наделены правом управлять членством в данной группе:
               [%+ changes.bless_from_add.join(', ') FILTER html %]</li>
           [% CASE 'bless_from_remove' %]
-            <li>The following groups may no longer add users to this group:
+            <li>У следующих групп отозвано право управлять членством в данной группе:
               [%+ changes.bless_from_remove.join(', ') FILTER html %]</li>
           [% CASE 'bless_to_add' %]
-            <li>This group may now add users to the following groups:
+            <li>Группе дано право управлять членством в группах:
               [%+ changes.bless_to_add.join(', ') FILTER html %]</li>
           [% CASE 'bless_to_remove' %]
-            <li>This group may no longer add users to the following groups:
+            <li>У группы отозвано право управлять членством в группах:
               [%+ changes.bless_to_remove.join(', ') FILTER html %]</li>
           [% CASE 'visible_from_add' %]
-            <li>The following groups can now see users in this group:
+            <li>Следующим группам дано право видеть состав данной группы:
               [%+ changes.visible_from_add.join(', ') FILTER html %]</li>
           [% CASE 'visible_from_remove' %]
-            <li>The following groups may no longer see users in this group:
+            <li>У следующих групп отозвано право видеть состав данной группы:
               [%+ changes.visible_from_remove.join(', ') FILTER html %]</li>
           [% CASE 'visible_to_me_add' %]
-            <li>This group may now see users in the following groups:
+            <li>Группе дано право видеть состав групп:
               [%+ changes.visible_to_me_add.join(', ') FILTER html %]</li>
           [% CASE 'visible_to_me_remove' %]
-            <li>This group may no longer see users in the following groups:
+            <li>У группы отозвано право видеть состав групп:
               [%+ changes.visible_to_me_remove.join(', ') FILTER html %]</li>
           [% CASE %]
             [% Hook.process('group_updated_fields') %]
@@ -419,378 +416,379 @@
       [% END %]
       </ul>
     [% ELSE %]
-      You didn't request any change for the '[% group.name FILTER html %]'
-      group.
+      Никаких изменений группы '[% group.name FILTER html %]'
+      не задано.
     [% END %]
 
   [% ELSIF message_tag == "invalid_column_name" %]
-    The custom sort order specified contains one or more invalid
-    column names: <em>[% invalid_fragments.join(', ') FILTER html %]</em>.
-    They have been removed from the sort list.
+    Указанный порядок сортировки содержал одно или несколько недопустимых 
+    имен колонок: <em>[% invalid_fragments.join(', ') FILTER html %]</em>.
+    Все они были удалены.
 
   [% ELSIF message_tag == "job_queue_depth" %]
-    [% count FILTER html %] jobs in the queue.
+    [% count FILTER html %]
+    [% numeral(count, "задание", "задания", "заданий") FILTER html %]
+    в очереди.
 
   [% ELSIF message_tag == "keyword_created" %]
-    [% title = "New Keyword Created" %]
-    The keyword <em>[% name FILTER html %]</em> has been created.
+    [% title = "Ключевое слово создано" %]
+    Ключевое слово <em>[% name FILTER html %]</em> создано.
 
   [% ELSIF message_tag == "keyword_deleted" %]
-    [% title = "Keyword Deleted" %]
-    The <em>[% keyword.name FILTER html %]</em> keyword has been deleted.
+    [% title = "Ключевое слово удалено" %]
+    Ключевое слово <em>[% keyword.name FILTER html %]</em> удалено.
 
   [% ELSIF message_tag == "keyword_updated" %]
-    [% title = "Keyword Updated" %]
+    [% title = "Ключевое слово изменено" %]
     [% IF changes.keys.size %]
-      Changes to the <em>[% keyword.name FILTER html %]</em> keyword have
-      been saved:
+      Изменения ключевого слова <em>[% keyword.name FILTER html %]</em>
+      сохранены:
       <ul>
         [% IF changes.name.defined %]
-          <li>Keyword renamed to <em>[% keyword.name FILTER html %]</em>.</li>
+          <li>
+            Ключевое слово переименовано в <em>[% keyword.name FILTER html %]</em>.</li>
         [% END %]
         [% IF changes.description.defined %]
-          <li>Description updated to <em>[% keyword.description FILTER html %]</em></li>
+          <li>Описание изменено на <em>[% keyword.description FILTER html %]</em></li>
         [% END %]
       </ul>
     [% ELSE %]
-      No changes made.
+      Никаких изменений не задано.
     [% END %]
 
   [% ELSIF message_tag == "logged_out" %]
-    [% title = "Logged Out" %]
+    [% title = "Выход из системы" %]
     [% url = "index.cgi?GoAheadAndLogIn=1" %]
-    [% link = "Log in again." %]
-    <b>You logged out successfully</b>.
-    The cookie that was remembering your login is now gone. You will be
-    prompted for a login the next time it is required.
+    [% link = "Войти заново." %]
+    <b>Выход из системы успешно завершен</b>.
+    Cookie с данными о сеансе пользователя удален.  При следующем
+    входе система запросит имя пользователя и пароль.
 
   [% ELSIF message_tag == "login_changed" %]
-    [% title = "$terms.Bugzilla Login Changed" %]
-    Your [% terms.Bugzilla %] login has been changed.
+    [% title = "Имя пользователя $terms.Bugzilla изменено" %]
+    Ваше имя пользователя [% terms.Bugzilla %] изменено.
 
   [% ELSIF message_tag == "migrate_component_created" %]
-    Component created: [% comp.name FILTER html %]
-    (in [% product.name FILTER html %])
+    Создан компонент: [% comp.name FILTER html %]
+    (в продукте [% product.name FILTER html %])
 
   [% ELSIF message_tag == "migrate_creating_bugs" %]
-    Creating [% terms.bugs %]...
+    Создание [% terms.bugs_gen %]...
 
   [% ELSIF message_tag == "migrate_field_created" %]
-    New custom field: [% field.description FILTER html %]
+    Новый атрибут: [% field.description FILTER html %]
     ([% field.name FILTER html %])
 
   [% ELSIF message_tag == "migrate_product_created" %]
-    Product created: [% created.name FILTER html %]
+    Создан продукт: [% created.name FILTER html %]
 
   [% ELSIF message_tag == "migrate_reading_bugs" %]
-    Reading [% terms.bugs %]...
+    Анализ [% terms.bugs_gen %]...
 
   [% ELSIF message_tag == "migrate_reading_products" %]
-    Reading products...
+    Анализ продуктов...
 
   [% ELSIF message_tag == "migrate_reading_users" %]
-    Reading users...
+    Анализ пользователей...
 
   [% ELSIF message_tag == "migrate_translating_bugs" %]
-    Converting [% terms.bug %] values to be appropriate for 
+    Конвертация данных [% terms.bugs_gen %] для использования в 
     [%+ terms.Bugzilla %]...
 
   [% ELSIF message_tag == "migrate_user_created" %]
-    User created: [% created.email FILTER html %]
-    [% IF password %] Password: [% password FILTER html %][% END %]
+    Создан пользователь: [% created.email FILTER html %]
+    [% IF password %] Пароль: [% password FILTER html %][% END %]
 
   [% ELSIF message_tag == "migrate_value_created" %]
     [% IF product.defined %]
-      [% product.name FILTER html %]
+      Продукт [% product.name FILTER html %].
     [% END %]
-    [%+ field_descs.${field.name} FILTER html %] value
-    created: [% value FILTER html %]
+    Создано значение атрибута [%+ field_descs.${field.name} FILTER html %]: 
+    [% value FILTER html %]
 
   [% ELSIF message_tag == "milestone_created" %]
-    [% title = "Milestone Created" %]
-    The milestone <em>[% milestone.name FILTER html %]</em> has been created.
+    [% title = "План создан" %]
+    План <em>[% milestone.name FILTER html %]</em> создан.
 
   [% ELSIF message_tag == "milestone_deleted" %]
-    [% title = "Milestone Deleted" %]
-    The milestone <em>[% milestone.name FILTER html %]</em> has been deleted.
+    [% title = "План удален" %]
+    План <em>[% milestone.name FILTER html %]</em> удален.
     [% IF milestone.bug_count %]
-      [%+ terms.Bugs %] targetted to this milestone have been retargetted to
-      the default milestone <em>[% product.default_milestone FILTER html %]</em>.
+      Запланированные [%+ terms.bugs %] перенесены в
+      план по умолчанию <em>[% product.default_milestone FILTER html %]</em> для продукта.
     [% END %]
 
   [% ELSIF message_tag == "milestone_updated" %]
-    [% title = "Milestone Updated" %]
+    [% title = "План изменен" %]
     [% IF changes.size %]
-      Changes to the milestone <em>[% milestone.name FILTER html %]</em>
-      have been saved:
+      Изменения плана <em>[% milestone.name FILTER html %]</em>
+      сохранены:
       <ul>
         [% IF changes.value.defined %]
-          <li>Milestone name updated to <em>[% milestone.name FILTER html %]</em></li>
+          <li>Название плана изменено на <em>[% milestone.name FILTER html %]</em></li>
         [% END %]
         [% IF changes.sortkey.defined %]
-          <li>Sortkey updated to <em>[% milestone.sortkey FILTER html %]</em>
+          <li>Порядок сортировки изменен на <em>[% milestone.sortkey FILTER html %]</em>
         [% END %]
         [% IF changes.isactive.defined %]
-          <li>[% milestone.is_active ? "Enabled" : "Disabled" %] for [% terms.bugs %]</li>
+          <li>[% milestone.is_active ? "Включён" : "Отключён" %] для [% terms.bugs_gen %]</li>
         [% END %]
       </ul>
     [% ELSE %]
-      No changes made to milestone <em>[% milestone.name FILTER html %]</em>.
+      Никаких изменений плана <em>[% milestone.name FILTER html %]</em> не задано.
     [% END %]
 
   [% ELSIF message_tag == "parameters_updated" %]
-    [% title = "Parameters Updated" %]
+    [% title = "Изменения настроек" %]
     [% IF param_changed.size > 0 %]
       [% FOREACH param = param_changed %]
-        Changed <em>[% param FILTER html %]</em><br>
+        Изменена настройка <em>[% param FILTER html %]</em><br>
         [% IF param == 'utf8' && Param('utf8') %]
-          <strong>You must now re-run <kbd>checksetup.pl</kbd>.</strong><br>
+          <strong>Следует немедленно выполнить <kbd>checksetup.pl</kbd>.</strong><br>
         [% END %]
       [% END %]
     [% ELSE %]
-      No changes made.
+      Изменений не задано.
     [% END %]
 
     [% IF shutdown_is_active == 1 %]
       <hr>
-      [% terms.Bugzilla %] has now been shut down. To re-enable the system,
-      clear the <em>shutdownhtml</em> field.
+      Доступ к [% terms.Bugzilla %] запрещен. Для разрешения доступа
+      очистите поле <em>shutdownhtml</em>.
     [% END%]
 
   [% ELSIF message_tag == "password_change_canceled" %]
-    [% title = "Cancel Request to Change Password" %]
-    Your request has been canceled.
+    [% title = "Отмена запроса на изменение пароля" %]
+    Запрос на изменение пароля аннулирован.
 
   [% ELSIF message_tag == "password_change_request" %]
-    [% title = "Request to Change Password" %]
-    A token for changing your password has been emailed to
-    <em>[% login_name FILTER html %]</em>.
-    Follow the instructions in that email to change your password.
+    [% title = "Запрос на изменение пароля" %]
+    Жетон на изменение пароля пользователя отправлен по электронной
+    почте.  Для изменения пароля следуйте указаниям в сообщении
+    электронной почты.
 
   [% ELSIF message_tag == "password_changed" %]
-    [% title = "Password Changed" %]
-    Your password has been changed.
+    [% title = "Пароль изменен" %]
+    Ваш пароль был изменен.
 
   [% ELSIF message_tag == "flag_type_created" %]
-    [% title = BLOCK %]Flag Type '[% name FILTER html %]' Created[% END %]
-    The flag type <em>[% name FILTER html %]</em> has been created.
+    [% title = BLOCK %]Вид согласования '[% name FILTER html %]' создан[% END %]
+      Вид согласования <em>[% name FILTER html %]</em> успешно создан.
 
   [% ELSIF message_tag == "flag_type_updated" %]
-    [% title = BLOCK %]Flag Type '[% flagtype.name FILTER html %]' Updated[% END %]
+    [% title = BLOCK %]Вид согласования '[% flagtype.name FILTER html %]' обновлён[% END %]
     [% IF changes.size %]
-      Changes to the flag type <em>[% flagtype.name FILTER html %]</em>
-      have been saved:
+      Изменения вида согласования <em>[% flagtype.name FILTER html %]</em>
+      были сохранены:
       <ul>
         [% IF changes.is_active.defined %]
-          <li>Flag type is now [% flagtype.is_active ? "active" : "inactive" %]</li>
+          <li>Вид согласования теперь [% flagtype.is_active ? "активен" : "неактивен" %]</li>
         [% END %]
         [% IF changes.name.defined %]
-          <li>Flag type renamed to <em>[% flagtype.name FILTER html %]</em></li>
+          <li>Вид согласования переименован в <em>[% flagtype.name FILTER html %]</em></li>
         [% END %]
         [% IF changes.description.defined %]
-          <li>Description updated to <em>[% flagtype.description FILTER html %]</em></li>
+          <li>Описание обновлено на <em>[% flagtype.description FILTER html %]</em></li>
         [% END %]
         [% IF changes.cc_list.defined %]
           [% IF flagtype.cc_list %]
-            <li>CC list updated to <em>[% flagtype.cc_list FILTER html %]</em></li>
+            <li>Список подписчиков обновлён на <em>[% flagtype.cc_list FILTER html %]</em></li>
           [% ELSE %]
-            <li>CC list is now empty</li>
+            <li>Список подписчиков теперь пуст</li>
           [% END %]
         [% END %]
         [% IF changes.sortkey.defined %]
-          <li>Sortkey updated to <em>[% flagtype.sortkey FILTER html %]</em></li>
+          <li>Порядок сортировки обновлён на <em>[% flagtype.sortkey FILTER html %]</em></li>
         [% END %]
         [% IF changes.is_requestable.defined %]
-          <li>Flag type is [% "no longer" UNLESS flagtype.is_requestable %] requestable</li>
+          <li>Вид согласования [% "более не" UNLESS flagtype.is_requestable %] разрешено запрашивать</li>
         [% END %]
         [% IF changes.is_requesteeble.defined AND flagtype.is_requestable %]
           <li>
-            Flag type is [% "no longer" UNLESS flagtype.is_requesteeble %]
-            specifically requestable
+            Вид согласования [% "более не" UNLESS flagtype.is_requesteeble %] разрешено
+            запрашивать конкретным пользователям
           </li>
         [% END %]
         [% IF changes.is_multiplicable.defined %]
-          <li>Flag type is [% "no longer" UNLESS flagtype.is_multiplicable %] multiplicable</li>
+          <li>Вид согласования [% "более не" UNLESS flagtype.is_multiplicable %] является многократным</li>
         [% END %]
         [% IF changes.grant_group_id.defined %]
           [% IF flagtype.grant_group_id %]
-            <li>Grant group updated to <em>[% flagtype.grant_group.name FILTER html %]</em></li>
+            <li>Группа ответственных обновлена на <em>[% flagtype.grant_group.name FILTER html %]</em></li>
           [% ELSE %]
-            <li>Grant group deleted</li>
+            <li>Группа ответственных удалена</li>
           [% END %]
         [% END %]
         [% IF changes.request_group_id.defined %]
           [% IF flagtype.request_group_id %]
-            <li>Request group updated to <em>[% flagtype.request_group.name FILTER html %]</em></li>
+            <li>Группа инициаторов обновлена на <em>[% flagtype.request_group.name FILTER html %]</em></li>
           [% ELSE %]
-            <li>Request group deleted</li>
+            <li>Группа инициаторов удалена</li>
           [% END %]
         [% END %]
         [% IF changes.inclusions.defined || changes.exclusions.defined %]
-          <li>The inclusions and exclusions lists have been updated</li>
+          <li>Списки включений и исключений были обновлены</li>
         [% END %]
      </ul>
     [% ELSE %]
-      No changes made to flag type <em>[% flagtype.name FILTER html %]</em>.
+      Изменений в виде согласования не произведено <em>[% flagtype.name FILTER html %]</em>.
     [% END %]
 
   [% ELSIF message_tag == "flag_type_deleted" %]
-    [% title = BLOCK %]Flag Type '[% name FILTER html %]' Deleted[% END %]
-    The flag type <em>[% name FILTER html %]</em> has been deleted.
+    [% title = BLOCK %]Вид согласования '[% name FILTER html %]' удален[% END %]
+    Вид согласования <em>[% name FILTER html %]</em> удален.
 
   [% ELSIF message_tag == "flag_type_deactivated" %]
-    [% title = BLOCK %]Flag Type '[% flag_type.name FILTER html %]' Deactivated[% END %]
-    The flag type <em>[% flag_type.name FILTER html %]</em> has been deactivated.
+    [% title = BLOCK %]Вид согласования '[% name FILTER html %]' запрещен[% END %]
+    Вид согласования <em>[% flag_type.name FILTER html %]</em> запрещен.
 
   [% ELSIF message_tag == "install_admin_get_email" %]
-    Enter the e-mail address of the administrator:
+    Введите адрес электронной почты администратора:
 
   [% ELSIF message_tag == "install_admin_get_name" %]
-    Enter the real name of the administrator:
+    Введите полное имя администратора:
 
   [% ELSIF message_tag == "install_admin_get_password" %]
-    Enter a password for the administrator account:
+    Введите пароль учетной записи администратора:
 
   [% ELSIF message_tag == "install_admin_created" %]
-    [% user.login FILTER html %] is now set up as an administrator.
+    Пользователю [% user.login FILTER html %] даны права администратора.
 
   [% ELSIF message_tag == "install_admin_setup" %]
-    Looks like we don't have an administrator set up yet.
-    Either this is your first time using [% terms.Bugzilla %], or your
-    administrator's privileges might have accidentally been deleted.
+    Не установлен пользователь с правами администратора.
+    Или это первый вход в [% terms.Bugzilla %], или 
+    права существующего администратора были отозваны.
 
   [% ELSIF message_tag == "install_column_add" %]
-    Adding new column '[% column FILTER html %]' to the '[% table FILTER html %]' table...
+    Добавление поля '[% column FILTER html %]' в таблицу '[% table FILTER html %]'...
 
   [% ELSIF message_tag == "install_column_drop" %]
-    Deleting the '[% column FILTER html %]' column from the '[% table FILTER html %]' table...
+    Удаление поля '[% column FILTER html %]' из таблицы '[% table FILTER html %]'...
 
   [% ELSIF message_tag == "install_column_rename" %]
-    Renaming column '[% old FILTER html %]' to '[% new FILTER html %]'...
+    Переименование поля '[% old FILTER html %]' в '[% new FILTER html %]'...
 
   [% ELSIF message_tag == "install_confirm_password" %]
-    Please retype the password to verify:
+    Повторите ввод пароля:
 
   [% ELSIF message_tag == "install_default_classification" %]
-    Creating default classification '[% name FILTER html %]'...
+    Создание раздела по умолчанию '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_default_product" %]
-    Creating initial dummy product '[% name FILTER html %]'...
+    Создание первого тестового продукта '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_file_perms_fix" %]
-    Fixing file permissions...
+    Настройка прав доступа к файлам...
 
   [% ELSIF message_tag == "install_fk_add" %]
-    Adding foreign key: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]...
+    Добавление ссылочного ключа: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]...
 
   [% ELSIF message_tag == "install_fk_drop" %]
-    Dropping foreign key: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]...
+    Удаление ссылочного ключа: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]...
 
   [% ELSIF message_tag == "install_fk_invalid" %]
-    ERROR: There are invalid values for the [% column FILTER html %] column in the [% table FILTER html %]
-    table. (These values do not exist in the [% foreign_table FILTER html %] table, in the 
-    [%+ foreign_column FILTER html %] column.)
+    ОШИБКА: Обнаружены недопустимые значения поля [% column FILTER html %] в таблице [% table FILTER html %].
+    (Эти значения отсутствуют в поле [%+ foreign_table FILTER html %] таблицы 
+    [% foreign_column FILTER html %].)
 
-    Before continuing with checksetup, you will need to fix these values,
-    either by deleting these rows from the database, or changing the values
-    of [% column FILTER html %] in [% table FILTER html %] to point to valid values in [% foreign_table FILTER html %].[% foreign_column FILTER html %].
+    Прежде чем продолжить checksetup, необходимо исправить эти значения,
+    либо удалением строк таблицы, либо изменением значений поля
+    [% column FILTER html %] в таблице [% table FILTER html %] на одно из значений поля [% foreign_table FILTER html %].[% foreign_column FILTER html %].
 
-    The bad values from the [% table FILTER html %].[% column FILTER html %] column are:
+    Недопустимые значения [% table FILTER html %].[% column FILTER html %]:
     [%+ values.join(', ') FILTER html %]
 
   [% ELSIF message_tag == "install_fk_invalid_fixed" %]
-    WARNING: There were invalid values in [% table FILTER html %].[% column FILTER html %]
-    that have been [% IF action == 'delete' %]deleted[% ELSE %]set to NULL[% END %]:
+    ВНИМАНИЕ: Недопустимые значения поля [% table FILTER html %].[% column FILTER html %],
+    которые были [% IF action == 'delete' %]удалены[% ELSE %]очищены (NULL)[% END %]:
     [%+ values.join(', ') FILTER html %]
 
   [% ELSIF message_tag == "install_fk_setup" %]
-    Setting up foreign keys...
+    Настройка чужих ключей...
 
   [% ELSIF message_tag == "install_group_create" %]
-    Creating group [% name FILTER html %]...
-
+    Создание группы [% name FILTER html %]...
+    
   [% ELSIF message_tag == "install_groups_setup" %]
-    Creating default groups...
+    Создание групп по умолчанию...
 
   [% ELSIF message_tag == "install_setting_new" %]
-    Adding a new user setting called '[% name FILTER html %]'
-
+    Создание настройки '[% name FILTER html %]'
+    
   [% ELSIF message_tag == "install_setting_setup" %]
-    Setting up user preferences...
+    Установка настроек пользователя...
 
   [% ELSIF message_tag == "install_success" %]
-    checksetup.pl complete.
+    checksetup.pl завершён.
 
   [% ELSIF message_tag == "install_table_drop" %]
-    Dropping the '[% name FILTER html %]' table...
+    Удаление таблицы '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_table_rename" %]
-    Renaming the '[% old FILTER html %]' table to '[% new FILTER html %]'...
+    Переименование таблицы '[% old FILTER html %]' в '[% new FILTER html %]'...
 
   [% ELSIF message_tag == "install_urlbase_default" %]
-    Now that you have installed Bugzilla, you should visit the
-    'Parameters' page (linked in the footer of the Administrator
-    account) to ensure it is set up as you wish - this includes
-    setting the 'urlbase' option to the correct URL.
+    Теперь по окончании установки [% terms.Bugzilla %] перейдите на страницу 
+    'Настройки системы' (по ссылке внизу страницы учетной записи
+    администратора) для проверки значений настроек - в частности, 
+    необходимо настроить параметр 'urlbase'.
 
   [% ELSIF message_tag == "install_reset_password" %]
-    Enter a new password for [% user.login FILTER html %]:
+    Укажите пароль для пользователя [% user.login FILTER html %]:
 
   [% ELSIF message_tag == "install_reset_password_done" %]
-    New password set.
+    Установлен новый пароль.
 
   [% ELSIF message_tag == "install_webservergroup_empty" %]
     ****************************************************************************
-    WARNING! You have not entered a value for the "webservergroup" parameter
-    in localconfig. This means that certain files and directories which need
-    to be editable by both you and the web server must be world writable, and
-    other files (including the localconfig file which stores your database
-    password) must be world readable. This means that _anyone_ who can obtain
-    local access to this machine can do whatever they want to your 
-    Bugzilla installation, and is probably also able to run
-    arbitrary Perl code as the user that the web server runs as.
+    ВНИМАНИЕ! Не указано значение параметра "webservergroup" в файле
+    localconfig. Это означает что файлы и каталоги, которые должны быть доступны 
+    для изменения веб-серверу, будут доступны для изменения всем, а другие файлы
+    (в частности, localconfig, в котором хранится пароль доступа базы данных)
+    должен быть доступен всем.  Это приведет к тому, что любые пользователи с 
+    локальным доступом к серверу могут выполнить любые изменения а экземпляре
+    [%+ terms.Bugzilla %], и скорее всего смогут запустить произвольный код 
+    Perl с привилегиями веб-сервера.
 
-    You really, really, really need to change this setting.
+    Следует ОБЯЗАТЕЛЬНО установить параметр "webservergroup".
     ****************************************************************************
 
   [% ELSIF message_tag == "install_webservergroup_not_in" %]
-    Warning: you have entered a value for the "webservergroup" parameter in
-    localconfig, but you are not either a) running this script as [% constants.ROOT_USER FILTER html %]; 
-    or b) a member of this group. This can cause permissions problems and 
-    decreased security.  If you experience problems running Bugzilla
-    scripts, log in as [% constants.ROOT_USER FILTER html %] and re-run this script, become a 
-    member of the group, or remove the value of the "webservergroup" parameter.
+    Внимание: вы указали значение параметра "webservergroup" в файле
+    localconfig, но не являетесь администратором ([% constants.ROOT_USER FILTER html %]) 
+    и не входите в эту группу. Это может вызвать проблемы настройки доступа
+    к файлам и ухудшить безопасность системы.  Если при выполнении скриптов [% terms.Bugzilla %]
+    возникают ошибки, зарегистрируйтесь как [% constants.ROOT_USER FILTER html %] и вызовите скрипт повторно,
+    либо добейтесь включения в группу, либо измените значение параметра "webservergroup".
 
   [% ELSIF message_tag == "install_webservergroup_windows" %]
-    Warning: You have set webservergroup in [% constants.bz_locations.localconfig FILTER html %]
-    Please understand that this does not bring you any security when
-    running under Windows.
-    Verify that the file permissions in your Bugzilla directory are
-    suitable for your system. Avoid unnecessary write access.
+    Внимание: вы указали значение параметра "webservergroup" в файле [% constants.bz_locations.localconfig FILTER html %].
+    Обратите внимание, что в среде Windows это не приводит к ожидаемому 
+    уровню безопасности автоматически.
+    Убедитесь, что права доступа к файлам в каталоге [% terms.Bugzilla %] 
+    достаточно строги. Не допускайте излишних прав на изменение.
 
   [% ELSIF message_tag == "install_workflow_init" %]
-    Setting up the default status workflow...
+    Настройка состояний по умолчанию...
 
   [% ELSIF message_tag == "product_created" %]
-    [% title = "Product Created" %]
-    The product <em>[% product.name FILTER html %]</em> has been created.
+    [% title = "Продукт создан" %]
+    Продукт <em>[% product.name FILTER html %]</em> создан.
 
   [% ELSIF message_tag == "product_deleted" %]
-    [% title = "Product Deleted" %]
-    The product <em>[% product.name FILTER html %]</em> and all its versions,
-    components, milestones and group controls have been deleted.
+    [% title = "Продукт удален" %]
+    Продукт <em>[% product.name FILTER html %]</em>, его версии,
+    компоненты, планы и настройки доступа удалены.
     [% IF product.bug_count %]
-      All [% terms.bugs %] being in this product and all references
-      to them have also been deleted.
+      Все [% terms.bugs %], зарегистрированные для продукта, и все ссылки
+      на них также удалены.
     [% END %]
 
   [% ELSIF message_tag == "product_invalid" %]
-    [% title = "$terms.Bugzilla Component Descriptions" %]
-    The product <em>[% product FILTER html %]</em> does not exist
-    or you don't have access to it. The following is a list of the
-    products you can choose from.
-
-  [% ELSIF message_tag == "quips_added" %]
+    [% title = "Описания компонентов $terms.Bugzilla" %]
+    Продукт <em>[% product FILTER html %]</em> не существует либо
+    отсутствуют права доступа к нему. Список доступных продуктов:
+    [% ELSIF message_tag == "quips_added" %]
     Your quip <em>[% added_quip FILTER html %]</em> has been added.
     [% IF Param("quip_list_entry_control") == "moderated" AND
           !user.in_group('bz_quip_moderators') %]
@@ -814,19 +812,19 @@
     [% END %]
     unapproved.
 
+
   [% ELSIF message_tag == "report_created" %]
-    OK, you have a new saved report named <em>[% reportname FILTER html %]</em>.
+    Вы сохранили новый отчёт с именем <em>[% reportname FILTER html %]</em>.
 
   [% ELSIF message_tag == "report_deleted" %]
-    OK, the <em>[% reportname FILTER html %]</em> report is gone.
+    Отчёт <em>[% reportname FILTER html %]</em> удалён.
 
   [% ELSIF message_tag == "report_updated" %]
-    The saved report <em>[% reportname FILTER html %]</em> has been updated.
+    Сохранённый отчёт <em>[% reportname FILTER html %]</em> был обновлён.
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
-    The [% field_descs.remaining_time FILTER html %] field has been 
-    set to zero automatically as part of closing this [% terms.bug %]
-    or moving it from one closed state to another.
+    Поле [% field_descs.remaining_time FILTER html %] обнулено
+    автоматически при закрытии [% terms.bug_gen %].
 
   [% ELSIF message_tag == "sanitycheck" %]
     [%# We use this way to call sanitycheck-specific messages so that
@@ -834,57 +832,55 @@
     [% PROCESS "admin/sanitycheck/messages.html.tmpl" %]
 
   [% ELSIF message_tag == "series_all_open" %]
-    All Open
+    Все открытые
 
   [% ELSIF message_tag == "series_all_closed" %]
-    All Closed
+    Все закрытые
 
   [% ELSIF message_tag == "series_subcategory" %]
-    -All-
+    -Все-
 
   [% ELSIF message_tag == "sudo_started" %]
-    [% title = "Sudo session started" %]
-      The sudo session has been started.  For the next 6 hours, or until you 
-      end the session, everything you do you do as the user you are 
-      impersonating ([% target FILTER html %]).
+    [% title = "Работа от имени другого пользователя" %]
+      Начат сеанс от имени пользователя ([% target FILTER html %]).  
+      Ближайшие 6 часов или до завершения сеанса, все изменения 
+      выполняются от имени и с привилегиями указанного пользователя.
   
   [% ELSIF message_tag == "sudo_ended" %]
-    [% title = "Sudo session complete" %]
-      Your sudo session has ended. All future actions will be attributed
-      to your own account.
+    [% title = "Работа от имени другого пользователя завершена" %]
+      Завершен сеанс от имени другого пользователя. Все будущие действия
+      будут происходить под вашей учётной записью.
 
   [% ELSIF message_tag == "series_created" %]
-    [% title = "Series Created" %]
-      The series <em>[% series.category FILTER html %] /
+    [% title = "Серия данных создана" %]
+      Серия <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] / 
       [%+ series.name FILTER html %]</em>
-      has been created. Note that you may need to wait up to 
-      [%+ series.frequency * 2 %] days before there will be enough data for a
-      chart of this series to be produced.
+      создана.  Обратите внимание: может потребоваться не менее
+      [%+ series.frequency * 2 %] дней для накопления достаточного
+      количества данных для построения диаграмм.
 
   [% ELSIF message_tag == "series_deleted" %]
-    [% title = "Series Deleted" %]
-    The series <em>[% series.category FILTER html %] /
+    [% title = "Серия данных удалена" %]
+    Серия <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] /
       [%+ series.name FILTER html %]</em>
-      has been deleted.
+      удалена.
 
-  [% ELSIF message_tag == "series_updated" %]
+        [% ELSIF message_tag == "series_updated" %]
     [% title = "Series Updated" %]
     The series <em>[% default.category FILTER html %] /
     [%+ default.subcategory FILTER html %] /
     [%+ default.name FILTER html %]</em> has been updated.
 
   [% ELSIF message_tag == "shutdown" %]
-    [% title = "$terms.Bugzilla is Down" %]
+    [% title = "Система $terms.Bugzilla остановлена." %]
     [% Param("shutdownhtml") %]
     [% IF userid %]
-      <p>
-        For security reasons, you have been logged out automatically.
-        The cookie that was remembering your login is now gone.
-      </p>
+      <p>В целях безопасности произведен автоматический выход из системы.
+      Данные о сеансе пользователя удалены.</p>
     [% END %]
-    <p>
+        <p>
       If you are an administrator, you can
       <a href="editparams.cgi?section=general">reactivate [% terms.Bugzilla %]</a>
       by clearing the <kbd>shutdownhtml</kbd> parameter.
@@ -894,51 +890,49 @@
     [% terms.$term FILTER html %]
 
   [% ELSIF message_tag == "unexpected_flag_types" %]
-    Some flags could not be set. Please check your changes.
+    Некоторые виды согласований не могут быть установлены. Проверьте Ваши изменения.
 
   [% ELSIF message_tag == "user_match_failed" %]
-    You entered a username that did not match any known 
-    [% terms.Bugzilla %] users, so we have instead left
-    the [% match_field FILTER html %] field blank.
+    Введенное имя пользователя неизвестно, поле [% match_field FILTER html %] 
+    очищено.
 
   [% ELSIF message_tag == "user_match_multiple" %]
-    You entered a username that matched more than one
-    user, so we have instead left the [% match_field FILTER html %]
-    field blank.
+    Введенное имя пользователя неоднозначно, поле 
+    [% match_field FILTER html %] очищено.
 
   [% ELSIF message_tag == "version_created" %]
-    [% title = "Version Created" %]
-    The version <em>[% version.name FILTER html %]</em> of product
-    <em>[% product.name FILTER html %]</em> has been created.
+    [% title = "Версия создана" %]
+    Версия <em>[% version.name FILTER html %]</em> продукта
+    <em>[% product.name FILTER html %]</em> создана.
 
   [% ELSIF message_tag == "version_deleted" %]
-    [% title = "Version Deleted" %]
-    The version <em>[% version.name FILTER html %]</em> of product
-    <em>[% product.name FILTER html %]</em> has been deleted.
+    [% title = "Версия удалена" %]
+    Версия <em>[% version.name FILTER html %]</em> продукта
+    <em>[% product.name FILTER html %]</em> удалена.
 
   [% ELSIF message_tag == "version_updated" %]
-    [% title = "Version Updated" %]
+    [% title = "Версия изменена" %]
     [% IF changes.size %]
-      Changes to the version <em>[% version.name FILTER html %]</em>
-      have been saved:
+      Изменения в версии <em>[% version.name FILTER html %]</em>
+      были сохранены:
       <ul>
         [% IF changes.value.defined %]
-          <li>Version renamed to <em>[% version.name FILTER html %]</em></li>
+          <li>Версия переименована в <em>[% version.name FILTER html %]</em></li>
         [% END %]
         [% IF changes.isactive.defined %]
-          <li>[% version.is_active ? "Enabled" : "Disabled" %] for [% terms.bugs %]</li>
+          <li>[% version.is_active ? "Включена" : "Отключена" %] для [% terms.bugs_gen %]</li>
         [% END %]
       </ul>
     [% ELSE %]
-      No changes made to version <em>[% version.name FILTER html %]</em>.
+      Никаких изменений версии <em>[% version.name FILTER html %] не произведено</em>.
     [% END %]
-
+    
   [% ELSIF message_tag == "whine_query_failed" %]
-    The query '[% query_name FILTER html %]' from [% author.login FILTER html %]
-    failed: [% reason FILTER html %]
+    Запрос '[% query_name FILTER html %]' произведённый [% author.login FILTER html %]
+    не сработал: [% reason FILTER html %]
 
   [% ELSIF message_tag == "workflow_updated" %]
-    The workflow has been updated.
+    Состояния изменены.
   [% END %]
 [% END %]
 
@@ -949,11 +943,12 @@
 [%# Give sensible error if the message function is used incorrectly. #%]
 [% IF !message %]
   [% message = BLOCK %]
-    You are using Bugzilla's messaging functions incorrectly. You
-    passed in the string '[% message_tag FILTER html %]'. The correct use is to pass
-    in a tag, and define that tag in the file <kbd>messages.html.tmpl</kbd>.<br>
-    <br>
-    If you are a [% terms.Bugzilla %] end-user seeing this message, please
-    save this page and send it to [% Param('maintainer') %].
+    Некорректный вызов функции выдачи сообщений [% terms.Bugzilla %].
+    Не определен код сообщения '[% message_tag %]'.  Для выдачи сообщения
+    код должен быть развернут в сообщение об ошибке в файле
+    <kbd>messages.html.tmpl</kbd>.<br>
+     <br>
+    Если Вы — пользователь [% terms.Bugzilla %], сохраните это сообщение
+    и отправьте его по адресу [% Param('maintainer') %].
   [% END %]
 [% END %]

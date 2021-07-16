@@ -39,7 +39,7 @@
    }
 %]
 [% IF matchsuccess == 1 %]
-  [% PROCESS global/header.html.tmpl title="Confirm Match" %]
+  [% PROCESS global/header.html.tmpl title="Подтверждение выбора" %]
 
   [% USE Bugzilla %]
 
@@ -54,29 +54,28 @@
 
   <p>
     [% IF matchmultiple %]
-      Bugzilla cannot make a conclusive match for one or more
-      of the names and/or email addresses you entered on the previous page.
-      <br>Please examine the lists of potential matches below and select the
-      ones you want,
+      Одно или несколько имен и/или адресов электронной почты,
+      указанных на предыдущей странице, допускают неоднозначный выбор.
+      Пожалуйста, выберите пользователей из предлагаемого списка,
     [% ELSE %]
-      [% terms.Bugzilla %] is configured to require verification whenever
-      you enter a name or partial email address.
-      <br>Below are the names/addresses you entered and the matched accounts.
-      Please confirm that they are correct,
+      Требуется подтверждение выбора пользователей, указанных по имени или 
+      части адреса электронной почты.
+      <br>Пожалуйста, проверьте соответствие выбранных учетных записей
+      и указанных Вами данных,
     [% END %]
-    or go back to the previous page to revise the names you entered.
+    или вернитесь на предыдущую страницу и уточните ваш выбор.
   </p>
 [% ELSE %]
-  [% PROCESS global/header.html.tmpl title="Match Failed" %]
+  [% PROCESS global/header.html.tmpl title="Пользователь не найден" %]
   <p>
-    Bugzilla was unable to make any match at all for one or more of
-    the names and/or email addresses you entered on the previous page.
+    Одно или несколько имен и/или адресов электронной почты,
+    указанных на предыдущей странице, не найдены.
     [% IF !user.id %]
-      <b>Note: You are currently logged out. Only exact matches against e-mail
-      addresses will be performed.</b>
+      <b>Внимание: Вы не зарегистрировались и можете выполнять только
+      поиск по полным адресам электронной почты.</b>
     [% END %]
-  </p>
-  <p>Please go back and try other names or email addresses.</p>
+   </p>
+  <p>Пожалуйста, вернитесь на предыдущую страницу и уточните Ваш выбор.</p>
 [% END %]
 
 <table id="user_match_table">
@@ -93,17 +92,17 @@
                 [% IF query.value.users.size > 1 %]
                   [% IF query.value.status == 'fail' %]
                     <span class="warning">
-                      matches multiple users.
+                      соответствует нескольким пользователям.
                     </span>
-                    Please go back and try again with a more specific
-                    name/address.
+                    Пожалуйста, вернитесь на предыдущую страницу и укажите
+                    имя или адрес более точно.
                   [% ELSE %]
                     [% IF query.value.status == 'trunc' %]
-                      matched
-                      more than the maximum
-                      of [% query.value.users.size %] users:<br>
+                      количество найденных 
+                      пользователей больше допустимого 
+                      [% query.value.users.size %]:<br>
                     [% ELSE %]
-                      matched:<br>
+                      варианты:<br>
                     [% END %]
                     <select name="[% field.key FILTER html %]"
                      id="[% field.key FILTER html %]"
@@ -124,24 +123,25 @@
                     </select>
                   [% END %]
                 [% ELSE %]
-                  matched
+                  найден пользователь
                   <b>[% query.value.users.0.identity FILTER html %]</b>
                 [% END %]
             [% ELSE %]
-              <span class="warning">
+                          <span class="warning">
                 [% IF query.key.length < 3 %]
-                  was too short for substring match (minimum 3 characters)
+                  слишком коротко для поиска подстроки
+                  (минимум 3 символа)
                 [% ELSE %]
-                  did not match anything
+                  совпадений не найдено
                 [% END %]
-              </span>
+                              </span>
             [% END %]
             </div>
         [% END %]
       </td>
     </tr>
   [% END %]
-</table>
+  </table>
 
 [% IF matchsuccess == 1 %]
 
@@ -153,7 +153,7 @@
   [% PROCESS "global/hidden-fields.html.tmpl" exclude = exclude %]
 
   <p>
-    <input type="submit" id="continue" value="Continue">
+    <input type="submit" id="continue" value="Продолжить">
   </p>
 
   </form>
@@ -170,7 +170,7 @@
   [% ELSIF field_labels.$field_name %]
     [% field_labels.$field_name FILTER html %]
   [% ELSIF field_name.match("^requestee") %]
-    [% fields.${field_name}.flag_type.name FILTER html %] requestee
+    адресат согласования [% fields.${field_name}.flag_type.name FILTER html %]
   [% ELSE %]
     [% field_name FILTER html %]
   [% END %]

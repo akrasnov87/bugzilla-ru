@@ -10,16 +10,16 @@
 [% USE Bugzilla %]
 
 <ul class="links">
-  <li><a href="./">Home</a></li>
-  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
-  <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
-  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+  <li><a href="./">В начало</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">Создать</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Список</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Поиск</a></li>
 
   <li class="form">
     <span class="separator">| </span>
     <form action="buglist.cgi" method="get"
         onsubmit="if (this.quicksearch.value == '')
-                  { alert('Please enter one or more search terms first.');
+                  { alert('Введите условие поиска.');
                     return false; } return true;">
     <input type="hidden" id="no_redirect[% qs_suffix FILTER html %]" name="no_redirect" value="0">
     <script type="text/javascript">
@@ -29,32 +29,30 @@
       }
     </script>
     <input class="txt" type="text" id="quicksearch[% qs_suffix FILTER html %]" name="quicksearch" 
-           title="Quick Search" value="[% quicksearch FILTER html %]">
-    <input class="btn" type="submit" value="Search" 
+           title="Быстрый поиск" value="[% quicksearch FILTER html %]">
+    <input class="btn" type="submit" value="Искать" 
            id="find[% qs_suffix FILTER html %]">
     [%-# Work around FF bug: keep this on one line %]</form>
-  <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+  <a href="page.cgi?id=quicksearch.html" title="Справка по быстрому поиску">[?]</a></li>
 
-  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+  <li><span class="separator">| </span><a href="report.cgi">Отчеты</a></li>
 
   <li>
     [% IF Param('shutdownhtml') || Bugzilla.has_flags %]
       <span class="separator">| </span>
       [% IF user.id %]
         <a href="request.cgi?requester=[% user.login FILTER uri %]&amp;requestee=
-                 [% user.login FILTER uri %]&amp;do_union=1&amp;group=type&amp;action=queue">My Requests</a>
+                 [% user.login FILTER uri %]&amp;do_union=1&amp;group=type&amp;action=queue">Мои согласования</a>
       [% ELSE %]
-        <a href="request.cgi">Requests</a>
+        <a href="request.cgi">Согласования</a>
       [% END %]
     [% END %]
   [%-# Work around FF bug: keep this on one line %]</li>
 
-  [% Hook.process('action-links') %]
-
   [% IF user.login %]
-    <li><span class="separator">| </span><a href="userprefs.cgi">Preferences</a></li>
+    <li><span class="separator">| </span><a href="userprefs.cgi">Параметры</a></li>
     [% IF user.can_administer %]
-      <li><span class="separator">| </span><a href="admin.cgi">Administration</a></li>
+      <li><span class="separator">| </span><a href="admin.cgi">Администрирование</a></li>
     [% END %]
 
     [% PROCESS link_to_documentation %]
@@ -62,14 +60,14 @@
     <li>
       <span class="separator">| </span>
       [% IF user.authorizer.can_logout %]
-        <a href="index.cgi?logout=1">Log&nbsp;out</a>
+        <a href="index.cgi?logout=1">Завершить&nbsp;сеанс</a>
       [% ELSE %]
-        Logged&nbsp;in&nbsp;as
+        Пользователь
       [% END %]
       [% IF sudoer %]
-        [%+ sudoer.login FILTER html %] (<b>impersonating
+        [%+ sudoer.login FILTER html %] (<b>от имени
         [%+ user.login FILTER html %]</b>
-        <a href="relogin.cgi?action=end-sudo">end session</a>)
+        <a href="relogin.cgi?action=end-sudo">завершить сеанс</a>)
       [% ELSE %]
         [%+ user.login FILTER html %]
       [% END %]
@@ -82,7 +80,7 @@
           && user.authorizer.user_can_create_account %]
       <li id="new_account_container[% qs_suffix FILTER html %]">
         <span class="separator">| </span>
-        <a href="createaccount.cgi">New&nbsp;Account</a>
+        <a href="createaccount.cgi">Регистрация</a>
       </li>
     [% END %]
 
@@ -103,7 +101,7 @@
     [% IF doc_section %]
       <li>
         <span class="separator">| </span>
-        <a href="[% docs_urlbase _ doc_section FILTER html %]" target="_blank">Help</a>
+        <a href="[% docs_urlbase _ doc_section FILTER html %]" target="_blank">Справка</a>
       </li>
     [% END %]
 [% END %]

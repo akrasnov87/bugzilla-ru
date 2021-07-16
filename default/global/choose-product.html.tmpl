@@ -14,18 +14,18 @@
   #%]
 
 [% IF target == "enter_bug.cgi" %]
-  [% title = "Enter $terms.Bug" %]
-  [% subheader = "Select Product" %]
+  [% title = "Регистрация $terms.bug_gen" %]
+  [% subheader = "Выберите продукт" %]
   [% h2 = BLOCK %]
-    [% IF Param('useclassification') %]Next[% ELSE %]First[% END %],
-    you must pick a product on which to enter [% terms.abug %]:
+  [% IF Param('useclassification') %]Next[% ELSE %]First[% END %],
+    вы должны выбрать продукт для использования [% terms.abug %]:
   [% END %]
 [% ELSIF target == "describecomponents.cgi" %]
-  [% title = "Browse" %]
-  [% h2 = "Select a product category to browse:" %]
+  [% title = "Просмотр компонентов" %]
+  [% h2 = "Выберите продукт для описания компонентов." %]
 [% END %]
 
-[% DEFAULT title = "Choose a Product" %]
+[% DEFAULT title = "Выберите продукт" %]
 [% PROCESS global/header.html.tmpl %]
 
 [% USE Bugzilla %]
@@ -47,7 +47,7 @@
     <tr>
       <th class="right nowrap">
         <a href="[% target %]?product=[% p.name FILTER uri -%]
-              [%- IF previous_params %]&amp;[% previous_params FILTER none %][% END -%]">
+[%- IF previous_params %]&amp;[% previous_params FILTER none %][% END -%]">
         [% p.name FILTER html %]</a>:
       </th>
 

@@ -24,7 +24,7 @@
 
 [% IF docslinks.keys.size || (admindocslinks.keys.size && user.in_group('editcomponents')) %]
   <div id="docslinks">
-    <h2>Related documentation</h2>
+    <h2>Документация</h2>
     <ul>
       [% IF user.in_group('editcomponents') %]
         [% PROCESS docslinkslist docstype = admindocslinks admin = 1 %]

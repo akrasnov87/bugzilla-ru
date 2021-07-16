@@ -20,277 +20,273 @@
   # in this file; if you do not wish to change it, use the "none" filter.
   #%]
 
-[% DEFAULT title = "Internal Error" %]
+[% DEFAULT title = "Внутренняя ошибка" %]
 
 [% error_message = BLOCK %]
   [% IF error == "auth_invalid_email" %]
-    [% title = "Invalid Email Address" %]
-    We received an email address (<b>[% addr FILTER html %]</b>)
-    that didn't pass our syntax checking for a legal email address,
-    when trying to create or update your account.
+    [% title = "Недопустимый адрес электронной почты" %]
+    Адрес электронной почты (<b>[% addr FILTER html %]</b>),
+    указанный при создании или изменении учетной записи,
+    не прошел проверки на допустимость:
     [% IF default %]
-      A legal address must contain exactly one '@',
-      and at least one '.' after the @.
+      Адрес должен содержать в точности один символ '@',
+      и по меньшей мере один символ '.' после '@'.
     [% ELSE %]
       [%+ Param('emailregexpdesc') FILTER html_light %]
     [% END %]
-    It also must not contain any illegal characters.
+    Также адрес не должен содержать запрещённых символов.
 
   [% ELSIF error == "authres_unhandled" %]
-    The result value of [% value FILTER html %] was not handled by
-    the login code.
+    Код возврата процедуры авторизации [% value FILTER html %] не обработан 
+    процедурой входа в систему.
 
   [% ELSIF error == "bad_arg" %]
-    Bad argument <code>[% argument FILTER html %]</code> sent to
-    <code>[% function FILTER html %]</code> function.
+    Недопустимый аргумент <code>[% argument FILTER html %]</code>
+    при вызове функции <code>[% function FILTER html %]</code>.
 
   [% ELSIF error == "bug_error" %]
-    Trying to retrieve [% terms.bug %] [%+ bug.bug_id FILTER html %] returned 
-    the error [% bug.error FILTER html %].
+    Внутренняя ошибка [% bug.error FILTER html %] при обращении 
+    к [% terms.bug_dat %] [%+ bug.bug_id FILTER html %] .
     
   [% ELSIF error == "chart_data_not_generated" %]
-    [% docslinks = {'using/reports-and-charts.html' => 'Setting up Charting'} %]
-    [% IF product.id %]
-      Charts for the <em>[% product.name FILTER html %]</em> product are not
-      available yet because no charting data has been collected for it since it
-      was created.
+    [% docslinks = {'using/reports-and-charts.html' => 'Настройка диаграмм'} %]
+    [% IF product %]
+      Диаграммы для продукта <em>[% product FILTER html %]</em> не могут
+      быть построены, поскольку с момента создания продукта не собрано
+      достаточно статистических данных.
     [% ELSE %]
-      No charting data has been collected yet.
+    Данные счетчиков [% terms.bugs_gen %] еще не собраны.
     [% END %]
-    Please wait a day and try again.
-    If you're seeing this message after a day, then you should contact
-    <a href="mailto:[% Param('maintainer') %]">[% Param('maintainer') %]</a>
-    and reference this error.
+    Попробуйте еще раз через день.
+    Если вы видите данное сообщение повторно через несколько дней, 
+    обратитесь к администратору системы <a href="mailto:[% Param('maintainer') %]">[% Param('maintainer') %]</a>
+    и опишите ситуацию.
 
   [% ELSIF error == "chart_datafile_corrupt" %]
-    The chart data file [% file FILTER html %] is corrupt.
-
+    Файл данных диаграммы [% file FILTER html %] поврежден.
+        
   [% ELSIF error == "chart_dir_nonexistent" %]
-    One of the directories <kbd>[% dir FILTER html %]</kbd> and
-    <kbd>[% graph_dir FILTER html %]</kbd> does not exist.
-
+    Один из каталогов <tt>[% dir FILTER html %]</tt> или
+    <tt>[% graph_dir FILTER html %]</tt> не существует.
+  
   [% ELSIF error == "chart_file_open_fail" %]
-    Unable to open the chart datafile <kbd>[% filename FILTER html %]</kbd>.
+    Ошибка открытия файла данных диаграммы <tt>[% filename FILTER html %]</tt>.
  
   [% ELSIF error == "column_alter_nonexistent_fk" %]
-    You attempted to modify the foreign key for 
-    [%+ table FILTER html %].[% column FILTER html %], but there is
-    no foreign key on that column.
- 
+    Вы попытались изменить чужой ключ для 
+    [%+ table FILTER html %].[% column FILTER html %], но в этом
+    столбце нет чужого ключа.
+
   [% ELSIF error == "column_not_null_without_default" %]
-    Failed adding the column [% name FILTER html %]:
-    You cannot add a NOT NULL column with no default to an existing table
-    unless you specify something for the <code>$init_value</code> argument.
+    Ошибка добавления поля [% name FILTER html %]:
+    Невозможно добавить в таблицу поле NOT NULL без значения по умолчанию,
+    укажите значение аргумента <code>$init_value</code>.
 
   [% ELSIF error == "column_not_null_no_default_alter" %]
-    You cannot alter the [% name FILTER html %] column to be NOT NULL 
-    without specifying a default or something for $set_nulls_to, because
-    there are NULL values currently in it.
+    Невозможно объявить поле [% name FILTER html %] NOT NULL 
+    без указания значения по умолчанию или аргумента $set_nulls_to, поскольку
+    среди текущих значений есть NULL.
 
   [% ELSIF error == "comment_extra_data_not_allowed" %]
-    You tried to set the <code>extra_data</code> field to 
-    '[% extra_data FILTER html %]' but comments of type [% type FILTER html %]
-    do not accept an <code>extra_data</code> argument.
+    Вы попытались присвоить полю <code>extra_data</code> значение 
+    '[% extra_data FILTER html %]', но комментарии с типом [% type FILTER html %]
+    не принимают параметр <code>extra_data</code>.
 
   [% ELSIF error == "comment_extra_data_required" %]
-    Comments of type [% type FILTER html %] require an <code>extra_data</code>
-    argument to be set.
+    Комментарии с типом [% type FILTER html %] требуют, чтобы был установлен
+    параметр <code>extra_data</code>.
 
   [% ELSIF error == "comment_extra_data_not_numeric" %]
-    You tried to set the <code>extra_data</code> field to
-    '[% extra_data FILTER html %]' but comments of type [% type FILTER html %]
-    require a numeric <code>extra_data</code> argument.
+    Вы попытались присвоить полю <code>extra_data</code> значение
+    '[% extra_data FILTER html %]', но комментарии с типом  [% type FILTER html %]
+    требуют чтобы был установлен численный параметр <code>extra_data</code>.
 
   [% ELSIF error == "comment_type_invalid" %]
-    '[% type FILTER html %]' is not a valid comment type.
+    Тип комментария '[% type FILTER html %]' недействителен.
 
   [% ELSIF error == "db_rename_conflict" %]
-    Name conflict: Cannot rename [% old FILTER html %] to
-    [%+ new FILTER html %] because [% new FILTER html %] already exists.
+    Конфликт имен: невозможно переименовать [% old FILTER html %] в
+    [%+ new FILTER html %], поскольку [% new FILTER html %] уже существует.
 
   [% ELSIF error == "cookies_need_value" %]
-    Every cookie must have a value.
+    Для cookie должно быть установлено значение.
 
   [% ELSIF error == "env_no_email" %]
-    Bugzilla did not receive an email address from the
-    environment.
+    [% terms.Bugzilla %] не получает из окружения адрес электронной почты
     [% IF Param("auth_env_email") %]
-      This means that the '[% Param("auth_env_email") FILTER html %]'
-      environment variable was empty or did not exist.
+      Это означает что переменная окружения '[% Param("auth_env_email") FILTER html %]'
+      не существует или имеет пустое значение.
     [% ELSE %]
-      You need to set the "auth_env_email" parameter to the name of
-      the environment variable that will contain the user's email
-      address.
+      Следует установить параметр настройки "auth_env_email", 
+      указав имя переменной окружения, содержащей адрес 
+      электронной почты пользователя.
     [% END %]
 
   [% ELSIF error == "extension_must_be_subclass" %]
-    <code>[% package FILTER html %]</code> from 
-    <code>[% filename FILTER html %]</code> is not a subclass of
+    <code>[% package FILTER html %]</code> из 
+    <code>[% filename FILTER html %]</code> не является подклассом
     <code>[% class FILTER html %]</code>.
 
   [% ELSIF error == "extension_must_return_name" %]
-    <code>[% extension FILTER html %]</code> returned
-    <code>[% returned FILTER html %]</code>, which is not a valid name
-    for an extension. Extensions must return their name, not <code>1</code>
-    or a number. See the documentation of
-    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Extension.html">Bugzilla::Extension</a>
-    for details.
+    <code>[% extension FILTER html %]</code> возвратил
+    <code>[% returned FILTER html %]</code>, что не является корректным именем
+    для расширения. Расширения должны возвращать своё имя, а не <code>1</code>
+    или число. Для получения более подробной информации обратитесь к документации по
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Extension.html">Bugzilla::Extension</a>.
 
   [% ELSIF error == "extension_no_name" %]
-    We did not find a <code>NAME</code> method in 
-    <code>[% package FILTER html %]</code> (loaded from
-    <code>[% filename FILTER html %]</code>). This means that
-    the extension has one or more of the following problems:
+    Мы не нашли метод <code>NAME</code> в 
+    <code>[% package FILTER html %]</code> (загруженный из
+    <code>[% filename FILTER html %]</code>). Это значит, что
+    у расширения имеется одна или несколько следующих проблем:
 
     <ul>
-      <li><code>[% filename FILTER html %]</code> did not define a
-        <code>[% package FILTER html %]</code> package.</li>
-      <li><code>[% package FILTER html %]</code> did not define a
-        <code>NAME</code> method (or the <code>NAME</code> method
-        returned an empty string).</li>
+      <li><code>[% filename FILTER html %]</code> не определяет
+        пакет <code>[% package FILTER html %]</code>.</li>
+      <li><code>[% package FILTER html %]</code> не определяет
+        метод <code>NAME</code> (или же метод <code>NAME</code>
+        вернул пустую строку).</li>
     </ul>
 
   [% ELSIF error == "extern_id_conflict" %]
-    The external ID '[% extern_id FILTER html %]' already exists
-    in the database for '[% username FILTER html %]', but your
-    account source says that '[% extern_user FILTER html %]' has that ID.
+    Внешний идентификатор '[% extern_id FILTER html %]' уже зарегистрирован 
+    для пользователя '[% username FILTER html %]', но сервер аутентификации 
+    считает его принадлежащим пользователю '[% extern_user FILTER html %]'.
 
   [% ELSIF error == "field_choice_must_use_type" %]
-    When you call a class method on <code>Bugzilla::Field::Choice</code>,
-    you must call <code>Bugzilla::Field::Choice-&gt;type('some_field')</code>
-    to generate the right class (you can't call class methods directly
-    on Bugzilla::Field::Choice).
+    При вызове метода класса <code>Bugzilla::Field::Choice</code>,
+    необходимо вызывать <code>Bugzilla::Field::Choice-&gt;type('some_field')</code>
+    для генерации правильного экземпляра (нельзя вызывать напрямую методы
+    класса Bugzilla::Field::Choice).
 
   [% ELSIF error == "field_not_custom" %]
     '[% field.description FILTER html %]' ([% field.name FILTER html %])
-    is not a custom field.
+    не является настраиваемым атрибутом.
 
   [% ELSIF error == "field_type_not_specified" %]
-    [% title = "Field Type Not Specified" %]
-    You must specify a type when creating a custom field.
+    [% title = "Не указан тип атрибута" %]
+    Указание типа при создании атрибута обязательно.
 
   [% ELSIF error == "illegal_field" %]
-    A legal [% field FILTER html %] was not set.
+    Недопустимое значение поля [% field FILTER html %].
 
   [% ELSIF error == "invalid_customfield_type" %]
-    [% title = "Invalid Field Type" %]
-    The type <em>[% type FILTER html %]</em> is not a valid field type.
+    [% title = "Недопустимый тип атрибута" %]
+    Тип <em>[% type FILTER html %]</em> не является допустимым.
 
   [% ELSIF error == "invalid_feature" %]
-    [% title = "Invalid Feature Name" %]
-    [% feature FILTER html %] is not a valid feature name. See
-    <code>OPTIONAL_MODULES</code> in 
-    <code>Bugzilla::Install::Requirements</code> for valid names.
+    [% title = "Недопустимое имя функционала" %]
+    Имя функционала '[% feature FILTER html %]' недопустимо. Допустимые имена в
+    <code>Bugzilla::Install::Requirements</code> в разделе 
+    <code>OPTIONAL_MODULES</code>.
 
   [% ELSIF error == "invalid_flag_association" %]
-    [% title = "Invalid Flag Association" %]
-    Some flags do not belong to
+    [% title = "Недопустимый объект согласования" %]
+    Согласование не может быть выполнено с
     [% IF attach_id %]
-      attachment [% attach_id FILTER html %].
+      приложением [% attach_id FILTER html %].
     [% ELSE %]
-      [%+ terms.bug %] [%+ bug_id FILTER html %].
+      [%+ terms.bug_abl %] [%+ bug_id FILTER html %].
     [% END %]
 
   [% ELSIF error == "invalid_series_id" %]
-    [% title = "Invalid Series" %]
-    The series_id [% series_id FILTER html %] is not valid. It may be that
-    this series has been deleted.
+    [% title = "Недопустимая серия" %]
+    Недопустимый код серии [% series_id FILTER html %]. Возможно,
+    серия данных удалена.
 
   [% ELSIF error == "invalid_timestamp" %]
-    The entered timestamp <code>[% timestamp FILTER html %]</code> could not
-    be parsed into a valid date and time.
+    Введённый штамп времени <code>[% timestamp FILTER html %]</code> не удалось
+    преобразовать в действительную дату и время.
 
   [% ELSIF error == "invalid_webservergroup" %]
-    There is no such group: [% group FILTER html %]. Check your $webservergroup
-    setting in [% constants.bz_locations.localconfig FILTER html %].
+    Группа [% group FILTER html %] не существует. Проверьте значение параметра $webservergroup
+    в [% constants.bz_locations.localconfig FILTER html %].
 
   [% ELSIF error == "flag_unexpected_object" %]
-    [% title = "Object Not Recognized" %]
-    Flags cannot be set for objects of type [% caller FILTER html %].
-    They can only be set for [% terms.bugs %] and attachments.
+    [% title = "Недопустимый объект согласования" %]
+    Согласования невозможны для объектов типа [% caller FILTER html %].
+    Поддерживаются согласования только для [% terms.bugs_gen %] и приложений.
 
   [% ELSIF error == "flag_type_inactive" %]
-    [% title = "Inactive Flag Type" %]
-    The flag type [% type FILTER html %] is inactive and cannot be used
-    to create new flags.
+    [% title = "Вид согласования запрещен" %]
+    Вид согласования [% type FILTER html %] запрещен, согласования этого вида
+    не выполняются.
 
   [% ELSIF error == "flag_type_target_type_invalid" %]
-    The target type was neither <em>[% terms.bug %]</em> nor <em>attachment</em>
-    but rather <em>[% target_type FILTER html %]</em>.
+    Недопустимый тип объекта <em>[% variables.target_type FILTER html %]</em>.
+    Допустимыми типами являются <em>[% terms.bug %]</em> или <em>приложение</em>.
   
   [% ELSIF error == "invalid_field_name" %]
-    [% title = "Invalid Field Name" %]
-    Can't use "[% field.truncate(30, "...") FILTER html %]" as a field name.
+    Недопустимый формат имени поля [% field FILTER html %].
 
   [% ELSIF error == "jobqueue_insert_failed" %]
-   [% title = "Job Queue Failure" %]
-    Inserting a <code>[% job FILTER html %]</code> job into the Job 
-    Queue failed with the following error: [% errmsg FILTER html %]
+   [% title = "Ошибка очереди заданий" %]
+    Постановка задания <code>[% job FILTER html %]</code> в очередь
+    привела к ошибке: [% errmsg FILTER html %]
 
   [% ELSIF error == "jobqueue_no_job_mapping" %]
-    <code>Bugzilla::JobQueue</code> has not been configured to handle
-    the job "[% job FILTER html %]".  You need to add this job type
-    to the <code>JOB_MAP</code> constant in <code>Bugzilla::JobQueue</code>,
-    perhaps by using the 'job_map' hook.
+    Не выполнена настройка <code>Bugzilla::JobQueue</code> для задания
+    "[% job FILTER html %]".  Необходимо добавить этот тип задания
+    в константу <code>JOB_MAP</code> модуля <code>Bugzilla::JobQueue</code>,
+    возможно путём использования хука 'job_map'.
 
   [% ELSIF error == "ldap_bind_failed" %]
-    Failed to bind to the LDAP server. The error message was: 
+    Ошибка обращения к серверу LDAP: 
     <code>[% errstr FILTER html %]</code>
 
   [% ELSIF error == "ldap_cannot_retreive_attr" %]
-    The specified LDAP attribute [% attr FILTER html %] was not found.
+    Указанный атрибут LDAP [% attr FILTER html %] не найден.
 
   [% ELSIF error == "ldap_connect_failed" %]
-    Could not connect to the LDAP server(s) <code>[% server FILTER html %]</code>.
+    Ошибка соединения с сервером(серверами) LDAP: <code>[% server FILTER html %]</code>.
 
   [% ELSIF error == "ldap_start_tls_failed" %]
-    Could not start TLS with LDAP server: <code>[% error FILTER html %]</code>.
+    Ошибка защищенного соединения с сервером LDAP: <code>[% error FILTER html %]</code>.
 
   [% ELSIF error == "ldap_search_error" %]
-    An error occurred while trying to search LDAP for 
-    &quot;[% username FILTER html %]&quot;: 
+    Ошибка поиска 
+    &quot;[% username FILTER html %]&quot; на сервере LDAP: 
     [% IF errstr %]
       <code>[% errstr FILTER html %]</code>
     [% ELSE %]
-      Unable to find user in LDAP
+      Невозможно найти пользователя в LDAP
     [% END %]
 
   [% ELSIF error == "ldap_server_not_defined" %]
-    The LDAP server for authentication has not been defined.
+    Не определен сервер LDAP для аутентификации.
 
   [% ELSIF error == "mail_send_error" %]
-    There was an error sending mail from '[% mail.header('From') FILTER html %]'
-    to '[% mail.header('To') FILTER html %]':
+    Ошибка отправки электронной почты от '[% mail.header('From') FILTER html %]'
+    к '[% mail.header('To') FILTER html %]':
     [%+ msg FILTER html %]
 
   [% ELSIF error == "missing_series_id" %]
-    Having inserted a series into the database, no series_id was returned for
-    it. Series: [% series.category FILTER html %] / 
+    При попытке добавления серии данных не получен код серии. 
+    Серия: [% series.category FILTER html %] / 
     [%+ series.subcategory FILTER html %] / 
     [%+ series.name FILTER html %].
-
+    
   [% ELSIF error == "object_dep_sort_loop" %]
-    There is a loop in VALIDATOR_DEPENDENCIES involving
-    '[%+ field FILTER html %]'. Here are the fields we considered:
+    В VALIDATOR_DEPENDENCIES имеется петля, включающая
+    '[%+ field FILTER html %]'. Мы приняли во внимание следующие поля:
     [%+ considered.join(', ') FILTER html %].
 
   [% ELSIF error == "param_invalid" %]
-    [% title = "Invalid Parameter" %]
-    <code>[% param FILTER html %]</code> is not a valid parameter
-    for the [% function FILTER html %] function.
+    [% title = "Недопустимый параметр" %]
+    Недопустимый параметр <code>[% param FILTER html %]</code> 
+    для функции <code>[% function FILTER html %]</code>.
 
   [% ELSIF error == "param_must_be_numeric" %]
-    [% title = "Invalid Parameter" %]
-    Invalid parameter <code>[% param FILTER html %]</code> passed to 
-    <code>[% function FILTER html %]</code>: It must be numeric.
+    [% title = "Недопустимый параметр" %]
+    Функции [% function FILTER html %] передан недопустимый параметр
+    <code>[% param FILTER html %]</code>. Требуется передать число.
 
   [% ELSIF error == "param_required" %]
-    [% title = "Missing Parameter" %]
-    The function <code>[% function FILTER html %]</code> requires
-    a <code>[% param FILTER html %]</code> argument, and that
-    argument was not set.
-
-  [% ELSIF error == "param_integer_required" %]
+    [% title = "Параметр не указан" %]
+    Для функции <code>[% function FILTER html %]</code> обязателен аргумент
+    <code>[% param FILTER html %]</code>, аргумент
+    не задан.
+    [% ELSIF error == "param_integer_required" %]
     The function <code>[% function FILTER html %]</code> requires
     that <code>[% param FILTER html %]</code> be an integer.
 
@@ -299,114 +295,116 @@
     (integers and/or strings).
 
   [% ELSIF error == "params_required" %]
-    [% title = "Missing Parameter" %]
-    The function <code>[% function FILTER html %]</code> requires
-    that you set one of the following parameters:
+    [% title = "Параметр не указан" %]
+    Для функции <code>[% function FILTER html %]</code> 
+    является обязательным указание одного из параметров:
     <code>[% params.join(', ') FILTER html %]</code>
 
   [% ELSIF error == "product_empty_group_controls" %]
-    [% title = "Missing Group Controls" %]
-    New settings must be defined to edit group controls for
-    the [% group.name FILTER html %] group.
+    [% title = "Не установлены права доступа" %]
+    Необходимо установить значения прав доступа для
+    группы [% group.name FILTER html %].
 
   [% ELSIF error == "product_illegal_group_control" %]
-    [% title = "Illegal Group Control" %]
-    '[% value FILTER html %]' is not a legal value for
-    the '[% field FILTER html %]' field.
+    [% title = "Недопустимые права доступа" %]
+    Значение '[% value FILTER html %]' недопустимо для
+    поля '[% field FILTER html %]'.
 
   [% ELSIF error == "protection_violation" %]
-    The function <code>[% function FILTER html %]</code> was called
+    Функция <code>[% function FILTER html %]</code> вызвана
 
     [% IF argument %]
-        with the argument <code>[% argument FILTER html %]</code>
+        с аргументом <code>[% argument FILTER html %]</code>
     [% END %]
 
-    from
-   
+    из
+
     [% IF caller %]
-        <code>[%+ caller FILTER html %]</code>, which is
+        <code>[%+ caller FILTER html %]</code>, которая вне
+    [% ELSE %]
+        извне
     [% END %]
 
-    outside the package. This function may only be called from
-    a subclass of <code>[% superclass FILTER html %]</code>.
+    пакета. Вызов функции разрешен только из 
+    подкласса <code>[% superclass FILTER html %]</code>.
 
   [% ELSIF error == "radius_preparation_error" %]
-    An error occurred while preparing for a RADIUS authentication request:
+    Ошибка подготовки запроса аутентификации RADIUS:
     <code>[% errstr FILTER html %]</code>.
 
   [% ELSIF error == "search_cp_without_op" %]
-    Search argument f[% id FILTER html %] is "CP" but there is no
-    matching "OP" before it.
+    Параметр поиска f[% id FILTER html %] является "CP", но перед ним
+    нет подходящего "OP".
 
   [% ELSIF error == "search_invalid_joiner" %]
-    '[% joiner FILTER html %]' is not a valid joiner for a search.
+    '[% joiner FILTER html %]' не является корректным оператором объединения
+    для поиска.
 
   [% ELSIF error == "setting_info_invalid" %]
-    To create a new setting, you must supply a setting name, a list of 
-    value/sortindex pairs, and the default value.
+    При создании новой настройки требуется указать название, список значений
+    с ключами сортировки и значение по умолчанию.
 
   [% ELSIF error == "setting_name_invalid" %]
-    The setting name <em>[% name FILTER html %]</em> is not a valid
-    option. Setting names must begin with a letter, and contain only
-    letters, digits, or the symbols '_', '-', '.', or ':'.
+    Имя настройки <em>[% name FILTER html %]</em> недопустимо.
+    Имена настроек должны начинаться с латинской буквы, содержать только буквы, 
+    цифры или символы '_', '-', '.', ':'.
 
   [% ELSIF error == "setting_subclass_invalid" %]
-    There is no such Setting subclass as
-    <code>[% subclass FILTER html %]</code>.
+    Класс настроек
+    <code>[% subclass FILTER html %]</code> не существует.
 
   [% ELSIF error == "setting_value_invalid" %]
-    The value "<code>[% value FILTER html %]</code>" is not in the list of
-    legal values for the <em>[% name FILTER html %]</em> setting.
+    Значение "<code>[% value FILTER html %]</code>" не входит в список допустимых
+    значений настройки <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "token_generation_error" %]
-    Something is seriously wrong with the token generation system.
+    Серьезная ошибка генерации номера жетона.
 
   [% ELSIF error == "cancel_token_does_not_exist" %]
-    The token to be cancelled does not exist.
+    Отменяемый жетон не существует.
 
   [% ELSIF error == "template_error" %]
     [% template_error_msg FILTER html %]
 
   [% ELSIF error == "template_invalid" %]
-    Template with invalid file name found in hook call: [% name FILTER html %].
+    Недопустимое имя файла шаблона в вызове функции: [% name FILTER html %].
 
   [% ELSIF error == "unable_to_retrieve_password" %]
-     I was unable to retrieve your old password from the database.
+     Старый пароль не найден в базе данных.
 
   [% ELSIF error == "undefined_field" %]
-    Form field [% field FILTER html %] was not defined.
-    
+    Поле формы [% field FILTER html %] не заполнено.
+
   [% ELSIF error == "unknown_method" %]
-    The requested method '[% method FILTER html %]' was not found.
+    Не найден запрошенный метод '[% method FILTER html %]'.
 
   [% ELSIF error == "usage_mode_invalid" %]
-    '[% invalid_usage_mode FILTER html %]' is not a valid usage mode.
+    Недопустимый режим использования '[% invalid_usage_mode FILTER html %]'.
 
   [% ELSIF error == "must_be_patch" %]
-    [% title = "Attachment Must Be Patch" %]
-    Attachment #[% attach_id FILTER html %] must be a patch.
+    [% title = "Приложение не является патчем" %]
+    Приложение #[% attach_id FILTER html %] не является патчем.
 
   [% ELSIF error == "not_in_transaction" %]
-    Attempted to end transaction without starting one first.
+    Попытка завершения неначатой транзакции.
 
   [% ELSIF error == "invalid_post_bug_submit_action" %]
-    Invalid setting for post_bug_submit_action
-
+    Недопустимый параметр для post_bug_submit_action
+    
   [% ELSIF error == "search_field_operator_unsupported" %]
-    [% title = "Invalid Search Type" %]
-    Bugzilla does not support the search type
-    "[% operator.truncate(30, "...") FILTER html %]".
+    [% terms.Bugzilla %] не поддерживает тип поиска
+    "[% operator FILTER html %]".
 
   [% ELSE %]
     [%# Try to find hooked error messages %]
     [% error_message = Hook.process("errors") %]
     [% IF NOT error_message %]
-      [% title = "Internal error" %]
-      An internal error has occurred, but Bugzilla doesn't know
-      what <code>[% error FILTER html %]</code> means.
+      [% title = "Внутренняя ошибка" %]
+      Произошла внутренняя ошибка, код ошибки [% terms.Bugzilla %] 
+      <code>[% error FILTER html %]</code> неизвестен.
 
-      If you are a [% terms.Bugzilla %] end-user seeing this message, please save
-      this page and send it to [% Param('maintainer') %].
+      Если Вы пользователь [% terms.Bugzilla %], пожалуйста, сохраните это 
+      сообщение и отправьте его по адресу [% Param('maintainer') %].
     [% ELSE %]
       [% error_message FILTER none %]
     [% END %]
@@ -434,17 +432,18 @@
 %]
 
 <p>
-  An unexpected error occurred. This could be a temporary problem, or some code
-  is behaving incorrectly. If this problem persists, please email this page
-  to <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>
-  with details of what you were doing at the time this message appeared.
+  Произошла неожиданная ошибка. Это может быть временной проблемой, или 
+  какой-либо код ведёт себя некорректно. Если эта проблема не прекратится,
+  пожалуйста, отправьте эту страницу по адресу
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>
+  с описанием, того, что вы делали в момент возникновения этого сообщения.
 </p>
 
 <p>
   <samp>URL: [% Bugzilla.cgi.self_url FILTER html %]</samp>
 </p>
 
-<div id="error_msg" class="throw_error">
+div id="error_msg" class="throw_error">
   [% error_message FILTER none %]
 </div>
 
@@ -456,7 +455,7 @@
 
 [% IF variables %]
   <pre>
-Variables:
+Параметры:
   [% FOREACH key = variables.keys %]
     [%+ key FILTER html %]: [%+ variables.$key FILTER html %]
   [% END %]

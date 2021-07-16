@@ -16,20 +16,53 @@
   #%]
 
 [% terms = {
-  "bug" => "bug",
-  "Bug" => "Bug",
-  "abug" => "a bug",
-  "Abug" => "A bug",
-  "aBug" => "a Bug",
-  "ABug" => "A Bug",
-  "bugs" => "bugs",
-  "Bugs" => "Bugs",
-  "comment" => "comment",
-  "comments" => "comments",
-  "zeroSearchResults" => "Zarro Boogs found",
-  "Bugzilla" => "Bugzilla"
+  "bug" => "«Bug»",
+  "Bug" => "«Bug»",
+  "abug" => "«Bug»",
+  "Abug" => "«Bug»",
+  "aBug" => "«Bug»",
+  "ABug" => "«Bug»",
+  "bugs" => "«Bug»",
+  "Bugs" => "«Bug»",
+  "comment" => "комментарий",
+  "comments" => "Комментарий",
+  "zeroSearchResults" => "Zarro Boogs найден",
+  "Bugzilla" => "Bugzilla",
+  "bug_gen"  => "«Bug»",
+  "bug_dat"  => "«Bug»",
+  "bug_acc"  => "«Bug»",
+  "bug_abl"  => "«Bug»",
+  "bug_obj"  => "«Bug»",
+  "Bug"      => "«Bug»",
+  "Bug_gen"  => "«Bug»",
+  "Bug_dat"  => "«Bug»",
+  "Bug_acc"  => "«Bug»",
+  "Bug_abl"  => "«Bug»",
+  "Bug_obj"  => "«Bug»",
+  "bugs_gen" => "«Bug»",
+  "bugs_dat" => "«Bug»",
+  "bugs_acc" => "«Bug»",
+  "bugs_abl" => "«Bug»",
+  "bugs_obj" => "«Bug»",
+  "Bugs_gen" => "«Bug»",
+  "Bugs_dat" => "«Bug»",
+  "Bugs_acc" => "«Bug»",
+  "Bugs_abl" => "«Bug»",
+  "Bugs_obj" => "«Bug»"
   }
 %]
+
+[% MACRO numeral(n, name1, name2, name5) BLOCK %]
+  [% n1 = n % 10 %]
+  [% n10 = n % 100 - n1 %]
+  [% IF n10 == 10 || n1 == 0 || n1 > 4 %]
+    [% name5 %]
+  [% ELSIF n1 == 1 %]
+    [% name1 %]
+  [% ELSE %]
+    [% name2 %]
+  [% END %]
+[% END %]
 
 [% USE Hook %]
 [% Hook.process("end") %]

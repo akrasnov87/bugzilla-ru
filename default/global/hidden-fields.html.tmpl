@@ -24,14 +24,13 @@
   [% IF field == "data" && cgi.param("data") %]
     <div class="box">
       <p>
-        We were unable to store the file you uploaded because of incomplete information
-        in the form you just submitted. Because we are unable to retain the file between
-        form submissions, you must re-attach the file in addition to completing the
-        remaining missing information above.
+        Невозможно сохранить закачанный файл, потому что недостаточно данных в отправленной 
+        форме.  Поскольку нет возможности временно хранить файл в интервале между отправками 
+        формы, заполните недостающую информацию и приложите файл повторно.
       </p>
       <p>
-        Please re-attach the file <b>[% cgi.param(field) FILTER html %]</b> in
-        the field below:
+        Пожалуйста, укажите файл <b>[% cgi.param(field) FILTER html %]</b> в 
+        этом поле:
       </p>
       <p>
         <input type="file" id="data" name="data" size="50">
