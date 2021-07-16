@@ -134,7 +134,7 @@
         [% ELSIF content %]
           [% content FILTER html_light %]
         [% ELSIF yesno_field %]
-          [% row.${c.name} ? "Yes" : "No" %]
+          [% row.${c.name} ? "Да" : "Нет" %]
         [% ELSIF allow_html_content %]
           [% row.${c.name} FILTER html_light %]
         [% ELSE %]
@@ -151,7 +151,7 @@
 [% END %]
 
 [% IF data.size == 0 %]
-  <tr><td colspan="[% columns.size %]" class="center"><i>&lt;none&gt;</i></td></tr>
+  <tr><td colspan="[% columns.size %]" class="center"><i>&lt;нет данных&gt;</i></td></tr>
 [% END %]
 
 
