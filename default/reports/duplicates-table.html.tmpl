@@ -26,9 +26,9 @@
 
 [% SET columns = [
     { name => "id", description => "$terms.Bug #" },
-    { name => "count", description => "Dupe<br>Count" },
+    { name => "count", description => "Кол-во<br>дублей" },
     { name => "delta",
-      description => "Change in last<br>$changedsince day(s)" },
+      description => "Изменения за<br>$changedsince дней" },
     { name => "component", description => field_descs.component },
     { name => "bug_severity", description => field_descs.bug_severity },
     { name => "priority", description => field_descs.priority },
@@ -78,7 +78,7 @@
     </thead>
 
     [%# *** Buglist *** %]
-
+    
     <tbody>
       [% FOREACH item = bugs %]
         [% SET bug = item.bug %]
@@ -105,5 +105,5 @@
     </tbody>
   </table>
 [% ELSE %]
-  <h3>No duplicate [% terms.bugs %] found.</h3>
+  <h3>Дубликатов [% terms.bugs %] не найдено.</h3>
 [% END %]

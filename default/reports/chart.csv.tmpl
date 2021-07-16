@@ -9,7 +9,7 @@
 [% colsepchar = user.settings.csv_colsepchar.value %]
 
 [% data = chart.data %]
-Date\Series
+Дата\Серия
 [% FOREACH label = chart.labels %]
   [% colsepchar %][% label FILTER csv %]
 [% END %]

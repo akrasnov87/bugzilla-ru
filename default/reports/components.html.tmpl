@@ -12,12 +12,12 @@
   #%]
 
 [% title = BLOCK %]
-  Components for [% product.name FILTER html %]
+  Компоненты продукта [% product.name FILTER html %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl 
   style_urls = ['skins/standard/buglist.css']
-  title = title
+  title = title 
 %]
 
 [% IF Param("useqacontact") %]
@@ -28,18 +28,19 @@
 
 <h1>[% product.name FILTER html %]</h1>
 
-<div id="product_desc">[% product.description FILTER html_light %]</div>
-<p>Select a component to see open [% terms.bugs %] in that component.</p>
+div id="product_desc">[% product.description FILTER html_light %]</div>
+<p>Выберите компонент для просмотра незакрытых [% terms.bugs %] для этого
+  компонента.</p>
 
 <table id="component_table">
   <tr>
-    <th>Component</th>
-    <th>Default Assignee</th>
+    <th>&nbsp;</th>
+    <th>Исполнитель</th>
     [% IF Param("useqacontact") %]
-      <th>Default QA Contact</th>
+      <th>Приемка</th>
     [% END %]
   </tr>
-
+ 
   [% FOREACH comp = product.components %]
     [% INCLUDE describe_comp %]
   [% END %]

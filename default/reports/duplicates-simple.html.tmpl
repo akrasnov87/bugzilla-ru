@@ -14,10 +14,10 @@
 <html>
   [% IF product.size %]
     [% title = BLOCK %]
-      Most Frequently Reported [% terms.Bugs %] for [% product.join(', ') FILTER html %]
+      Наиболее частые [% terms.Bugs %] продукта [% product.join(', ') FILTER html %]
     [% END %]
   [% ELSE %]
-    [% title = "Most Frequently Reported $terms.Bugs" %]
+    [% title = "Наиболее частые $terms.Bugs" %]
   [% END%]
 
   <head>

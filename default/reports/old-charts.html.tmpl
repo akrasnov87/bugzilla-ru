@@ -12,21 +12,21 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "$terms.Bug Charts"
-  h1 = "Welcome to the $terms.Bugzilla Charting Kitchen"
+  title = "$terms.Bug Диаграммы"
+  h1 = "Добро пожаловать в инструмент построения диаграмм $terms.Bugzilla"
   style_urls = ['skins/standard/buglist.css']
   doc_section = "using/reports-and-charts.html#charts"
 %]
 
-[% IF url_image %]
-  <div class="center">
+  [% IF url_image %]
+    <div class="center">
     <img src="[% url_image FILTER html %]">
-  </div>
-[% ELSE %]
+    </div>
+  [% ELSE %]
     <form id="choose_product" method="get" action="reports.cgi">
       <table id="old_charts">
         <tr>
-          <th>Product:</th>
+          <th>Продукт:</th>
           <td>
             [% INCLUDE "global/product-select.html.tmpl"
               id   => "product_id"
@@ -37,7 +37,7 @@
           </td>
         </tr>
         <tr>
-          <th>Chart datasets:</th>
+          <th>Данные для диаграммы:</th>
           <td>
             <select id="datasets" name="datasets" multiple="multiple" size="5">
               [%# We cannot use translated statuses and resolutions from field-descs.none.html
@@ -52,11 +52,12 @@
         </tr>
         <tr>
           <th colspan="2">
-            <input type="submit" id="submit" value="Continue">
+            <input type="submit" id="submit" value="Построить диаграмму">
           </th>
         </tr>
       </table>
     </form>
-[% END %]
+  [% END %]
+</div>
 
 [% PROCESS global/footer.html.tmpl %]

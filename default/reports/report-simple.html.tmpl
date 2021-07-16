@@ -10,10 +10,13 @@
   # You need to fulfill the interface to report-table.html.tmpl.
   #%]
 
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
+
+  [% title = "Список $terms.Bug" %]
+
   <head>
-    <title>[% "$terms.Bug List" FILTER html %]</title>
+    <title>[% title FILTER html %]</title>
   </head>
 
   <body>
