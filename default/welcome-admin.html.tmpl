@@ -10,7 +10,7 @@
   # none
   #%]
 
-[% title = BLOCK %]Welcome to Bugzilla[% END %]
+[% title = BLOCK %]Добро пожаловать в Bugzilla[% END %]
 
 [% PROCESS global/header.html.tmpl
    title = title
@@ -18,58 +18,56 @@
 %]
 
 <div id="welcome-admin">
-  <p>Welcome, [% user.identity FILTER html %].</p>
+  <p>Добро пожаловать, [% user.identity FILTER html %].</p>
 
-  <p>You are seeing this page because some of the core parameters have not been set up yet.
-  The goal of this page is to inform you about the last steps required to set up
-  your installation correctly.</p>
+  <p>Появление этой страницы вызвано незавершенной настройкой некоторых основных параметров 
+  системы.  Цель – проинформировать Вас о необходимых действиях для завершения настройки 
+  данного экземпляра системы.</p>
 
-  <p>As an administrator, you have access to all administrative pages, accessible from
-  the <a href="admin.cgi">Administration</a> link visible at the bottom of this page.
-  This link will always be visible, on all pages. From there, you must visit at least
-  the <a href="editparams.cgi">Parameters</a> page, from where you can set all important
-  parameters for this installation; among others:</p>
+  <p>Пользователю с привилегиями администратора доступен административный интерфейс 
+  системы по ссылке <a href="admin.cgi">Администрирование</a> внизу этой страницы. 
+  Эта ссылка доступны всегда, с любой страницы.  На административной странице 
+  обязательно следует посетить раздел <a href="editparams.cgi">Настройки</a>, который
+  позволяет устанавливать обязательные параметры экземпляра, в частности:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=core#urlbase_desc">urlbase</a>, which is the URL
-    pointing to this installation and which will be used in emails (which is also the
-    reason you see this page: as long as this parameter is not set, you will see this
-    page again and again).</li>
+    <li><a href="editparams.cgi?section=core#urlbase_desc">urlbase</a>, адрес URL данного
+    экземпляра системы, используемый в сообщениях электронной почты (до тех пор пока 
+    параметр не будет настроен, эта страница будет отображаться вместо стартовой
+    страницы системы).</li>
 
-    <li><a href="editparams.cgi?section=core#cookiepath_desc">cookiepath</a> is important
-    for your browser to manage your cookies correctly.</li>
-
-    <li><a href="editparams.cgi?section=general#maintainer_desc">maintainer</a>,
-      the person responsible for this installation if something is
-      running wrongly.</li>
+    <li><a href="editparams.cgi?section=core#cookiepath_desc">cookiepath</a> также важен
+    для корректной обработки cookies веб-обозревателем.</li>
+    
+    <li><a href="editparams.cgi?section=general#maintainer_desc">maintainer</a>, ответственный
+    за этот экземпляр системы, контактное лицо в случае возникновения проблем.</li>    
   </ul>
 
-  <p>Also important are the following parameters:</p>
+  <p>Другие важные параметры:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=auth#requirelogin_desc">requirelogin</a>, if turned
-    on, will protect your installation from users having no account on this installation.
-    In other words, users who are not explicitly authenticated with a valid account
-    cannot see any data. This is what you want if you want to keep your data private.</li>
+    <li><a href="editparams.cgi?section=auth#requirelogin_desc">requirelogin</a>: при включении
+    данного параметра незарегистрированные пользователи не имеют доступа к системе.
+    Иными словами, пользователь не может видеть никаких данных без явной аутентификации, 
+    в системе. Это то, что Вам требуется для сохранения конфиденциальности данных в системе.</li>
 
     <li><a href="editparams.cgi?section=auth#createemailregexp_desc">createemailregexp</a>
-    defines which users are allowed to create an account on this installation. If set
-    to ".*" (the default), everybody is free to create their own account. If set to
-    "@mycompany.com$", only users having an account @mycompany.com will be allowed to
-    create an account. If left blank, users will not be able to create accounts themselves;
-    only an administrator will be able to create one for them. If you want a private
-    installation, you must absolutely set this parameter to something different from
-    the default.</li>
+    определяет, какие пользователи имею право самостоятельно регистрироваться в системе.
+    Значение ".*" (по умолчанию) позволяет создавать учетную запись любому пользователю.
+    Значение "@mycompany.com$" разрешает регистрацию только пользователям с почтовыми адресами 
+    @mycompany.com. Если значение параметра пусто, никто не может зарегистрироваться в системе 
+    самостоятельно, все учетные записи должны быть созданы администратором. Если вы создаете
+    систему не для всеобщего доступа, установленное по умолчанию значение следует изменить.</li>
 
     <li><a href="editparams.cgi?section=mta#mail_delivery_method_desc">mail_delivery_method</a>
-    defines the method used to send emails, such as sendmail or SMTP. You have to set
-    it correctly to send emails.</li>
+    определяет способ отправки электронной почты, например вызов sendmail или использование SMTP. 
+    Без этого параметра отправка электронной почты не обеспечивается.</li>
   </ul>
 
   <p>
-    After having set up all this, we recommend looking at Bugzilla's other
-    parameters as well at some time so that you understand what they do and whether you
-    want to modify their settings for your installation.
+    После установки всех перечисленных параметров обратите внимание на остальные параметры 
+    Bugzilla, изучите их назначение и примите решение о необходимости их настройки 
+    для Вашей системы.
   </p>
 </div>
 
