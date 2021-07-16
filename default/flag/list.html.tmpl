@@ -23,9 +23,11 @@
 <table id="[% flag_table_id FILTER html %]">
   [% UNLESS flag_no_header %]
     <tr>
-      <th colspan="3">Flags:</th>
+      <th colspan="3">
+        Вид согласования:
+      </th>
       [% IF any_flags_requesteeble %]
-        <th>Requestee:</th>
+         <th>Адресат:</th>
       [% END %]
       [% IF edit_multiple_bugs %]
         <th>&nbsp;</th>
@@ -40,7 +42,6 @@
     [% FOREACH flag = type.flags %]
       [% PROCESS flag_row flag = flag type = type %]
     [% END -%]
-
     [% SET flag = "" %]
     [% NEXT IF read_only_flags %]
 
@@ -51,19 +52,19 @@
   [% END %]
 
   [% IF !read_only_flags %]
-    [%# Step 2: Display flag type again (if type is multiplicable). %]
-    [% FOREACH type = flag_types %]
-      [% NEXT UNLESS type.flags && type.flags.size > 0 && type.is_multiplicable && type.is_active %]
-      [% IF !separator_displayed %]
-        <tbody class="bz_flag_type">
-          [% sep_length = 3 + (any_flags_requesteeble ? 1 : 0) + (edit_multiple_bugs ? 1 : 0) %]
+  [%# Step 2: Display flag type again (if type is multiplicable). %]
+  [% FOREACH type = flag_types %]
+    [% NEXT UNLESS type.flags && type.flags.size > 0 && type.is_multiplicable && type.is_active %]
+    [% IF !separator_displayed %]
+      <tbody class="bz_flag_type">
+[% sep_length = 3 + (any_flags_requesteeble ? 1 : 0) + (edit_multiple_bugs ? 1 : 0) %]
           <tr>
             <td colspan="[% sep_length FILTER html %]"><hr></td>
           </tr>
-        </tbody>
-        [% separator_displayed = 1 %]
-      [% END %]
-      [% PROCESS flag_row type = type addl_text = "addl." %]
+      </tbody>
+      [% separator_displayed = 1 %]
+    [% END %]
+      [% PROCESS flag_row type = type addl_text = "Доп." %]
     [% END %]
   [% END %]
 </table>
@@ -74,7 +75,7 @@
   [% FOREACH type = flag_types %]
     [% FOREACH flag = type.flags %]
       [% IF !flag_no_header AND !header_displayed %]
-        <p><b>Flags:</b></p>
+        <p><b>Вид согласования:</b></p>
         [% header_displayed = 1 %]
       [% END %]
       [% IF flag.setter.name %]
@@ -147,12 +148,12 @@
           [% IF (type.is_active && type.is_requestable && type.is_requesteeble) || (flag && flag.requestee) %]
               [% SET grant_list = [] %]
               [% IF Param('usemenuforusers') %]
-                [% IF !can_edit_flag || (flag && !(type.is_active && type.is_requestable && type.is_requesteeble)) %]
+                  [% IF !can_edit_flag || (flag && !(type.is_active && type.is_requestable && type.is_requesteeble)) %]
                   [%# We are here only because there was already a requestee. In this case,
                       the only valid action is to remove the requestee or leave it alone;
                       nothing else. %]
                   [% grant_list = [flag.requestee] %]
-                [% ELSE %]
+                                  [% ELSE %]
                   [% grant_list = type.grant_list %]
                 [% END %]
               [% END %]
@@ -168,10 +169,10 @@
                          emptyok  => flag_empty_ok
                          classes  => ["requestee"]
                          custom_userlist => grant_list
-                         disabled => !can_edit_flag
+                        disabled => !can_edit_flag
               %]
           [% END %]
-        </td>
+                  </td>
       [% END %]
       [% IF edit_multiple_bugs %]
         <td>
@@ -179,11 +180,10 @@
           <input type="checkbox" name="flags_add-[% type.id %]"
                  id="flags_add-[% type.id %]" value="1">
           <label for="flags_add-[% type.id %]"
-                 title="If ticked, always create a new flag. Leaving it unchecked will
-                        update existing flag(s) and add a new flag if it does not exist">
+                 title="Если отмечено, всегда создавать новый флаг. Если этот флажок не установлен, будут обновлены существующие флаг (ы) и добавлен новый флаг, если он не существует. ">
             Always add
           </label>
-        [% END %]
+          [% END %]
         </td>
       [% END %]
     </tr>
