@@ -23,7 +23,7 @@
     <input name="[% field.name FILTER html %]" 
            id="[% field.name FILTER html %]" size="40"
            [% IF onchange %] onchange="[% onchange FILTER html %]"[% END %]
-           value="[% value FILTER html %]" [% 'autofocus' IF focus %]>
+           value="[% value FILTER html %]" [% 'autofocus' IF focus %]>         
   [% CASE constants.FIELD_TYPE_KEYWORDS %]
     [% INCLUDE "bug/field-label.html.tmpl"
       field = field
@@ -58,7 +58,7 @@
       tag_name = "span"
       editable = 1
     %]
-    from <input name="[% field.name FILTER html %]from" 
+    с <input name="[% field.name FILTER html %]from" 
                 id="[% field.name FILTER html %]" 
                 size="10" maxlength="10"
                 value="[% value.0 FILTER html %]" 
@@ -66,19 +66,19 @@
          <button type="button" class="calendar_button"
                         id="button_calendar_[% field.name FILTER html %]"
                         onclick="showCalendar('[% field.name FILTER js %]')">
-           <span>Calendar</span>
+           <span>Календарь</span>
          </button>
          <span id="con_calendar_[% field.name FILTER html %]"></span>               
-    to <input name="[% field.name FILTER html %]to" 
+    по <input name="[% field.name FILTER html %]to" 
               id="[% field.name FILTER html %]to" size="10" maxlength="10"
               value="[% value.1 FILTER html %]" 
               onchange="updateCalendarFromField(this);[% onchange FILTER html %]">
        <button type="button" class="calendar_button"
                       id="button_calendar_[% field.name FILTER html %]to"
                       onclick="showCalendar('[% field.name FILTER js %]to')">
-         <span>Calendar</span>
+         <span>Календарь</span>
        </button>
-    <small>(YYYY-MM-DD or relative dates)</small>
+    <small>(ГГГГ-ММ-ДД или относительные даты)</small>
     
     <span id="con_calendar_[% field.name FILTER html %]to"></span>
     <script type="text/javascript">

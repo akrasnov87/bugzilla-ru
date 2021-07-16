@@ -13,14 +13,14 @@
   #                     edited. This value is just passed through in a
   #                     hidden field.
   #%]
-
+        
 [%# This is not necessary for English templates, but useful for localizers. %]
 [% ordersdesc = {
-   "Reuse same sort as last time" => "Reuse same sort as last time",
-   "Bug Number"   => "$terms.Bug Number",
-   "Importance"   => "Importance",
-   "Assignee"     => "Assignee",
-   "Last Changed" => "Last Changed" } %]
+   "Reuse same sort as last time" => "Сохранить текущий",
+   "Bug Number"   => "Номер $terms.Bug",
+   "Importance"   => "Важность",
+   "Assignee"     => "Исполнитель",
+   "Last Changed" => "Последнее изменение" } %]
 
 <input type="hidden" name="cmdtype" value="doit">
 [% IF user.id %]
@@ -28,7 +28,7 @@
 [% END %]
 
 <p>
-  <label for="order">Sort results by</label>:
+  <label for="order">Порядок сортировки результатов</label>:
   <select name="order" id="order">
   [% FOREACH order = orders %]
     <option value="[% order FILTER html %]"
@@ -60,7 +60,7 @@
     <input type="checkbox" id="remasdefault"
            name="remtype" value="asdefault">
     <label for="remasdefault">
-      and remember these as my default search options
+      и сохранить как стандартное условие отбора
     </label>
   </p>
 [% END %]
@@ -69,6 +69,6 @@
   <p>
     <a href="query.cgi?nukedefaultquery=1&amp;token=
        [%- issue_hash_token(['nukedefaultquery']) FILTER uri %]">
-      Set my default search back to the system default</a>.
+      Сбросить условие отбора в исходное значение</a>.
   </p>
 [% END %]

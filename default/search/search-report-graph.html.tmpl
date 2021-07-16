@@ -16,9 +16,9 @@ var queryform = "reportform"
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Generate Graphical Report"
+  title = "Построение диаграммы"
   onload = "doOnSelectProduct(0); chartTypeChanged()"
-  yui = [ 'autocomplete', 'calendar' ]
+  yui = [ 'autocomplete', 'calendar' ]  
   javascript = js_data
   javascript_urls = [ "js/util.js", "js/TUI.js", "js/field.js" ]
   style_urls = ['skins/standard/buglist.css']
@@ -28,8 +28,8 @@ var queryform = "reportform"
 [% PROCESS "search/search-report-select.html.tmpl" %]
 
 <p>
-  Choose one or more fields as your axes, and then refine your set of 
-  [% terms.bugs %] using the rest of the form.
+  Выберите поля для использования в качестве осей координат, затем
+  уточните критерии выбора [% terms.bugs %].
 </p>
 
 <script type="text/javascript"><!--
@@ -49,33 +49,33 @@ var queryform = "reportform"
 // -->
 </script>
 
-[% button_name = "Generate Report" %]
+[% button_name = "Построить" %]
 
 <form method="get" action="report.cgi" name="reportform" id="reportform">
-  <table id="graphical_reports_menu">
-    <tr>
+<table id="graphical_reports_menu">
+  <tr>
       <th id="reports_menu_vertical_axis">
-        Vertical Axis:<br>
+        Вертикальная ось:<br>
         [% PROCESS select name = 'y_axis_field' %]<br>
         <br>
-        Plot Data Sets:<br>
-        <input type="radio" id="cumulate_indiv" name="cumulate" value="0"
-        [%+ 'checked="checked"' IF default.cumulate.0 != "1" %]>
-        <label for="cumulate_indiv">Individually</label><br>
-        <input type="radio" id="cumulate_stacked" name="cumulate" value="1"
-        [%+ 'checked="checked"' IF default.cumulate.0 == "1" %]>
-        <label for="cumulate_stacked">Stacked</label>
+          Отображать наборы данных:<br>
+          <input type="radio" id="cumulate_indiv" name="cumulate" value="0"
+          [%+ 'checked="checked"' IF default.cumulate.0 != "1" %]>
+          <label for="cumulate_indiv">Рядом</label><br>
+          <input type="radio" id="cumulate_stacked" name="cumulate" value="1"
+          [%+ 'checked="checked"' IF default.cumulate.0 == "1" %]>
+          <label for="cumulate_stacked">С накоплением</label>
       </th>
       <th id="reports_menu_multiple_tables">
-        Multiple Images:<br>
-        [% PROCESS select name = 'z_axis_field' %]
+          Несколько диаграмм:<br>
+          [% PROCESS select name = 'z_axis_field' %]
       </th>
       <th id="reports_menu_format">
-        Format:<br>
+        Вид:<br>
         [% chart_formats = [
-             { name => "line", description => "Line Graph" },
-             { name => "bar",  description => "Bar Chart" },
-             { name => "pie",  description => "Pie Chart" } ] %]
+          { name => "line", description => "График" },
+          { name => "bar",  description => "Гистограмма" },
+          { name => "pie",  description => "Круговая диаграмма" } ] %]
         [% default.chart_format.0 = default.chart_format.0 || "bar" %]
 
         [% FOREACH chart_format = chart_formats %]
@@ -88,27 +88,27 @@ var queryform = "reportform"
           </label><br>
         [% END %]
       </th>
-    </tr>
+  </tr>
 
-    <tr>
-      <th></th>
-      <th id="reports_menu_horizontal_axis">
-        Horizontal Axis:<br>
-        [% PROCESS select name = 'x_axis_field' %]<br>
-        <input type="checkbox" name="x_labels_vertical" id="x_labels_vertical"
+  <tr>
+    <th></th>
+    <th id="reports_menu_horizontal_axis">
+      Горизонтальная ось:<br>
+      [% PROCESS select name = 'x_axis_field' %]<br>
+      <input type="checkbox" name="x_labels_vertical" id="x_labels_vertical"
                value="1"
                [%+ 'checked="checked"' IF default.x_labels_vertical.0 == "1" %]>
-        <label for="x_labels_vertical">Vertical labels</label>
-      </th>
-      <th></th>
-    </tr>
-  </table>
+        <label for="x_labels_vertical">Подписи вертикально</label>
+    </th>
+    <th></th>
+  </tr>
+</table>
 
-  <hr>
+<hr>
 
-  [% PROCESS search/form.html.tmpl %]
+[% PROCESS search/form.html.tmpl %]
 
-  [% PROCESS "search/boolean-charts.html.tmpl" %]
+[% PROCESS "search/boolean-charts.html.tmpl" %]
 
   <div id="knob">
     <input type="submit" id="[% button_name FILTER css_class_quote %]"

@@ -7,7 +7,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Simple Search"
+  title = "Простой поиск"
   style_urls = ['skins/standard/buglist.css']
   doc_section = "using/finding.html"
 %]
@@ -15,15 +15,15 @@
 [% WRAPPER search/tabs.html.tmpl %]
 
 <p>
-Find a specific [% terms.bug %] by entering words that describe it.  
-Bugzilla will search [% terms.bug %] descriptions and comments
-for those words and return a list of matching [% terms.bugs %] sorted
-by relevance.
+Поиск конкретной [% terms.bug %] по характерным словам. 
+Bugzilla будет искать [% terms.bug %], в описаниях и
+комментариях которых встречается данные слова. Сортировка будет
+произведена по степени соответствия.
 </p>
 
 <p>
-For example, if the [% terms.bug %] you are looking for is a browser crash when you go to a secure web site with an embedded Flash animation, you might search
-for "crash secure SSL flash".
+Например, для поиска информации об аварии веб-обозревателя при доступе к
+защищенной странице с Flash-анимацией, введите "crash secure SSL flash".
 </p>
 
 <form name="queryform" method="get" action="buglist.cgi">
@@ -44,9 +44,9 @@ for "crash secure SSL flash".
     </th>
     <td>
       <select name="bug_status" id="bug_status">
-        [% statuses = [ { name = 'open', label = "Open" },
-                        { name = 'closed', label = "Closed" },
-                        { name = 'all', label = "All" } ] %]
+        [% statuses = [ { name = 'open', label = "Открытые" },
+                        { name = 'closed', label = "Завершенные" },
+                        { name = 'all', label = "Все" } ] %]
         [% FOREACH status = statuses %]
             <option value="__[% status.name %]__" 
                   [% " selected" IF default.bug_status.0 == "__${status.name}__" %]>
@@ -70,7 +70,7 @@ for "crash secure SSL flash".
   </tr>
   <tr>
     <th>
-      <label for="content">Words:</label>
+      <label for="content">Слова:</label>
     </th>
     <td>
       <input name="content" size="40" id="content" autofocus
@@ -80,7 +80,7 @@ for "crash secure SSL flash".
   </tr>
   <tr>
     <td></td>
-    <td><input type="submit" id="search" value="Search"></td>
+    <td><input type="submit" id="search" value="Найти"></td>
   </tr>
 </table>
 </form>
