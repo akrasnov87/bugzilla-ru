@@ -14,68 +14,69 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-           title = "Create a new $terms.Bugzilla account"
+           title = "Регистрация пользователя"
 %]
 
 <p>
-  To create a [% terms.Bugzilla %] account, all you need to do is to enter
+  Чтобы зарегистрироваться, достаточно указать
 [% IF Param('emailsuffix') == '' %]
-  a legitimate email address.
+  адрес электронной почты.
 [% ELSE %]
-  an account name which when combined with [% Param('emailsuffix') %]
-  corresponds to an address where you receive email.
+  имя почтового ящика, которое в комбинации с [% Param('emailsuffix') %]
+  соответствует Вашему адресу электронной почты.
 [% END %]
-  You will receive an email at this address to confirm the creation of your
-  account. <b>You will not be able to log in until you receive the email.</b>
-  If it doesn't arrive within a reasonable amount of time, you may contact
-  the maintainer of this Bugzilla installation
-  at <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
+  По этому адресу будет отправлено сообщение с подтверждением.
+  <b>Вы не сможете войти в систему до того как получите сообщение.</b> 
+  Если сообщение не будет получено, свяжитесь с администратором  
+  [% terms.Bugzilla %] 
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
 </p>
 
 [% IF Param('allowemailchange') %]
 <p>
-  If you already have an account and want to change your
+  Если у вас уже есть учетная запись и вы хотите изменить свой 
   [% IF Param('emailsuffix') == '' %]
-    email address,
+    адрес электронной почты,
   [% ELSE %]
-    login name,
+    логин,
   [% END %]
-  you can change it from the Preferences page after logging in.
+  , вы можете изменить его на странице настроек после входа в систему. 
 </p>
 [% END %]
 
 <p>
-  A user account is required to report new [% terms.bugs %] or to comment into
-  existing ones, as you may be contacted for more information if needed.
-  This also lets other users clearly identify who is the author of comments
-  or changes made into [% terms.bugs %]. <b>Note that your email address will
-  <em>never</em> be displayed to logged out users. Only registered users will be
-  able to see it.</b>
+  Для регистрации новых [% terms.bugs %] или добавления комментариев в
+  существующие ошибки необходимо иметь учётную запись, чтобы с вами могли
+  связаться, если потребуется дополнительная информация.
+  Это также позволит другим пользователям чётко определить, кто является
+  автором комментариев или изменений, произведённых в [% terms.bugs %]. <b>Обратите внимание, что ваш адрес электронной почты <u>никогда</u> не будет
+  показан незарегистрированным пользователям. Его смогут увидеть только
+  зарегистрированные пользователи.</b>
 </p>
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
 <p>
-  <b>PRIVACY NOTICE:</b> [% terms.Bugzilla %] is an open [% terms.bug %]
-  tracking system. Activity on most [% terms.bugs %], including email
-  addresses, will be visible to registered users. We <b>recommend</b> using a
-  secondary account or free web email service (such as Gmail, Yahoo,
-  Hotmail, or similar) to avoid receiving spam at your primary email address.
+  <b>ОБРАТИТЕ ВНИМАНИЕ:</b> [% terms.Bugzilla %] — общедоступная система
+  отслеживания [% terms.bug %]. Данные о многих [% terms.bugs %], включая адреса электронной почты, доступны зарегистрированным пользователям.
+  <b>Рекомендуется</b> использовать неосновной почтовый ящик или
+  бесплатную почтовую службу (например, Gmail, Яндекс.Почта, Mail.ru и т.п.)
+  во избежание получения нежелательной почты (спама) в основной почтовый ящик.
 </p>
 [% END %]
 
 <form id="account_creation_form" method="get" action="createaccount.cgi">
   <span class="label">
     [% IF Param('emailsuffix') %]
-      Login:
+      Логин:
     [% ELSE %]
-      Email address:
+      Адрес электронной почты:
     [% END %]
   </span>
   <input size="35" id="login" name="login" autofocus
          [%- ' type="email"' UNLESS Param('emailsuffix') %] required>
   [% Param('emailsuffix') FILTER html %]
   <input type="hidden" id="token" name="token" value="[% issue_hash_token(['create_account']) FILTER html %]">
-  <input type="submit" id="send" value="Send">
+  <input type="submit" id="send" value="Зарегистрироваться">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

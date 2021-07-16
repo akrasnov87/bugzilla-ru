@@ -17,11 +17,11 @@
         || (user.authorizer.can_change_email && Param('allowemailchange')) %]
     <tr>
       <td colspan="3">
-        Please enter your existing password to confirm account changes.
+        Для подтверждения изменений учетной записи введите ваш пароль.
       </td>
     </tr>
     <tr>
-      <th>Password:</th>
+      <th>Пароль:</th>
       <td>
         <input type="hidden" name="old_login" value="[% user.login FILTER html %]">
         <input type="password" name="old_password">
@@ -34,22 +34,22 @@
 
   [% IF user.authorizer.can_change_password %]
     <tr>
-      <th>New password:</th>
+      <th>Новый пароль:</th>
       <td>
         <input type="password" name="new_password1">
       </td>
-    </tr>
+    </tr>              
 
     <tr>
-      <th>Confirm new password:</th>
+      <th>Подтверждение пароля:</th>
       <td>
         <input type="password" name="new_password2">
       </td>
-    </tr>
+    </tr>              
   [% END %]
 
   <tr>
-    <th>Your real name (optional, but encouraged):</th>
+    <th>Полное имя (необязательно, но желательно):</th>
     <td>
       <input size="35" name="realname" value="[% realname FILTER html %]">
     </td>
@@ -59,20 +59,20 @@
     [% IF login_change_date %]
       [% IF new_login_name %]
         <tr>
-          <th>Pending email address:</th>
+          <th>Новый адрес электронной почты:</th>
           <td>[% new_login_name FILTER html %]</td>
         </tr>
         <tr>
-          <th>Change request expires:</th>
+          <th>Срок подтверждения:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% ELSE %]
         <tr>
-          <th>Confirmed email address:</th>
+          <th>Текущий адрес электронной почты:</th>
           <td>[% user.login FILTER html %]</td>
         </tr>
         <tr>
-          <th>Completion date:</th>
+          <th>Срок подтверждения:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% END %]
@@ -80,9 +80,9 @@
       <tr>
         <th>
           [% IF Param('emailsuffix') %]
-            New login:
+            Новый логин:
           [% ELSE %]
-            New email address:
+            Новый адрес электронной почты:
           [% END %]
         </th>
         <td>

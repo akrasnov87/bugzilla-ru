@@ -8,20 +8,20 @@
 
 From: [% Param('mailfrom') %]
 To: [% newemailaddress %]
-Subject: [% terms.Bugzilla %] Change Email Address Request
+Subject: Запрос на изменение адреса email пользователя [% terms.Bugzilla %]
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] has received a request to change the email address
-for the account [% user.email %] to your address.
+Получен запрос на изменение адреса электронной почты пользователя
+[% terms.Bugzilla %] [% oldemailaddress %] на ваш адрес.
 
-To confirm the change, visit the following link:
+Для подтверждения изменения выберите ссылку:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=cfmem
 
-If you are not the person who made this request, or you wish to cancel
-this request, visit the following link:
+Если вы не запрашивали этого изменения либо хотите его аннулировать,
+выберите ссылку:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=cxlem
 
-If you do nothing, the request will lapse after [% constants.MAX_TOKEN_AGE %] days
-(on [% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %]).
+Если вы не ответите, запрос будет автоматически аннулирован через [% constants.MAX_TOKEN_AGE %] 
+дней ([% expiration_ts FILTER time("%d.%m.%Y %H:%M %Z") %]).

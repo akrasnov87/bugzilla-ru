@@ -24,22 +24,22 @@
 
 [% filtered_login = user.login FILTER html %]
 
-[% tabs = [{ name => "settings", label => "General Preferences",
+[% tabs = [{ name => "settings", label => "Общие параметры",
               link => "userprefs.cgi?tab=settings", saveable => "1",
               doc_section => "using/preferences.html#general-preferences" },
-            { name => "email", label => "Email Preferences",
+            { name => "email", label => "Электронная почта",
               link => "userprefs.cgi?tab=email", saveable => "1",
               doc_section => "using/preferences.html#email-preferences" },
-            { name => "saved-searches", label => "Saved Searches",
+            { name => "saved-searches", label => "Условия отбора",
               link => "userprefs.cgi?tab=saved-searches", saveable => "1",
               doc_section => "using/preferences.html#saved-searches" },
-            { name => "account", label => "Account Information",
+            { name => "account", label => "Учетная запись",
               link => "userprefs.cgi?tab=account", saveable => "1",
               doc_section => "using/preferences.html#account-information" },
-            { name => "apikey", label => "API Keys",
+            { name => "apikey", label => "Ключи для API",
               link => "userprefs.cgi?tab=apikey", saveable => "1",
               doc_section => "using/preferences.html#api-keys" },
-            { name => "permissions", label => "Permissions",
+            { name => "permissions", label => "Разрешения",
               link => "userprefs.cgi?tab=permissions", saveable => "0",
               doc_section => "using/preferences.html#permissions" } ] %]
 
@@ -69,17 +69,15 @@
 
 [% IF changes_saved %]
   <div id="message">
-    The changes to your [% current_tab.label FILTER lower %] have been saved.
+    [% current_tab.label FILTER lower %]: изменения сохранены.
 
     [% IF email_changes_saved %]
       <p>
-        In order to confirm your request, we have sent an email to your
-        new email address. As a precaution, an email has also been sent
-        to your old address allowing you to cancel this change if needed.
-        If you don't receive the email, you can
-        <a href="token.cgi?t=[% email_token FILTER uri %]&amp;a=cxlem">
-        cancel the email address change</a> from here if you wish (especially
-        if you mistyped the new email address).
+        По старому и по новому адресу отправлены сообщения
+        для подтверждения изменения адреса электронной почты. В качестве меры предосторожности также было отправлено электронное письмо.
+         на ваш старый адрес, что позволит вам отменить это изменение в случае необходимости.
+         Если вы не получили письмо, вы можете <a href="token.cgi?t=[% email_token FILTER uri %]&amp;a=cxlem">отмените изменение адреса электронной почты</a>
+         здесь, если хотите (особенно если вы неправильно ввели новый адрес электронной почты). 
       </p>
     [% END %]
   </div>
@@ -98,9 +96,10 @@
 
 [% IF current_tab.saveable %]
     <input type="hidden" name="dosave" value="1">
+
     [% UNLESS dont_show_button %]
-      <p>
-        <input type="submit" id="update" value="Submit Changes">
+    <p>
+        <input type="submit" id="update" value="Сохранить">
       </p>
     [% END %]
   </form>

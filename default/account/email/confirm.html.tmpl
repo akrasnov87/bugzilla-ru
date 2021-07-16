@@ -10,11 +10,11 @@
   # token: string. The token to be used in this address change.
   #%]
   
-[% title = "Confirm Change Email" %]
+[% title = " Подтверждение изменения адреса электронной почты" %]
 [% PROCESS global/header.html.tmpl %]
 
 <p>
-  To change your email address, please enter your current password:
+  Для изменения адреса электронной почты введите ваш текущий пароль:
 </p>
 
 <form method="post" action="token.cgi">
@@ -22,12 +22,12 @@
   <input type="hidden" name="a" value="chgem">
   <table>
     <tr>
-      <th>Password:</th>
-      <td><input type="password" name="password" size="36" required></td>
+      <th>Пароль:</th>
+      <td><input type="password" name="password" size="36"></td>
     </tr>
     <tr>
       <th>&nbsp;</th>
-      <td><input type="submit" id="confirm" value="Submit"></td>
+      <td><input type="submit" id="confirm" value="Продолжить"></td>
     </tr>
   </table>
 </form>

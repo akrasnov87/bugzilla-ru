@@ -21,7 +21,7 @@
 [% USE Bugzilla %]
 
 <p>
-  [% terms.Bugzilla %] needs a legitimate login and password to continue.
+  Для продолжения работы в [% terms.Bugzilla %] введите свои регистрационные данные.
 </p>
 
 <form name="login" action="[% urlbase FILTER html %][% target FILTER html %]" method="POST"
@@ -31,9 +31,9 @@
       <th>
         <label for="Bugzilla_login">
           [% IF login_not_email %]
-            Login:
+            Логин:
           [% ELSE %]
-            Your Email Address:
+            Адрес электронной почты:
           [% END %]
         </label>
       </th>
@@ -44,7 +44,7 @@
       </td>
     </tr>
     <tr>
-      <th><label for="Bugzilla_password">Password:</label></th>
+      <th><label for="Bugzilla_password">Пароль:</label></th>
       <td>
         <input type="password" size="35" id="Bugzilla_password" name="Bugzilla_password" required>
       </td>
@@ -57,7 +57,7 @@
         <td>
           <input type="checkbox" id="Bugzilla_remember" name="Bugzilla_remember" value="on"
                  [%+ "checked" IF Param('rememberlogin') == "defaulton" %]>
-          <label for="Bugzilla_remember">Remember my Login</label>
+          <label for="Bugzilla_remember">Запомнить мои данные на этом компьютере</label>
         </td>
       </tr>
     [% END %]
@@ -67,8 +67,8 @@
       <td>
         <input type="checkbox" id="Bugzilla_restrictlogin" name="Bugzilla_restrictlogin"
                checked="checked">
-        <label for="Bugzilla_restrictlogin">Restrict this session to this IP address
-        (using this option improves security)</label>
+        <label for="Bugzilla_restrictlogin">На время этого сеанса разрешить работу
+        только с текущего адреса IP (Используется для большей безопасности)</label>
       </td>
     </tr>
   </table>
@@ -78,11 +78,12 @@
 
   <input type="hidden" name="Bugzilla_login_token"
          value="[% get_login_request_token() FILTER html %]">
-  <input type="submit" name="GoAheadAndLogIn" value="Log in" id="log_in">
+  <input type="submit" name="GoAheadAndLogIn" value="Войти" id="log_in">
 
   <p>
-    (Note: you should make sure cookies are enabled for this site. 
-    Otherwise, you will be required to log in frequently.)
+    (Примечание: использование этой возможности требует разрешения 
+    устанавливать cookies для данного сайта. 
+    Иначе Вам придется часто повторять ввод имени и пароля.)
   </p>
 </form>
 
@@ -96,16 +97,16 @@
     <hr>
 
     <p>
-      If you don't have a [% terms.Bugzilla %] account, you can
-      <a href="createaccount.cgi">create a new account</a>.
+        Если вы ещё не зарегистрированы в [% terms.Bugzilla %], вы можете
+      <a href="createaccount.cgi">создать новую учётную запись</a>.
       [% IF Param("requirelogin") %]
-        A user account is required because this Bugzilla
-        installation is only accessible to authenticated users.
+        Необходимо иметь учётную запись, так как эта [% terms.Bugzilla %]
+        доступна только для аутентифицированных пользователей.
       [% ELSIF target.match("_bug\.cgi$") %]
-        A user account is required to file a new [% terms.bug %] or to comment
-        into existing ones so that you can be contacted if more information is
-        needed.
-      [% END %]
+        Для регистрации новой [% terms.bug %] или добавления комментариев в
+        существующие ошибки необходимо иметь учётную запись, чтобы с вами могли связаться,
+        если потребуется дополнительная информация.
+      [% END %] 
     </p>
   [% END %]
 
@@ -114,12 +115,11 @@
 
     <form id="forgot" method="get" action="token.cgi">
       <input type="hidden" name="a" value="reqpw">
-      If you have an account, but have forgotten your password,
-      enter your login name below and submit a request
-      to change your password.<br>
+      Если у вас уже есть учётная запись, но вы забыли свой пароль,
+      введите в поле ниже свой адрес электронной почты, чтобы сменить пароль.<br>
       <input size="35" name="loginname" required>
       <input type="hidden" id="token" name="token" value="[% issue_hash_token(['reqpw']) FILTER html %]">
-      <input type="submit" id="request" value="Reset Password">
+      <input type="submit" id="request" value="Сменить пароль">
     </form>
   [% END %]
 

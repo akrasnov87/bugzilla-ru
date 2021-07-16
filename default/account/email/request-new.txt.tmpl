@@ -14,34 +14,35 @@
 
 From: [% Param('mailfrom') %]
 To: [% email %]
-Subject: [% terms.Bugzilla %]: confirm account creation
+Subject: [% terms.Bugzilla %]: подтверждение создания учетной записи
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] has received a request to create a user account
-using your email address ([% email %]).
+Системой [%+ terms.Bugzilla %] получена заявка на создание учетной записи
+с адресом электронной почты ([% email %]).
 
-To continue creating an account using this email address, visit the 
-following link by [% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %]:
+Для подтверждения создания учетной записи с этим адресом электронной
+почты перейдите по ссылке не позднее [%+ expiration_ts FILTER time("%H:%M %Z %d.%m.%Y") %]:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=request_new_account
 
-If you did not receive this email before [% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %] or
-you wish to create an account using a different email address you can begin
-again by going to:
+Если Вы не получили этого сообщения до [%+ expiration_ts FILTER time("%H:%M %Z %d.%m.%Y") %] или
+хотите создать учетную запись с другим адресом электронной почты, Вы можете
+начать регистрацию заново:
 
 [%+ urlbase %]createaccount.cgi
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
-PRIVACY NOTICE: [% terms.Bugzilla %] is an open [% terms.bug %] tracking system. Activity on most
-[%+ terms.bugs %], including email addresses, will be visible to the public. We recommend
-using a secondary account or free web email service (such as Gmail, Yahoo,
-Hotmail, or similar) to avoid receiving spam at your primary email address.
+ОБРАТИТЕ ВНИМАНИЕ: [% terms.Bugzilla %] — общедоступная система отслеживания [% terms.bug %].
+Данные о многих [%+ terms.bugs %], включая адреса электронной почты, находятся в 
+открытом доступе.  Рекомендуется использовать неосновной почтовый ящик или
+бесплатную почтовую службу (например, Gmail, mail.ru, Яндекс.Почта и т.п.)
+во избежание получения нежелательной почты (спама) в основной почтовый ящик.
 [% END %]
 
-If you do not wish to create an account, or if this request was made in
-error you can do nothing or visit the following link:
+Если вы не делали такой заявки или хотите её аннулировать, перейдите 
+по ссылке:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=cancel_new_account
 
-If the above links do not work, or you have any other issues regarding
-your account, please contact administration at [% Param('maintainer') %].
+Если упомянутые ссылки не работают или у Вас есть другие вопросы, связанные
+с Вашей учетной записью, обратитесь к администратору: [% Param('maintainer') %].

@@ -28,58 +28,59 @@
   </script>
 [% END %]
 
-<p>Your saved searches are as follows:</p>
+<p>Сохраненные условия отбора:</p>
 
-  <table id="saved_search_prefs">
-    <tr class="column_header">
-      <th>Search</th>
-      <th>Run</th>
-      <th>Edit</th>
-      <th>Forget</th>
-      <th>Show in Footer</th>
+  <table border="1" cellpadding="3">  
+    <tr>
+      <th>Условие</th>
+      <th>Отобрать</th>
+      <th>Изменить</th>
+      <th>Удалить</th>
+      <th>Показывать внизу страницы</th>
       [% may_share = user.in_group(Param('querysharegroup')) && queryshare_groups.size %]
       [% IF may_share %]
-        <th>Share With a Group</th>
+        <th>Опубликовать для группы</th>
       [% END %]
       [% Hook.process('saved-header') %]
     </tr>
 
     <tr>
-      <td>My [% terms.Bugs %]</td>
+      <td>Мои [% terms.Bugs %]</td>
       <td>
         [% filtered_username = user.login FILTER uri %]
-        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Run</a>
+        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Отобрать</a>
       </td>
-      <td></td>
-      <td></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
       <td class="center">
         <input type="checkbox" name="showmybugslink" value="1"
                [%+ 'checked="checked"' IF user.showmybugslink %]>
       </td>
       [% IF may_share %]
-        <td>&mdash;</td>
+        <td>
+          &mdash;
+        </td>
       [% END %]
       [% Hook.process('saved-row') %]
     </tr>
-
     [% FOREACH q = user.queries %]
       <tr [% 'class="shared_search"' IF q.shared_with_group.id %]>
         <td>[% q.name FILTER html %]</td>
         <td>
           <a href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=[% q.name FILTER uri %]
-                   [% IF q.shared_with_group.id %]&amp;sharer_id=[% user.id FILTER uri %][% END %]">Run</a>
+                   [% IF q.shared_with_group.id %]&amp;sharer_id=[% user.id FILTER uri %][% END %]">Отобрать</a>
         </td>
         <td>
           <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
-                   [% q.name FILTER uri %]">Edit</a>
+                   [% q.name FILTER uri %]">Изменить</a>
         </td>
         <td>
           [% IF q.used_in_whine %]
-            Remove from <a href="editwhines.cgi">whining</a> first
+            Используется в <a href="editwhines.cgi">предупреждениях</a>
           [% ELSE %]
             <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
                      [% q.name FILTER uri %]&amp;token=
-                     [% issue_hash_token([q.id, q.name]) FILTER uri %]">Forget</a>
+                     [% issue_hash_token([q.id, q.name]) FILTER uri %]">Удалить</a>
           [% END %]
         </td>
         <td class="center">
@@ -93,7 +94,7 @@
           <td>
             <select name="share_[% q.id FILTER html %]"
               [% IF user.can_bless %] onchange="update_checkbox(this);"[% END %]>
-              <option value="">Don't share</option>
+              <option value="">Не публиковать</option>
               [% FOREACH group = queryshare_groups %]
                 <option value="[% group.id %]"
                         [% ' selected="selected"' 
@@ -109,14 +110,14 @@
             [% IF user.can_bless %]
               <span [% IF !bless_group_ids.grep("^$q.shared_with_group.id\$").0
                      %]class="bz_default_hidden"[% END %]>
-                <input type="checkbox" id="force_[% q.id FILTER html %]"
-                       name="force_[% q.id FILTER html %]" value="1">
-                <label for="force_[% q.id FILTER html %]">Add to footer</label>
+              <input type="checkbox" id="force_[% q.id FILTER html %]"
+              name="force_[% q.id FILTER html %]" value="1">
+              <label for="force_[% q.id FILTER html %]">Показывать внизу страницы</label>
               </span>
             [% END %]
             [% IF q.shared_with_users %]
-              (shared with [% q.shared_with_users FILTER html %]
-              [%+ q.shared_with_users > 1 ? "users" : "user" %])
+              (опубликовано для [% q.shared_with_users FILTER html %]
+              [%+ numeral(q.shared_with_users, "пользователя", "пользователей", "пользователей") FILTER html %])
             [% END %]
           </td>
         [% END %]
@@ -124,26 +125,38 @@
       </tr>
     [% END %]
   </table>
-
+  
 [% IF user.can_bless %]
-  <p>Note that for every search that has the "Add to footer" selected, a
-     link to the shared search is added to the footer of every user that is
-     a direct member of the group at the time you click Submit Changes.</p>
+  <p>Обратите внимание: для каждого условия, отмеченного "Показывать внизу страницы",
+     ссылка будет добавлена в набор условий каждого пользователя, входящего в группу
+     на момент сохранения этих изменений.</p>
 [% END %]
 
 [% IF user.queries_available.size %]
-  <p>You may use these searches saved and shared by others:</p>
+  <p>Условия отбора, опубликованные другими пользователями:</p>
 
-  <table id="shared_search_prefs">
-    <tr class="column_header">
-      <th>Search</th>
-      <th>Shared By</th>
-      <th>Shared To</th>
-      <th>Run</th>
-      <th>Edit</th>
-      <th>Show in Footer</th>
+  <table border="1" cellpadding="3">  
+    <tr>
+      <th>
+        Условие
+      </th>
+      <th>
+        Автор
+      </th>
+      <th>
+        Опубликовано для
+      </th>
+      <th>
+        Отобрать
+      </th>
+      <th>
+        Изменить
+      </th>
+      <th>
+        Показывать
+        внизу страницы
+      </th>
     </tr>
-
     [% FOREACH q = user.queries_available %]
       <tr>
         <td>[% q.name FILTER html %]</td>
@@ -152,13 +165,13 @@
         <td>
           <a href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=
                    [% q.name FILTER uri %]&amp;sharer_id=
-                   [% q.user.id FILTER uri %]">Run</a>
+                   [% q.user.id FILTER uri %]">Отобрать</a>
         </td>
         <td>
           <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
-                   [% q.name FILTER uri %]">Edit</a>
+                   [% q.name FILTER uri %]">Изменить</a>
         </td>
-        <td class="center">
+        <td align="center">
           <input type="checkbox" 
                  name="link_in_footer_[% q.id FILTER html %]"
                  value="1"
@@ -169,5 +182,5 @@
     [% END %]
   </table>
 [% ELSE %]
-  <p>No searches are shared with you by other users.</p>
+  <p>Нет условий отбора, опубликованных для Вас другими пользователями.</p>
 [% END %]

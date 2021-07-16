@@ -19,7 +19,7 @@
 
     <div id="permissions">
       [% IF has_bits.size %]
-        <p>You have the following permission bits set on your account:</p>
+        <p>Для вашей учетной записи установлены права:</p>
 
         <table>
           [% FOREACH bit_description = has_bits %]
@@ -34,8 +34,8 @@
           [% SET products = ${"local_$privs"} %]
           [% IF products && products.size %]
             <p>
-              You also have local '[% privs FILTER html %]' privileges
-              for the following products:
+              Также установлены права '[% privs FILTER html %]' 
+              для следующих продуктов:
             </p>
             <ul>
               [% FOREACH product = products %]
@@ -46,18 +46,18 @@
         [% END %]
 
       [% ELSE %]
-        <p>There are no permission bits set on your account.</p>
+        <p>Для вашей учетной записи прав не установлено.</p>
       [% END %]
 
       [% IF user.in_group('editusers') %]
         <p>
-          You have editusers privileges. You can turn on and off all
-          permissions for all users.
+          У вас есть право редактировать пользователей. Вы можете
+        включать и выключать все разрешения всем пользователям.
         </p>
       [% ELSIF set_bits.size %]
         <p>
-          And you can turn on or off the following bits for
-          <a href="editusers.cgi">other users</a>:
+          А также Вы можете управлять следующими правами 
+          <a href="editusers.cgi">других пользователей</a>:
         </p>
 
         <table>
@@ -72,8 +72,8 @@
 
       [% IF user.in_group('bz_sudoers') %]
         <p>
-          You are a member of the <b>bz_sudoers</b> group, so you can
-          <a href="relogin.cgi?action=prepare-sudo">impersonate someone else</a>.
+        Вы включены в группу <b>bz_sudoers</b> и можете 
+        <a href="relogin.cgi?action=prepare-sudo">работать от имени другого пользователя</a>.
         </p>
       [% END %]
     </div>
