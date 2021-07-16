@@ -8,16 +8,16 @@
 
 From: [% Param('mailfrom') %]
 To: [% addressee %]
-Subject: [[% terms.Bugzilla %]] Sanity Check Results
+Subject: [[% terms.Bugzilla %]] Результаты проверки целостности
 X-Bugzilla-Type: sanitycheck
 
 [%+ urlbase %]sanitycheck.cgi
 
-Below can you read the sanity check results.
+Протокол проверки целостности.
 [% IF error_found %]
-Some errors have been found.
+Обнаружены ошибки.
 [% ELSE %]
-No errors have been found.
+Ошибок не обнаружено.
 [% END %]
 
 [% output %]

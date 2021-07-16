@@ -8,18 +8,18 @@
 
 From: [% Param('mailfrom') %]
 To: [% Param('maintainer') %]
-Subject: [[% terms.Bugzilla %]] Account Lock-Out: [% locked_user.login %] ([% address %])
+Subject: [[% terms.Bugzilla %]] Учётная запись заблокирована: [% locked_user.login %] ([% address %])
 X-Bugzilla-Type: admin
 
-The address [% address %] failed too many login attempts (
-[%- constants.MAX_LOGIN_ATTEMPTS +%]) for
-the account [% locked_user.login %]. 
+С адреса [% address %] было произведено слишком много неудачных попыток входа (
+[%- constants.MAX_LOGIN_ATTEMPTS +%]) в
+учётную запись [% locked_user.login %]. 
 
-The login attempts occurred at these times:
+Попытки входа были произведены в следующее время:
 
 [% FOREACH login = attempts %]
   [%+ login.login_time FILTER time %]
 [% END %]
 
-This IP will be able to log in again using this account at
+Этот IP сможет снова войти в эту учётную запись в
 [%+ unlock_at FILTER time %].

@@ -19,17 +19,14 @@
 [% IF flag && flag.status == '?' %]
   [% subject_status = "requested" %]
   [% IF flag.setter_id == user.id %]
-    [% to_identity = flag.requestee.identity _ " for" %]
+    [% to_identity = flag.requestee.identity _ " для" %]
   [% ELSE %]
     [% on_behalf_of = 1 %]
-    [% IF flag.requestee %][% to_identity = " to " _ flag.requestee.identity %][% END %]
+    [% IF flag.requestee %][% to_identity = " на " _ flag.requestee.identity %][% END %]
   [% END %]
 [% ELSE %]
   [% IF old_flag && old_flag.status == '?' %]
-    [% to_identity = old_flag.setter.identity _ "'s request for" %]
-    [% IF old_flag.requestee.defined %]
-        [% requestee_identity = old_flag.requestee.identity _ "'s" %]
-    [% END %]
+    [% to_identity = old_flag.setter.identity _ " отправил запрос для" %]
   [% END %]
   [% subject_status = statuses.$action %]
 [% END %]
@@ -37,7 +34,7 @@ From: [% Param('mailfrom') %]
 To: [% to %]
 Subject: [% flagtype_name %] [%+ subject_status %]: [[% terms.Bug %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
-  [Attachment [% attachment.id %]] [% attachment.description FILTER clean_text %][% END %]
+  [Приложение [% attachment.id %]] [% attachment.description FILTER clean_text %][% END %]
 Date: [% date %]
 X-Bugzilla-Type: request
 [%+ INCLUDE "email/header-common.txt.tmpl" %]
@@ -47,10 +44,10 @@ X-Bugzilla-Type: request
 [%- FILTER bullet = wrap(80) -%]
 
 [% IF on_behalf_of %]
-[% user.identity %] has reassigned [% flag.setter.identity %]'s request for [% IF requestee_identity %] [%+ requestee_identity %] [% END %] [% flagtype_name %]
+[% user.identity %] переназначил запрос [% flag.setter.identity %] на [% flagtype_name %]
 [% to_identity %]:
 [% ELSE %]
-[% user.identity %] has [% statuses.$action %] [%+ to_identity %] [% IF requestee_identity %] [%+ requestee_identity %] [% END %] [%+ flagtype_name %]:
+[% user.identity %] имеет [% statuses.$action %] [%+ to_identity %] [%+ flagtype_name %]:
 [% END %]
 
 [% terms.Bug %] [%+ bugidsummary %]
@@ -71,7 +68,7 @@ Attachment [% attidsummary %]
 [% FOREACH comment = new_comments %]
 
 [%- IF comment.count %]
---- Comment #[% comment.count %] from [% comment.author.identity %] ---
+------- Комментарий пользователя [% user.identity %]
 [% ELSE %]
 --- Description ---
 [% END %]

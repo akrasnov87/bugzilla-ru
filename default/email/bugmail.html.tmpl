@@ -11,7 +11,7 @@
 [% isnew = bug.lastdiffed ? 0 : 1 %]
 <html>
     <head>
-      <base href="[% urlbase FILTER html %]">
+      <base href="[% urlbase FILTER html %]" />
     </head>
     <body>
       [% Hook.process('start') %]
@@ -20,7 +20,7 @@
       [% FOREACH comment = new_comments.reverse %]
         <div>
           [% IF comment.count %]
-            <b>[% INCLUDE bug/link.html.tmpl bug = bug, link_text = "Comment # ${comment.count}",
+            <b>[% INCLUDE bug/link.html.tmpl bug = bug, link_text = "Комментарий # ${comment.count}",
                                              comment_num = comment.count, full_url = 1, user = to_user %]
               on [% INCLUDE bug/link.html.tmpl bug = bug, link_text = "$terms.bug $bug.id",
                                                full_url = 1, user = to_user %]
@@ -48,8 +48,8 @@
       [% END %]
 
       <hr>
-      <span>You are receiving this mail because:</span>
-
+      <span>Вы получили это сообщение, потому что:</span>
+      
       <ul>
       [% FOREACH reason = reasons %]
         [%  IF reason_descs.$reason  %]
@@ -76,11 +76,11 @@
           [% SET in_table = 0 %]
         [% END %]
         [% IF change.blocker %]
-          [% INCLUDE bug/link.html.tmpl bug = bug, link_text = "$terms.Bug $bug.id", full_url = 1, user = to_user %]
-          depends on
+                  [% INCLUDE bug/link.html.tmpl bug = bug, link_text = "$terms.Bug $bug.id", full_url = 1, user = to_user %]
+          зависит от
           [%+ INCLUDE bug/link.html.tmpl bug = change.blocker, link_text = "$terms.bug $change.blocker.id",
                                          full_url = 1, user = to_user %],
-          which changed state.
+          которая изменила состояние.
         [% ELSE %]
           [% INCLUDE global/user.html.tmpl user = to_user, who = change.who %] changed
           [%+ INCLUDE bug/link.html.tmpl bug = bug, link_text = "$terms.bug $bug.id", full_url = 1, user = to_user %]
@@ -91,9 +91,9 @@
              [% SET in_table = 1 %]
           [% END %]
           <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
+            <th>Что</th>
+            <th>Удалено</th>
+            <th>Добавлено</th>
           </tr>
       [% END %]
 
@@ -107,7 +107,7 @@
           <th>[% field_label FILTER html %]</th>
           <td>
             [% IF change.field_name == "bug_id" %]
-              [% INCLUDE bug/link.html.tmpl bug = bug, link_text = new_value, full_url = 1, user = to_user %]
+[% INCLUDE bug/link.html.tmpl bug = bug, link_text = new_value, full_url = 1, user = to_user %]
             [% ELSE %]
               [% new_value FILTER html %]
             [% END %]

@@ -5,7 +5,7 @@
   # This Source Code Form is "Incompatible With Secondary Licenses", as
   # defined by the Mozilla Public License, v. 2.0.
   #%]
-  
+
 [% field_label = field_descs.${change.field_name} %]
 [% old_value = display_value(change.field_name, change.old) %]
 [% new_value = display_value(change.field_name, change.new) %]
@@ -16,10 +16,10 @@
 [% END %]
 
 [% IF change.attach_id %]
-  [% field_label = field_label.replace('^(Attachment )?', "Attachment #${change.attach_id} ") %]
+  [% field_label = field_label.replace('^(Attachment )?', "Приложение #${change.attach_id} ") %]
 [% END %]
 
 [% IF change.field_name == 'longdescs.isprivate' %]
-  [% field_label = field_label.replace('^(Comment )?', "Comment #${change.num} ") %]
+  [% field_label = field_label.replace('^(Comment )?', "Комментарий #${change.num} ") %]
 [% END %]
   

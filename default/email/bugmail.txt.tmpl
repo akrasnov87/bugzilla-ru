@@ -17,14 +17,14 @@
 [% FOREACH comment = new_comments %]
 
 [%- IF comment.count %]
---- Comment #[% comment.count %] from [% comment.author.identity %] ---
+--- Комментарий #[% comment.count %] от [% comment.author.identity %] ---
 [% END %]
 [%+ comment.body_full({ is_bugmail => 1, wrap => 1 }) FILTER strip_control_chars %]
 [% END %]
 
 [% IF referenced_bugs.size %]
 
-Referenced [% terms.Bugs %]:
+Ссылается [% terms.Bugs %]:
 
 [% FOREACH ref_bug = referenced_bugs %]
 [%+ urlbase %]show_bug.cgi?id=[% ref_bug.id %]
@@ -32,7 +32,7 @@ Referenced [% terms.Bugs %]:
 [% END %]
 [% END %]
 -- [%# Protect the trailing space of the signature marker %]
-You are receiving this mail because:
+Вы получили это сообщение, потому что:
 [% SET reason_lines = [] %]
 [% FOREACH reason = reasons %]
   [% reason_lines.push(reason_descs.$reason) IF reason_descs.$reason %]
@@ -53,16 +53,16 @@ You are receiving this mail because:
     [% IF !isnew && change.who.id != last_changer %]
       [% last_changer = change.who.id %]
       [% IF change.blocker %]
-        [% terms.Bug %] [%+ bug.id %] depends on [% terms.bug %] [%+ change.blocker.id %], which changed state.
+        [% terms.Bug %] [%+ bug.id %] зависит от [% terms.bug_gen %] [%+ change.blocker.id %], которая изменила состояние.
 
-[%+ terms.Bug %] [%+ change.blocker.id %] Summary: [% change.blocker.short_desc %]
+[%+ terms.Bug %] [%+ change.blocker.id %] Аннотация: [% change.blocker.short_desc %]
 [%+ urlbase %]show_bug.cgi?id=[% change.blocker.id %]
       [% ELSE %]
 
-[% change.who.identity %] changed:
+[% change.who.identity %] изменил:
       [% END %]
 
-           What    |Removed                     |Added
+           Что     |Удалено                     |Добавлено
 ----------------------------------------------------------------------------
 [%+ END %][%# End of IF. This indentation is intentional! ~%]
     [% PROCESS "email/bugmail-common.txt.tmpl"%]
