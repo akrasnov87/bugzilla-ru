@@ -7,18 +7,18 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Change Columns"
+  title = "Формат вывода"
   javascript_urls = [ "js/change-columns.js" ]
   onload = "initChangeColumns()"
 %]
 
 <p>
-  Select the columns you wish to appear in your [% terms.bug %] lists. Note that
-  this feature requires cookies to work.
+  Выберите поля которые вы хотите видеть в списке [% terms.bug %].
+  (Требуется поддержка cookies)
 </p>
 
-[% field_descs.short_short_desc     = "Summary (first 60 characters)" %]
-[% field_descs.short_desc           = "Summary (Full)" %]
+[% field_descs.short_short_desc     = "Аннотация (первые 60 символов)" %]
+[% field_descs.short_desc           = "Аннотация (полная)" %]
 [% field_descs.assigned_to_realname = "$field_descs.assigned_to Real Name" %]
 [% field_descs.reporter_realname    = "$field_descs.reporter Real Name" %]
 [% field_descs.qa_contact_realname  = "$field_descs.qa_contact Real Name" %]
@@ -39,9 +39,9 @@
   <input type="hidden" name="rememberedquery" value="[% buffer FILTER html %]">
     <table>
       <tr>
-        <th><div id="avail_header" class="bz_default_hidden">Available Columns</div></th>
+        <th><div id="avail_header" class="bz_default_hidden">Доступные поля</div></th>
         <th></th>
-        <th colspan="2">Selected Columns</th>
+        <th colspan="2">Выбранные поля</th>
       </tr>
       <tr>
         <td>
@@ -69,12 +69,12 @@
             [% END %]
             [% FOREACH key = available_columns.keys.sort %]
               [% SET column = available_columns.$key %]
-              <option value="[% column FILTER html %]">
+                <option value="[% column FILTER html %]">
                 [%# Don't display the lower-cased column description,
                   # display the correct-case one. %]
                 [% (field_descs.$column || column) FILTER html %]
-              </option>
-            [% END %]
+                </option>
+              [% END %]
           </select>
         </td>
         <td>
@@ -93,14 +93,14 @@
     <input id="nosplitheader" type="radio" name="splitheader" value="0"
       [%+ "checked='checked'" IF NOT splitheader %]>
     <label for="nosplitheader">
-      Normal headers (prettier)
+      Стандартная шапка 
     </label>
     <br>
 
     <input id="splitheader" type="radio" name="splitheader" value="1"
       [%+ "checked='checked'" IF splitheader %]>
     <label for="splitheader">
-      Stagger headers (often makes list more compact)
+      Компактная шапка
     </label>
   </p>
 
@@ -109,23 +109,23 @@
       <input type="hidden" name="saved_search"
              value="[% saved_search.id FILTER html%]" >
       <input type="hidden" name="token"
-             value="[% issue_hash_token([saved_search.id, saved_search.name]) FILTER html %]">
+             value="[% issue_hash_token([saved_search.id, saved_search.name]) FILTER html %]">             
       <input type="checkbox" id="save_columns_for_search" checked="checked" 
              name="save_columns_for_search" value="1">
-      <label for="save_columns_for_search">Save this column list only 
-        for search '[% saved_search.name FILTER html %]'</label>
+      <label for="save_columns_for_search">Сохранить формат вывода 
+        для условия отбора '[% saved_search.name FILTER html %]'</label>
     </p>
   [% ELSE %]
     <input type="hidden" name="token"
-           value="[% issue_hash_token(['default-list']) FILTER html %]">
+           value="[% issue_hash_token(['default-list']) FILTER html %]">    
   [% END %]
 
   <p>
-    <input type="submit" id="change" value="Change Columns">
+    <input type="submit" id="change" value="Изменить поля">
   </p>
 
   <input type="submit" id="resetit" name="resetit" 
-         value="Reset to [% terms.Bugzilla %] default">
+         value="Вернуть стандартные значения [% terms.Bugzilla %]">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

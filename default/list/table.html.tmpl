@@ -23,41 +23,41 @@
   # by the browser.
   #%]
 
+[% PROCESS "global/field-descs.none.tmpl" %]
 [% field_descs.short_short_desc     = field_descs.short_desc  %]
 [% field_descs.assigned_to_realname = field_descs.assigned_to %]
 [% field_descs.reporter_realname    = field_descs.reporter    %]
 [% field_descs.qa_contact_realname  = field_descs.qa_contact  %]
 
-[%# Setting maxlength => 0 means no limit. We set it for performance reasons. %]
 [% abbrev = 
   {
-    "bug_severity"         => { maxlength => 3 , title => "Sev" } , 
-    "priority"             => { maxlength => 7 , title => "Pri" } , 
-    "rep_platform"         => { maxlength => 3 , title => "HW" } , 
-    "bug_status"           => { maxlength => 4 } , 
+    "bug_severity"         => { maxlength => 3 , title => "Сер" } , 
+    "priority"             => { maxlength => 7 , title => "Прт" } , 
+    "rep_platform"         => { maxlength => 3 , title => "Жлз" } , 
+    "bug_status"           => { maxlength => 4 , title => "Сост" } , 
     "assigned_to"          => { maxlength => 30 , ellipsis => "..." } , 
     "assigned_to_realname" => { maxlength => 20 , ellipsis => "..." } , 
     "reporter"             => { maxlength => 30 , ellipsis => "..." } , 
     "reporter_realname"    => { maxlength => 20 , ellipsis => "..." } , 
-    "qa_contact"           => { maxlength => 30 , ellipsis => "..." , title => "QAContact" } , 
-    "qa_contact_realname"  => { maxlength => 20 , ellipsis => "..." , title => "QAContact" } , 
-    "resolution"        => { maxlength => 4 } , 
+    "qa_contact"           => { maxlength => 30 , ellipsis => "..." , title => "Приемка" } , 
+    "qa_contact_realname"  => { maxlength => 20 , ellipsis => "..." , title => "Приемка" } , 
+    "resolution"        => { maxlength => 4 , title => "Реш" } , 
     "short_desc"        => { maxlength => 0, wrap => 1 } ,
     "short_short_desc"  => { maxlength => 60 , ellipsis => "..." , wrap => 1 } ,
-    "status_whiteboard" => { maxlength => 0, title => "Whiteboard" , wrap => 1 } , 
+    "status_whiteboard" => { maxlength => 0, title => "Заметки" , wrap => 1 } , 
     "keywords"          => { maxlength => 0, wrap => 1 } ,
-    "tags"              => { maxlength => 0, title => "Tags", wrap => 1},
+    "tags"              => { maxlength => 0, title => "Теги", wrap => 1},
     "dependson"         => { maxlength => 0, wrap => 1 } ,
     "blocked"           => { maxlength => 0, wrap => 1 } ,
     "flagtypes.name"    => { maxlength => 0, wrap => 1 } ,
-    "component"         => { maxlength => 8 , title => "Comp" } , 
+    "component"         => { maxlength => 8 , title => "Компонент" } , 
     "product"           => { maxlength => 8 } , 
-    "version"           => { maxlength => 5 , title => "Vers" } , 
+    "version"           => { maxlength => 5 , title => "Версия" } , 
     "op_sys"            => { maxlength => 12 } ,
-    "bug_file_loc"      => { maxlength => 30 } , 
-    "target_milestone"  => { maxlength => 0, title => "TargetM" } , 
-    "longdescs.count"   => { maxlength => 0, title => "# Comments" },
-    "percentage_complete" => { maxlength => 0, format_value => "%d %%" } , 
+    "bug_file_loc"      => { maxlength => 30 } ,,    
+    "target_milestone"  => { title => "Запланировано" } , 
+    "longdescs.count"   => { title => "# Комментариев" },    
+    "percentage_complete" => { format_value => "%d %%" } , 
   }
 %]
 
@@ -182,7 +182,7 @@
     </td>
 
     [% FOREACH column = displaycolumns %]
-    [% col_abbrev = abbrev.$column %]
+        [% col_abbrev = abbrev.$column %]
     <td class="bz_[% column FILTER css_class_quote %]_column
       [%~ ' nowrap' UNLESS col_abbrev.wrap
         OR bug_fields.$column.type == constants.FIELD_TYPE_FREETEXT
@@ -229,7 +229,7 @@
 [% END %]
 
 [% IF time_info.time_present %]
-  [% PROCESS time_summary_line %]
+[% PROCESS time_summary_line %]
 [% END %]
 
 </table>
@@ -247,7 +247,7 @@
             column == 'percentage_complete' %]
         [% IF columns_to_span > 0 %]
           <td class="bz_total bz_total_label" colspan="
-              [%- columns_to_span FILTER html %]"><b>Totals</b></td>
+              [%- columns_to_span FILTER html %]"><b>Итого</b></td>
           [% columns_to_span = 0 %]
         [% END %]
         [% IF column == 'percentage_complete' %]

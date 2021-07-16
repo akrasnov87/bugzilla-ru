@@ -6,7 +6,7 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% DEFAULT title = "$terms.Bugzilla $terms.Bugs" %]
+[% DEFAULT title = "$terms.Bugs из $terms.Bugzilla " %]
 
 <?xml version="1.0"[% IF Param('utf8') %] encoding="UTF-8"[% END %]?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -37,7 +37,7 @@
       [% FILTER xml %]
       <table>
       <tr>
-        <th>Field</th><th>Value</th>
+        <th>Атрибут</th><th>Значение</th>
       </tr><tr class="bz_feed_product">
         <td>[% columns.product.title FILTER html %]</td>
         <td>[% bug.product FILTER html %]</td>
