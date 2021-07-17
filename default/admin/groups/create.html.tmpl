@@ -11,24 +11,24 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Add group"
-  subheader = "This page allows you to define a new user group."
+  title = "Добавление группы"
+  subheader = "Эта страница позволит вам определить новую группу пользователей."
   style_urls = ['skins/standard/admin.css']
   doc_section = "administering/groups.html#creating-groups"
 %]
 
 <form method="post" action="editgroups.cgi">
   <table id="admin_table_edit">
-    <tr>
-      <th>Group Name:</th>
+      <tr>
+    <th>Новое имя:</th>
       <td><input size="60" maxlength="255" name="name" required></td>
     </tr>
     <tr>
-      <th>Description:</th>
+      <th>Новое описание:</th>
       <td><input size="60" name="desc" required></td>
     </tr>
     <tr>
-      <th>User Regexp:</th>
+      <th>Новый шаблон пользователя:</th>
       <td><input size="60" name="regexp"></td>
     </tr>
     <tr>
@@ -36,7 +36,7 @@
       <td><input type="text" size="60" id="icon_url" name="icon_url"></td>
     </tr>
     <tr>
-      <th>Use For [% terms.Bugs %]:</th>
+      <th>Использовать для [% terms.Bugs %]:</th>
       <td><input type="checkbox" name="isactive" value="1" checked></td>
     </tr>
     [% Hook.process('field') %]
@@ -44,56 +44,57 @@
 
   <input type="checkbox" id="insertnew" name="insertnew" value="1"
     [% IF Param("makeproductgroups") %] checked[% END %]>
-  <label for="insertnew">Insert new group into all existing products.</label>
+  <label for="insertnew">Добавить новую группу во все имеющиеся продукты.</label>
   <p>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Добавить">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
 <hr>
 
-<p><b>Group Name</b> is what is used with the B[%%]ugzilla->user->in_group()
-function in any customized cgi files you write that use a given group.
-It can also be used by people submitting [% terms.bugs %] by email to
-limit [% terms.abug %] to a certain set of groups.</p>
+<p><b>Имя</b> это то, что использует функция B<!-- blah -->ugzilla->user->in_group() в специальных
+файлах cgi, которые вы пишете для использования данной группой. Оно также может
+использоваться людьми, регистрирующими [% terms.bugs_acc %]
+по электронной почте, чтобы ограничить доступ к [% terms.bug_obj %] 
+некоторым набором групп.</p>
 
-<p><b>Description</b> is what will be shown in the [% terms.bug %] reports
-to members of the group where they can choose whether
-the [% terms.bug %] will be restricted to others in the same group.</p>
+<p><b>Описание</b> это то, что будет показано при редактировании [% terms.bugs_gen %] 
+членам группы.  Они должны определить, будет ли [% terms.bug %] 
+доступна всем или только членам этой группы.</p>
 
-<p><b>User RegExp</b> is optional, and if filled in, will 
-automatically grant membership to this group to anyone with an 
-email address that matches this regular expression.</p>
+<p><b>Шаблон пользователя</b> необязателен, если он указан, 
+членство в этой группе автоматически предоставлено любому, чей адрес 
+электронной почты соответствует указанному шаблону.</p>
 
 <p>
-  <b>Icon URL</b> is optional, and is the URL pointing to the icon
-  used to identify the group. It may be either a relative URL to the base URL
-  of this installation or an absolute URL. This icon will be displayed
-  in comments in [% terms.bugs %] besides the name of the author of comments.
+  <b>Значок</b> — необязательный параметр, адрес URL изображения, используемого
+  для символического представления группы.  Адрес URL может быть относительным
+  (от базового URL этого экземпляра) или абсолютным.  Значок отображается
+  в комментариях к [% terms.bugs_dat %] рядом с именем автора.
 </p>
 
-<p>The <b>Use For [% terms.Bugs %]</b> flag determines whether or not the
-group is eligible to be used for [% terms.bugs %]. If you clear this, it will
-no longer be possible for users to add [% terms.bugs %] to this group,
-although [% terms.bugs %] already in the group will remain in the group.
-Doing so is a much less drastic way to stop a group from growing
-than deleting the group would be. <b>Note: If you are creating
-a group, you probably want it to be usable for [% terms.bugs %], in which
-case you should leave this checked.</b></p>
+<p>Флажок <b>Использовать для [% terms.bugs_gen %]</b> определяет, 
+может ли группа использоваться для управления доступом к [% terms.bugs_dat %]. 
+Если его снять, пользователи впредь не смогут добавить [% terms.bugs_acc %] 
+к этой группе, хотя уже имеющиеся в группе [% terms.bugs %], будут принадлежать 
+ей. Это менее радикальный способ остановить рост группы, нежели
+удаление группы. <b>Обратите внимание: Если вы создаете группу, вы, вероятно,
+хотите, чтобы она могла быть использована для работы с [% terms.bugs_abl %]. 
+В этом случае вы должны оставить флажок включенным.</b></p>
 
 [% IF Param("makeproductgroups") %]
-  <p>By default, the new group will be associated with existing products.
-  Unchecking the "Insert new group into all existing products" option will
-  prevent this and make the group become visible only when its controls have
-  been added to a product.</p>
+  <p>По умолчанию новая группа ассоциируется с имеющимися продуктами.
+  Отмена опции "Добавлять новую группу во все имеющиеся продукты" предотвратит
+  это, и приведет к тому, что группа станет видимой только тогда, когда будет
+  добавлена к продукту.</p>
 [% ELSE %]
-  <p>Checking the "Insert new group into all existing products" option will
-  make the new group be associated with existing products. Leaving it unchecked
-  will make the group become visible only when its controls have been added to
-  a product.</p>
+  <p>Установка опции "Добавлять новую группу во все имеющиеся продукты"
+   приведёт к ассоциации новой группы с имеющимися продуктами. Оставление этой
+   опции не установленной приведёт к тому, что группа станет видимой только
+   тогда, когда будет добавлена к продукту.</p>
 [% END %]
 
-<p>Back to the <a href="editgroups.cgi">group list</a>.</p>
+<p>Вернуться к <a href="editgroups.cgi">в начало</a>
 
 [% PROCESS global/footer.html.tmpl %] 

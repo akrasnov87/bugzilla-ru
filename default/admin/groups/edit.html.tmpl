@@ -14,7 +14,7 @@
   #               available values for each grant.
   #%]
 
-[% title = BLOCK %]Change Group: [% group.name FILTER html %][% END %]
+[% title = BLOCK %]Изменение группы: [% group.name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -28,10 +28,10 @@
 
   <table id="admin_table_edit">
     <tr>
-      <th>Group:</th>
+      <th>Группа:</th>
       <td>
         [% IF group.is_bug_group %]
-          <input type="text" name="name" size="60" maxlength="255"
+          <input type="text" name="name" size="60" maxlength="255" 
                  value="[% group.name FILTER html %]" required>
         [% ELSE %]
           [% group.name FILTER html %]
@@ -40,10 +40,10 @@
     </tr>
 
     <tr>
-      <th>Description:</th>
+      <th>Описание:</th>
       <td>
         [% IF group.is_bug_group %]
-          <input type="text" name="desc" size="60"
+          <input type="text" name="desc" size="60" 
                  value="[% group.description FILTER html %]" required>
         [% ELSE %]
           [% group.description FILTER html %]
@@ -52,16 +52,16 @@
     </tr>
 
     <tr>
-      <th>User Regexp:</th>
+      <th>Шаблон пользователей:</th>
       <td>
-        <input type="text" name="regexp" size="60"
+        <input type="text" name="regexp" size="60" 
                value="[% group.user_regexp FILTER html %]">
       </td>
     </tr>
 
     <tr>
       <th>
-        Icon URL:
+        Значок (URL):
         [% IF group.icon_url %]
           <img src="[% group.icon_url FILTER html %]" alt="[% group.name FILTER html %]">
         [% END %]
@@ -74,7 +74,7 @@
 
     [% IF group.is_bug_group %]
       <tr>
-        <th>Use For [% terms.Bugs %]:</th>
+        <th>Использовать для [% terms.bugs_gen %]:</th>
         <td>
           <input type="checkbox" name="isactive" 
                  value="1" [% 'checked="checked"' IF group.is_active %]>
@@ -84,20 +84,17 @@
     [% Hook.process('field') %]
   </table>
 
-  <h4>Group Permissions</h4>
+  <h4>Групповой доступ</h4>
 
   <table id="grant_table">
     <tr>
-      <th colspan="2">
-        Groups That Are a Member of This Group<br>
-        ("Users in <var>X</var> are automatically in [% group.name FILTER html %]")
-      </th>
-      <th colspan="2">
-        Groups That This Group Is a Member Of<br>
-        ("If you are in [% group.name FILTER html %], you are automatically also in...")
-      </th>
+      <th colspan="2">Группы, входящие в данную группу<br>
+        (&quot;Члены группы <var>X</var> автоматически включены в 
+         [%+ group.name FILTER html %]&quot;)</th>
+      <th colspan="2">Группы, включающие данную группу<br>
+        (&quot;Члены группы [% group.name FILTER html %] автоматически 
+         включаются в ...&quot;)</th>
     </tr>
-
     <tr>
       [% PROCESS select_pair name = "members" size = 10
                  items_available = members_available
@@ -110,15 +107,15 @@
 
     <tr>
       <th colspan="2">
-        Groups That Can Grant Membership in This Group<br>
-        ("Users in <var>X</var> can add other users to [% group.name FILTER html %]")
-      </th>
-      <th colspan="2">
-        Groups That This Group Can Grant Membership In<br>
-        ("Users in [% group.name FILTER html %] can add users to...")
-      </th>
-    </tr>
+        Группы, управляющие этой группой<br>
+        (&quot;Члены группы <var>X</var> имеют право добавлять пользователей в 
+         [%+ group.name FILTER html %]&quot;)
 
+      </th>
+     <th colspan="2">Группы, управляемые этой группой<br>
+       (&quot;Члены группы [% group.name FILTER html %] имеют право добавлять пользователей в ...&quot;)
+     </th>
+    </tr>
     <tr>
       [% PROCESS select_pair name = "bless_from" size = 10
                  items_available = bless_from_available
@@ -129,18 +126,17 @@
                  items_current = bless_to_current %]
     </tr>
 
-    [% IF Param('usevisibilitygroups') %]
+  [% IF Param('usevisibilitygroups') %]
       <tr>
         <th colspan="2">
-          Groups That Can See This Group<br>
-          ("Users in <var>X</var> can see users in [% group.name FILTER html %]")
+          Группы, которым видна эта группа<br>
+          (&quot;Члены группы <var>X</var> видят пользователей, входящих в
+           [%+ group.name FILTER html %]&quot;)
         </th>
-        <th colspan="2">
-          Groups That This Group Can See<br>
-          ("Users in [% group.name FILTER html %] can see users in...")
-        </th>
+       <th colspan="2">Группы, видимые этой группе<br>
+         (&quot;Члены группы [% group.name FILTER html %] видят пользователей из ...&quot;)
+       </th>
       </tr>
-
       <tr>
         [% PROCESS select_pair name = "visible_from" size = 10
                    items_available = visible_from_available
@@ -150,62 +146,63 @@
                    items_available = visible_to_me_available
                    items_current = visible_to_me_current %]
       </tr>
-    [% END %]
-  </table>
+    </table>
+  [% END %]
+    </table>
 
-  <input type="submit" id="update-group" value="Update Group">
+  <input type="submit" id="update-group" value="Сохранить">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
   
-<h4>Mass Remove</h4>
+<h4>Массовое удаление</h4>
 
-<p>You can use this form to do mass-removal of users from groups.
-  This is often very useful if you upgraded from Bugzilla
+<p>Форма для массового удаления пользователей из групп.
+  Эта функция очень важна после перехода с версии [% terms.Bugzilla %] 
   2.16.</p>
 
 <form method="post" action="editgroups.cgi">
   <fieldset id="mass-remove">
-    <legend>Remove all explicit memberships from users whose login names
-      match the following regular expression:</legend>
+    <legend>Исключить из группы пользователей, учетные записи которых
+      сответствуют шаблону:</legend>
     <input type="text" size="20" name="regexp">
-    <input type="submit" id="remove-membership" value="Remove Memberships">
+    <input type="submit" id="remove-membership" value="Исключить пользователей">
 
-    <p>If you leave the field blank, all explicit memberships in 
-      this group will be removed.</p>
+    <p>Если шаблон не указан, из группы будут исключены все явно включенные 
+      в нее пользователи.</p>
 
     <input type="hidden" name="action" value="confirm_remove">
     <input type="hidden" name="group_id" value="[% group.id FILTER html %]">
   </fieldset>
 </form>
-
-<p>Back to the <a href="editgroups.cgi">group list</a>.</p>
+ 
+<p>Вернуться к <a href="editgroups.cgi">списку групп</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 
 
 [% BLOCK select_pair %]
-  <td>
-    <label for="[% "${name}_add" FILTER html %]">Add<br>(select to add)</label>
+      <td>
+          <label for="[% "${name}_add" FILTER html %]">Добавить<br>(select to add)</label>
     <br>
-    <select multiple="multiple" size="[% size FILTER html %]"
-            name="[% "${name}_add" FILTER html %]"
-            id="[% "${name}_add" FILTER html %]">
-      [% FOREACH item = items_available %]
-        <option value="[% item.id FILTER html %]">
-          [% item.name FILTER html %]</option>
-      [% END %]
-    </select>
-  </td>
+        <select multiple="multiple" size="[% size FILTER html %]"
+                name="[% "${name}_add" FILTER html %]"
+                id="[% "${name}_add" FILTER html %]">
+          [% FOREACH item = items_available %]
+            <option value="[% item.id FILTER html %]">
+              [% item.name FILTER html %]</option>
+          [% END %]
+        </select>
+      </td>
 
-  <td>
-    <label for="[% "${name}_remove" FILTER html %]">Current<br>(select to remove)</label>
+      <td>
+          <label for="[% "${name}_remove" FILTER html %]">Текущее<br>(select to remove)</label>
     <br>
-    <select multiple="multiple" size="[% size FILTER html %]"
-            name="[% "${name}_remove" FILTER html %]"
-            id="[% "${name}_remove" FILTER html %]">
-      [% FOREACH item = items_current %]
-        <option value="[% item.id FILTER html %]">
-          [% item.name FILTER html %]</option>
-      [% END %]
-    </select>
-  </td>
+        <select multiple="multiple" size="[% size FILTER html %]"
+                name="[% "${name}_remove" FILTER html %]"
+                id="[% "${name}_remove" FILTER html %]">
+          [% FOREACH item = items_current %]
+            <option value="[% item.id FILTER html %]">
+              [% item.name FILTER html %]</option>
+          [% END %]
+        </select>
+      </td>
 [% END %]

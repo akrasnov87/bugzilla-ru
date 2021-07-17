@@ -17,8 +17,8 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit Groups"
-  subheader = "This lets you edit the groups available to put users in."
+  title = "Группы пользователей"
+  subheader = "Позволяет настраивать группы для включения пользователей."
   style_urls = ['skins/standard/admin.css']
   doc_section = "administering/groups.html"
 %]
@@ -28,26 +28,26 @@
 
 [% columns =
   [{name               => 'name'
-    heading            => 'Name'
+    heading            => 'Имя'
     contentlink        => edit_contentlink
    }
    {name               => 'description'
-    heading            => 'Description'
+    heading            => 'Описание'
     allow_html_content => 1
    }
    {name               => 'userregexp'
-    heading            => 'User RegExp'
+    heading            => 'Шаблон пользователя'
    }
    {name               => 'is_active_bug_group'
-    heading            => "Use For $terms.Bugs"
-    class              => 'center'
+    heading            => "Использовать для $terms.bugs_gen"
+    align              => 'center'
    }
    {name               => 'type'
-    heading            => 'Type'
-    class              => 'center'
+    heading            => 'Тип'
+    align              => 'center'
    }
    {name               => 'action'
-    heading            => 'Action'
+    heading            => 'Действие'
    }
   ]
 %]
@@ -82,7 +82,7 @@
   [% IF special_group %]
     [% overrides.action.name.$special_group = {
          override_content => 1
-         content => "(used as the '$group')"
+         content => "(используется в параметре '$group')"
        }
     %]
   [% END %]
@@ -91,7 +91,7 @@
 [% overrides.action.isbuggroup = {
      "1" => {
          override_content => 1
-         content => "Delete"
+         content => "Удалить"
          override_contentlink => 1
          contentlink => del_contentlink
      }
@@ -100,11 +100,11 @@
    overrides.type.isbuggroup = {
      "0" => {
          override_content => 1
-         content => "system"
+         content => "системная"
      }
      "1" => {
          override_content => 1
-         content => "user"
+         content => "пользовательская"
      }
    }
 %] 
@@ -115,41 +115,42 @@
   overrides = overrides
 %]
 
-<p><a href="editgroups.cgi?action=add">Add Group</a></p>
+<p><a href="editgroups.cgi?action=add">Создать группу</a></p>
 
 <p>
-  <b>Name</b> is what is used with the B<!-- blah -->ugzilla->user->in_group()
-function in any customized cgi files you write that use a given group.
-It can also be used by people submitting [% terms.bugs %] by email to
-limit [% terms.abug %] to a certain set of groups.
+  <b>Имя</b> — это то, что использует функция B<!-- blah -->ugzilla->user->in_group() в
+специальных файлах cgi, которые вы пишете для использования данной
+группой. Оно также может использоваться пользователями, регистрирующими 
+[% terms.bugs_acc %] по электронной почте, чтобы ограничить доступ к 
+[% terms.bug_obj %] некоторым набором групп. Имя не может содержать
+пробелов.
 </p>
 
 <p>
-  <b>Description</b> is what will be shown in the [% terms.bug %] reports
-to members of the group where they can choose whether the [% terms.bug %]
-will be restricted to others in the same group.
+  <b>Описание</b> отображается в форме редактирования 
+[% terms.bugs_gen %] членам группы.  Они должны определить, будет ли 
+[% terms.bug %] доступна всем или только членам этой группы.
 </p>
 
 <p>
-  <b>User RegExp</b> is optional, and if filled in, will automatically
-grant membership to this group to anyone with an email address
-that matches this perl regular expression. Do not forget
-the trailing '$'.  Example '@mycompany\.com$'
+  <b>Шаблон пользователя</b> необязателен, если он указан, членство в
+этой группе автоматически предоставлено любому, чей адрес электронной
+почты соответствует указанному шаблону.  Синтаксис шаблона соответствует
+регулярному выражению Perl.  Пример: '@mycompany\.com$'
 </p>
 
 <p>
-  The <b>Use For [% terms.Bugs %]</b> flag determines whether or not
-the group is eligible to be used for [% terms.bugs %]. If you remove
-this flag, it will no longer be possible for users to add [% terms.bugs %]
-to this group, although [% terms.bugs %] already in the group will remain
-in the group. Doing so is a much less drastic way to stop a group
-from growing than deleting the group as well as a way to maintain
-lists of users without cluttering the lists of groups used
-for [% terms.bug %] restrictions.
+  Флажок <b>Использовать для [% terms.bugs_gen %]</b> определяет,
+может ли группа использоваться для управления доступом к 
+[% terms.bugs_dat %].  Если его снять, пользователи впредь не смогут
+добавить [% terms.bugs_acc %] к этой группе, хотя уже имеющиеся в
+группе [% terms.bugs %] будут принадлежать ей.  Это менее радикальный
+способ остановить рост группы, нежели ее удаление.  Кроме того,
+ненужные группы не загромождают форму редактирования [% terms.bugs_gen %].
 </p>
 
 <p>
-  The <b>Type</b> field identifies system groups.
+  Поле <b>Тип</b> указывает на системные группы, их нельзя удалить.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
