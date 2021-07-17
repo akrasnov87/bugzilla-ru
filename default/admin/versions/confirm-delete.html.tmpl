@@ -13,7 +13,7 @@
   #                    version the user wants to delete.
   #%]
 
-[% title = BLOCK %]Delete Version of Product '[% product.name FILTER html %]'
+[% title = BLOCK %]Удалить версию продукта '[% product.name FILTER html %]'
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -23,59 +23,53 @@
 
 <table id="admin_table">
   <tr class="column_header">
-    <th>Field</th>
-    <th>Value</th>
-  </tr>
-  <tr>
-    <td>Version</td>
-    <td>[% version.name FILTER html %]</td>
-  </tr>
-  <tr>
-    <td>Version of Product</td>
-    <td>[% product.name FILTER html %]</td>
-  </tr>
-  <tr>
-    <td>[% terms.Bugs %]</td>
-    <td>
-      [% IF version.bug_count %]
-        <a title="List of [% terms.bugs %] targetted at version '
-                  [%- version.name FILTER html %]'"
-           href="buglist.cgi?version=[% version.name FILTER uri %]&amp;product=
-                 [%- product.name FILTER uri %]">
-                 [%- version.bug_count FILTER none %]</a>
-      [% ELSE %]
-        None
-      [% END %]
-    </td>
-  </tr>
+  <th>Поле</th>
+  <th>Значение</th>
+</tr>
+<tr>
+  <td>Версия:</td>
+  <td>[% version.name FILTER html %]</td>
+</tr>
+<tr>
+  <td>Продукт:</td>
+  <td>[% product.name FILTER html %]</td>
+</tr>
+<tr>
+  <td>[% terms.Bugs_gen %]:</td>
+  <td>
+[% IF version.bug_count %]
+  <a title="Список [% terms.bugs_gen %] версии '
+           [%- version.name FILTER html %]'"
+     href="buglist.cgi?version=[% version.name FILTER uri %]&amp;product=
+          [%- product.name FILTER uri %]">
+          [%- version.bug_count FILTER none %]</a>
+[% ELSE %]
+  нет
+[% END %]
+  </td>
+</tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Подтверждение</h2>
 
 [% IF version.bug_count %]
   <p class="confirmation">
-  Sorry, there
-  [% IF version.bug_count > 1 %] 
-    are [% version.bug_count FILTER none %] outstanding [% terms.bugs %]
-  [% ELSE %]
-    is [% version.bug_count FILTER none %] outstanding [% terms.bug %]
-  [% END %]
+  Для данной версии продукта 
 
-  for this version. You must move
+  [% numeral(version.bug_count,
+     "зарегистрирована ${version.bug_count} ${terms.bug}",
+     "зарегистрировано ${version.bug_count} ${terms.bugs}",
+     "зарегистрировано ${version.bug_count} ${terms.bugs_gen}")
+  FILTER html -%].
+  Для удаления этой версии необходимо переназначить их на другие версии.
 
-  [% IF version.bug_count > 1 %]
-     those [% terms.bugs %] 
-  [% ELSE %]
-     that [% terms.bug %]
-  [% END %]
-  to another version before this version can be deleted.
   </p>
 [% ELSE %]
 
-  <p>Do you really want to delete this version?</p>
+  <p>Удалить версию?<p>
   
   <form method="post" action="editversions.cgi">
-    <input type="submit" id="delete" value="Yes, delete">
+    <input type="submit" id="delete" value="Да, удалить">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="product" value="[% product.name FILTER html %]">
     <input type="hidden" name="version" value="[% version.name FILTER html %]">

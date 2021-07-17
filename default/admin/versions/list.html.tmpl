@@ -11,11 +11,11 @@
   #               which the versions belongs.
   #%]
 
-[% title = BLOCK %]Select version of product
+[% title = BLOCK %]Выберите версию
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
-  style_urls = ['skins/standard/admin.css']
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% edit_contentlink = BLOCK %]editversions.cgi?action=edit&amp;product=
@@ -29,13 +29,13 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit version..."
+       heading => "Изменить..."
        contentlink => edit_contentlink
      },
      {
        name => "isactive"
-       heading => "Active"
-       yesno_field => 1
+       heading => "Доступна"
+       yesno_field => 1       
      }
    ]
 %]
@@ -44,7 +44,7 @@
 
   [% columns.push({
        name => "bug_count"
-       heading => "$terms.Bugs"
+       heading => "$terms.Bugs_gen"
        class => "right"
        contentlink => bug_count_contentlink
      })
@@ -53,8 +53,8 @@
 [% END %]
 
 [% columns.push({
-       heading => "Action"
-       content => "Delete"
+       heading => "Действие"
+       content => "Удалить"
        contentlink => delete_contentlink
      })
 %]
@@ -69,7 +69,7 @@
 [% IF ! showbugcounts %]
 
   <p><a href="editversions.cgi?product=[% product.name FILTER uri %]&amp;showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Показать счетчики [% terms.bugs_gen %] (требует времени)</a></p>
 
 [% END %]
 
