@@ -19,7 +19,7 @@
   [% END %]
 [% END %]
 
-[% title = BLOCK %]Updating Product '[% product.name FILTER html %]' 
+[% title = BLOCK %]Изменение продукта '[% product.name FILTER html %]' 
                    [% classification_text FILTER none %][% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -28,7 +28,7 @@
 
 [% IF changes.name.defined %]
   <p>
-  Updated product name from '[% changes.name.0 FILTER html %]' to
+  Название продукта изменено с '[% changes.name.0 FILTER html %]' на
   '<a href="editproducts.cgi?action=edit&amp;product=
   [%- product.name FILTER uri %]">[% product.name FILTER html %]</a>'.
   </p>
@@ -37,44 +37,44 @@
 
 [% IF changes.description.defined %]
   <p>
-    Updated description to:
+    Изменено описание продукта:
   </p>
-  <p class="indented">[% product.description FILTER html_light %]</p>
+  <p style="margin: 1em 3em 1em 3em">[% product.description FILTER html_light %]</p>
 [% END %]
 
 [% IF changes.isactive.defined %]
   <p>
-  Product is now
+  Продукт
   [% IF product.is_active %]
-    open for
+    открыт 
   [% ELSE %]
-    closed to 
+    закрыт
   [% END %]
-  new [% terms.bugs %].
+  для регистрации [% terms.bugs_gen %].
   </p>
 [% END %]
 
 [% IF changes.defaultmilestone.defined %]
   <p>
-  Updated default milestone from '[% changes.defaultmilestone.0 FILTER html %]' to
+  План по умолчанию изменен с '[% changes.defaultmilestone.0 FILTER html %]' на
   '[% product.default_milestone FILTER html %]'.
   </p>
 [% END %]
-
+  
 [% IF changes.allows_unconfirmed.defined %]
   <p>
   [% IF product.allows_unconfirmed %]
-    The product now allows the 
-    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status.
+    В продукте теперь можно использовать 
+    статус [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %].
   [% ELSE %]
-    The product no longer allows the 
-    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status.
-    Note that any 
+    В продукте больше нельзя использовать
+    статус [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %].
+    Обратите внимание, что все 
     <a href="buglist.cgi?product=
-            [%- product.name FILTER uri %]&amp;bug_status=UNCONFIRMED"> 
-    [%- terms.bugs %] that currently have the 
-    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status</a>
-    will remain in that status until they are edited.
+            [%- product.name FILTER uri %]&amp;bug_status=UNCONFIRMED">
+    [%- terms.bugs %] имеющие в данное время статус 
+    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %]</a>
+    останутся в этом статусе, пока он не будет изменён.
   [% END %]
   </p>
 [% END %]
@@ -82,7 +82,7 @@
 [% Hook.process('changes') %]
 
 [% IF !changes.keys.size %]
-  <p>Nothing changed for product '[% product.name FILTER html %]'.</p>
+  <p>Изменений продукта '[% product.name FILTER html %]' не обнаружено.</p>
 [% END %]
 
 [% PROCESS admin/products/footer.html.tmpl %]

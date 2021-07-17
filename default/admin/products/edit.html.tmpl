@@ -15,7 +15,7 @@
   #                                                  the product is in
   #%]
 
-[% title = BLOCK %]Edit Product '[% product.name FILTER html %]'[% END %]
+[% title = BLOCK %]Изменение продукта '[% product.name FILTER html %]'[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -23,50 +23,56 @@
   javascript_urls = ['js/util.js']
 %]
 
-[% group_control = {${constants.CONTROLMAPNA}        => 'NA',
-                    ${constants.CONTROLMAPSHOWN}     => 'Shown',
-                    ${constants.CONTROLMAPDEFAULT}   => 'Default',
-                    ${constants.CONTROLMAPMANDATORY} => 'Mandatory'}
+[% group_control = {${constants.CONTROLMAPNA}        => 'Запрещено',
+                    ${constants.CONTROLMAPSHOWN}     => 'Разрешено',
+                    ${constants.CONTROLMAPDEFAULT}   => 'Включено',
+                    ${constants.CONTROLMAPMANDATORY} => 'Обязательно'}
  %]
 
 <form method="post" action="editproducts.cgi">
-  <table id="admin_table_edit">
+  <table border="0" cellpadding="4" cellspacing="0">
 
     [% PROCESS "admin/products/edit-common.html.tmpl" %]
 
     <tr>
       <th>
         <a href="editcomponents.cgi?product=[% product.name FILTER uri %]">
-        Edit components:
+        Изменить компоненты:
         </a>
       </th>
       <td>
         [% IF product.components.size -%]
-          [% FOREACH comp = product.components %]
+          [% FOREACH component = product.components %]
             <a href="editcomponents.cgi?action=edit&product=
             [%- product.name FILTER uri %]&component=
-            [%- comp.name FILTER uri %]">[% comp.name FILTER html %]</a>:
-            [% comp.description FILTER html_light %]
+            [%- component.name FILTER uri %]">[% component.name FILTER html %]</a>:&nbsp;
+            [% IF component.description %]
+              [% component.description FILTER html_light %]
+            [% ELSE %]
+              <font color="red">описание отсутствует</font>
+            [% END %]
             <br>
           [% END %]
         [% ELSE %]
-          <span class="warning">missing</span>
+          <span class="warning">отсутствуют</span>
         [% END %]
       </td>
     </tr>
     <tr>
       <th>
-        <a href="editversions.cgi?product=[% product.name FILTER uri %]">Edit versions:</a>
+        <a href="editversions.cgi?product=[% product.name FILTER uri %]">Изменить
+версии:</a>
       </th>
       <td>
         [%- IF product.versions.size -%]
-          <div class="multi-columns">
-            [% FOREACH v = product.versions %]
-              [% v.name FILTER html %]<br>
-            [% END %]
-          </div>
+                  <div class="multi-columns">
+          [% FOREACH v = product.versions %]
+            [% v.name FILTER html %]
+            <br>
+          [% END %]
+                    </div>
         [% ELSE %]
-          <span class="warning">missing</span>
+          <span class="warning">отсутствуют</span>
         [% END %]
       </td>
     </tr>
@@ -74,17 +80,17 @@
       <tr>
         <th>
           <a href="editmilestones.cgi?product=[% product.name FILTER uri %]">
-          Edit milestones:</a>
+          Изменить планы:</a>
         </th>
         <td>
           [%- IF product.milestones.size -%]
-            <div class="multi-columns">
-              [%- FOREACH m = product.milestones -%]
-                [% m.name FILTER html %]<br>
-              [% END %]
-            </div>
+                    <div class="multi-columns">
+            [%- FOREACH m = product.milestones -%]
+               [% m.name FILTER html %]<br>
+            [% END %]
+                        </div>
           [% ELSE %]
-            <span class="warning">missing</span>
+          <span class="warning">отсутствуют</span>
           [% END %]
         </td>
       </tr>
@@ -93,37 +99,35 @@
       <th>
         <a href="editproducts.cgi?action=editgroupcontrols&product=
           [%- product.name FILTER uri %]">
-          Edit Group Access Controls:
+          Права доступа по группам:
         </a>
       </th>
       <td>
         [% IF product.group_controls.size %]
           [% FOREACH g = product.group_controls.values.sort("name") %]
-            <b>[% g.group.name FILTER html %]:</b>
+            <b>[% g.group.name FILTER html %]:</b>&nbsp;
             [% IF g.group.isactive %]
               [% group_control.${g.membercontrol} FILTER html %]/
               [% group_control.${g.othercontrol} FILTER html %]
-              [% IF g.entry %], ENTRY[% END %]
-              [% IF g.canedit %], CANEDIT[% END %]
-              [% IF g.editcomponents %], editcomponents[% END %]
-              [% IF g.canconfirm %], canconfirm[% END %]
-              [% IF g.editbugs %], editbugs[% END %]
+              [% IF g.entry %], Создание[% END %]
+              [% IF g.canedit %], Редакторы[% END %]
+              [% IF g.editcomponents %], Компоненты[% END %]
+              [% IF g.canconfirm %], Подтверждение[% END %]
+              [% IF g.editbugs %], Редактировать любые ошибки[% END %]
             [% ELSE %]
-              DISABLED
+              НЕАКТИВНА
             [% END %]
             <br>
           [% END %]
         [% ELSE %]
-          no groups
+          отсутствуют
         [% END %]
       </td>
     </tr>
     <tr>
       <th>[% terms.Bugs %]:</th>
-      <td>
-        <a href="buglist.cgi?product=[% product.name FILTER uri %]">
-          [% product.bug_count FILTER html %]</a>
-      </td>
+      <td><a href="buglist.cgi?product=[% product.name FILTER uri %]">
+            [% product.bug_count FILTER html %]</a></td>
     </tr>
   </table>
   
@@ -131,7 +135,7 @@
         value="[% product.name FILTER html %]">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update-product" value="Save Changes">
+  <input type="submit" id="update-product" value="Сохранить изменения">
 </form>
   
 [% PROCESS "admin/products/footer.html.tmpl"

@@ -14,35 +14,35 @@
 
 [% IF Param('useclassification') %]
   <tr>
-    <th>Classification:</th>
+    <th>Раздел:</th>
     <td><b>[% classification.name FILTER html %]</b></td>
   </tr>
 [% END %]
     
 <tr>
-  <th>Product:</th>
+  <th>Продукт:</th>
   <td><input size="64" maxlength="64" name="product" 
              value="[% product.name FILTER html %]" required>
   </td>
 </tr>
 <tr>
-  <th>Description:</th>
-  <td><textarea rows="4" cols="64" wrap="virtual" name="description" required>
+  <th>Описание:</th>
+  <td><textarea rows="4" cols="64" wrap="virtual" name="description">
         [% product.description FILTER html %]</textarea>
   </td>
 </tr>
 
 <tr>
-  <th>Open for [% terms.bug %] entry:</th>
+  <th>Открыт для регистрации [% terms.bugs_gen %]:</th>
   <td><input type="checkbox" name="is_active" value="1"
        [% ' checked="checked"' IF product.is_active %]>
   </td>
 </tr>
 <tr>
   <th>
-    <label for="allows_unconfirmed">Enable the
-      [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status
-      in this product:</label>
+    <label for="allows_unconfirmed">Включить статус
+      [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %]
+      в этом продукте:</label>
   </th>
   <td><input type="checkbox" id="allows_unconfirmed" name="allows_unconfirmed"
              [% ' checked="checked"' IF product.allows_unconfirmed %]>
@@ -51,7 +51,7 @@
 
 [% IF Param('usetargetmilestone') -%]
   <tr>
-    <th>Default milestone:</th>
+    <th>План по умолчанию:</th>
     <td>
       [% IF product.milestones.size %]
         <select name="defaultmilestone">

@@ -7,45 +7,35 @@
   #%]
 
 [% title = BLOCK %]
-  Confirm Group Control Change for product '[%- product.name FILTER html %]'
+  Подтвердите смену группы, сопоставленной продукту '[%- product.name FILTER html %]'
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 
 [% FOREACH group = mandatory_groups %]
-  <p>
-    Group '[% group.name FILTER html %]' impacts 
-    [% IF group.count == 1 %]
-       one [%+ terms.bug %]
-    [% ELSE %]
-      [% group.count %] [%+ terms.bugs %]
-    [% END %]
-    for which this group is mandatory and will be added.
-  </p>
+<P>
+Для [% group.count %]&nbsp;[% terms.bugs_gen %] группа '[% group.name FILTER html %]' 
+с этого момента является обязательной и будет добавлена к списку групп каждой [% terms.bug_gen %].
 [% END %]
 
 [% FOREACH group = na_groups %]
-  <p>
-    Group '[% group.name FILTER html %]' impacts 
-    [% IF group.count == 1 %]
-       one [%+ terms.bug %]
-    [% ELSE %]
-      [% group.count %] [%+ terms.bugs %]
-    [% END %]  
-    for which this group is no longer applicable and will be removed.
-  </p>
+<P>
+Для [% group.count %]&nbsp;[% terms.bugs_gen %] группа '[% group.name FILTER html %]' 
+с этого момента неприменима и будет удалена из списка групп каждой [% terms.bug_gen %].
 [% END %]
-
 <form action="editproducts.cgi" method="post" >
+
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
   <p>
-    <br>
-    Click "Continue" to proceed with the change including the changes
-    indicated above.  If you do not want these changes, use "back" to
-    return to the previous page.
-  </p>
-  <input type="hidden" name="confirmed" value="confirmed">
-  <input type="submit" id="update" value="Continue">
+  <br>
+     Нажмите "Сохранить", чтобы произвести действия, указанные выше.
+     Если вы не хотите этого, нажмите "Назад", чтобы вернуться на предыдущую 
+     страницу.
+    </p>
+    <input type="hidden" name="confirmed" value="confirmed">
+    <input type="submit" id="update" value="Сохранить">
+
 </form>
+
 
 [% PROCESS global/footer.html.tmpl %]

@@ -15,33 +15,33 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Select Classification"
-  style_urls = ['skins/standard/admin.css']
+  title = "Выберите раздел"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit products of..."
+       heading => "Продукты в..."
        contentlink => 'editproducts.cgi?classification=%%name%%'
      },
      { 
        name => "description"
-       heading => "Description"
+       heading => "Описание"
        allow_html_content => 1
      },
      { 
        name => "product_count"
        class => "right"
-       heading => "Product Count"
+       heading => "Продуктов"
      }
    ]
 %]
 
 [% IF user.in_group('editcomponents') %]
   [% columns.push({
-       heading => "Action..."
-       content => "Add product"
+       heading => "Действие..."
+       content => "Добавить продукт"
        contentlink => 'editproducts.cgi?action=add&amp;classification=%%name%%' })
   %]
 [% END %]
