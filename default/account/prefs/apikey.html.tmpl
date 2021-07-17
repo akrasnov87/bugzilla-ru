@@ -12,24 +12,24 @@
   #%]
 
 <p>
-  API keys are used to authenticate WebService API calls. You can create more than
-  one API key if required. Each API key has an optional description which can help
-  you record what each key is used for. Documentation on how to log in is
-  available from
-  <a href="[% docs_urlbase FILTER html %]api/core/v1/general.html#authentication">here</a>.
+  Ключи API используются для аутентификации вызовов API WebService. Вы можете создать больше, чем
+   один ключ API, если требуется. Каждый ключ API имеет дополнительное описание, которое может помочь
+   вы записываете, для чего используется каждый ключ. Документация по авторизации есть
+   и доступна
+  <a href="[% docs_urlbase FILTER html %]api/core/v1/general.html#authentication">здесь</a>.
 </p>
 
-<h3>Existing API keys</h3>
+<h3>Существующие API keys</h3>
 
-<p>You can update the description, and revoke or unrevoke existing API keys
-here.</p>
+<p>Вы можете обновить описание, а также отозвать или отозвать существующие ключи API.
+здесь. </p>
 
 <table id="email_prefs">
   <tr class="column_header">
     <th>API key</th>
-    <th>Description (optional)</th>
-    <th>Last used</th>
-    <th>Revoked</th>
+    <th>Описание (по желанию)</th>
+    <th>Дата последнего применения</th>
+    <th>Аннулировано</th>
   </tr>
 
   [% FOREACH api_key IN api_keys %]
@@ -43,7 +43,7 @@ here.</p>
       [% IF api_key.last_used %]
         <td>[% api_key.last_used FILTER time %]</td>
       [% ELSE %]
-        <td class="center"><i>never used</i></td>
+        <td class="center"><i>никогда не использовался</i></td>
       [% END %]
       <td class="center">
         <input type="checkbox" value="1"
@@ -54,17 +54,17 @@ here.</p>
     </tr>
   [% END %]
   [% UNLESS api_keys.size %]
-    <tr><td colspan="4">You don't have any API keys.</td></tr>
+    <tr><td colspan="4">У вас нет ключей API .</td></tr>
   [% END %]
 </table>
 
 [% IF any_revoked %]
   <a id="apikey_revoked_controller" class="bz_default_hidden"
-     href="javascript:TUI_toggle_class('apikey_revoked')">Hide Revoked Keys</a>
+     href="javascript:TUI_toggle_class('apikey_revoked')">Скрыть отозванные ключи </a>
   [%# Show the link if the browser supports JS %]
   <script type="text/javascript">
     TUI_hide_default('apikey_revoked');
-    TUI_alternates['apikey_revoked'] = 'Show Revoked Keys';
+    TUI_alternates['apikey_revoked'] = 'Показать отозванные ключи ';
     YAHOO.util.Dom.removeClass('apikey_revoked_controller',
                                'bz_default_hidden');
   </script>
@@ -72,13 +72,13 @@ here.</p>
 
 <h3>New API key</h3>
 
-<p>You can generate a new API key by ticking the check box below and optionally
-providing a description for the API key. The API key will be randomly
-generated for you.</p>
+<p>Вы можете сгенерировать новый ключ API, установив флажок ниже и, при желании,
+предоставление описания ключа API. Ключ API будет случайным образом
+создан для вас. </p>
 
 <p>
   <input type="checkbox" name="new_key" id="new_key">
-  Generate a new API key with optional description
+  Создайте новый ключ API с дополнительным описанием 
   <input name="new_description" id="new_description">
 </p>
 
