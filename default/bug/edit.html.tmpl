@@ -828,7 +828,7 @@ desc_url = "describekeywords.cgi", possible_values = all_keywords
     <tr>
       <th class="field_label">
         <label for="bug_ignored" title="Ignore all email for this [% terms.bug %]">
-          Ignore [% terms.Bug %] Mail:
+          Игнорировать [% terms.Bug %] для отправки на Email:
         </label>
       </th>
       <td>
@@ -836,7 +836,7 @@ desc_url = "describekeywords.cgi", possible_values = all_keywords
         <span title="You will still receive emails for flag requests directed at you.">
           <input type="checkbox" name="bug_ignored" id="bug_ignored" value="1"
                  [% ' checked="checked"' IF user.is_bug_ignored(bug.id) %]>
-          (never email me about this [% terms.bug %])
+          (никогда не пиши мне об этом [% terms.bug %])
         </span>
       </td>
     </tr>
@@ -869,7 +869,7 @@ desc_url = "describekeywords.cgi", possible_values = all_keywords
       [% END %]
       [% IF bug.check_can_change_field('alias', 0, 1) %]
         <span id="alias_edit_area_showhide_container" class="bz_default_hidden">
-          (<a href="#" id="alias_edit_area_showhide">edit</a>)
+          (<a href="#" id="alias_edit_area_showhide">изменить</a>)
         </span>
         <br>
         <div id="alias_edit_area">
