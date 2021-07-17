@@ -12,11 +12,11 @@
   #               which the component belongs.
   #%]
 
-[% title = BLOCK %]Select component of product
+[% title = BLOCK %]Выберите компонент продукта
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
-  style_urls = ['skins/standard/admin.css']
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% edit_contentlink = BLOCK %]editcomponents.cgi?action=edit&amp;product=
@@ -30,17 +30,17 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit component..."
+       heading => "Изменить..."
        contentlink => edit_contentlink
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Описание" 
        allow_html_content => 1
      },
      { 
        name => "initialowner"
-       heading => "Default Assignee"
+       heading => "Ответственный исполнитель"
      },
    ]
 %]
@@ -49,26 +49,27 @@
 
   [% columns.push({
        name => 'initialqacontact'
-       heading => 'Default QA Contact'
+       heading => 'Ответственный за приемку'
      }) %]
 
 [% END %]
 
 [% columns.push({
      name => "initial_cc_names"
-     heading => "Default CC list"
+     heading => "Список подписанных пользователей"
    },
    {
      name => "isactive"
-     heading => "Active"
+     heading => "Активен"
      yesno_field => 1
    }) %]
+
 
 [% IF showbugcounts %]
 
   [% columns.push({
        name => 'bug_count'
-       heading => "$terms.Bugs"
+       heading => "$terms.Bugs_gen"
        class => "right"
        contentlink => bug_count_contentlink
      }) %]
@@ -76,8 +77,8 @@
 [% END %]
 
 [% columns.push({
-     heading => "Action"
-     content => "Delete"
+     heading => "Действие"
+     content => "Удалить"
      contentlink => delete_contentlink
    }) %]
 
@@ -117,13 +118,13 @@
      overrides = overrides
 %]
 
-<p><a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER uri %]">Add</a>
-    a new component to product '[% product.name FILTER html %]'</p>
+<p><a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER uri %]">Создать</a>
+    новый компонент продукта '[% product.name FILTER html %]'</p>
 
 [% IF ! showbugcounts %]
 
   <p><a href="editcomponents.cgi?product=[% product.name FILTER uri %]&amp;showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Обновить счетчики [% terms.bugs_gen %] (требует времени)</a></p>
 
 [% END %]
 

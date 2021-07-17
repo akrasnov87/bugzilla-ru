@@ -15,27 +15,27 @@
 <hr>
 
 <p>
-Edit 
+Изменить 
 
 [% IF comp && !no_edit_component_link %]
-  component <a 
-  title="Edit Component '[% comp.name FILTER html %]'"
+  компонент <a 
+  title="Изменить компонент '[% comp.name FILTER html %]'"
   href="editcomponents.cgi?action=edit&amp;product=
   [%- product.name FILTER uri %]&amp;component=[% comp.name FILTER uri %]">
    '[% comp.name FILTER html %]'</a> 
-  or edit
+  или
 [% END %]
 
 [% IF !no_edit_other_components_link %]
-other components of product <a 
-  title="Choose a component from product '[% product.name FILTER html %]' to edit"
+другие компоненты продукта <a 
+  title="Выберите компонент продукта '[% product.name FILTER html %]' to edit"
   href="editcomponents.cgi?product=
-  [%- product.name FILTER uri %]">'[% product.name FILTER html %]'</a>, 
-  or edit 
+  [%- product.name FILTER uri %]">'[% product.name FILTER html %]'</a>,
+  или 
 [% END %]
 
-product <a 
-  title="Edit Product '[% product.name FILTER html %]'"
+продукт <a 
+  title="Изменить продукт '[% product.name FILTER html %]'"
   href="editproducts.cgi?action=edit&amp;product=
   [%- product.name FILTER uri %]">'[% product.name FILTER html %]'</a>.
 

@@ -14,7 +14,7 @@
   #%]
 
 [% title = BLOCK %]
-  Edit component '[% comp.name FILTER html %]' of product '[% product.name FILTER html %]'
+  Изменение компонента '[% comp.name FILTER html %]' продукта '[% product.name FILTER html %]'
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -30,21 +30,21 @@
     [% PROCESS "admin/components/edit-common.html.tmpl" %]
 
     <tr>
-      <th><label for="isactive">Enabled For [% terms.Bugs %]:</label></th>
+      <th><label for="isactive">Доступен для [% terms.Bugs_gen %]:</label></th>
       <td><input id="isactive" name="isactive" type="checkbox" value="1" 
                  [% 'checked="checked"' IF comp.isactive %]></td>
     </tr>
     <tr>
       <th>[% terms.Bugs %]:</th>
       <td>
-        [% IF comp.bug_count > 0 %]
-          <a title="[% terms.Bugs %] in component '[% comp.name FILTER html %]'"
-             href="buglist.cgi?component=
-                  [%- comp.name FILTER uri %]&amp;product=
-                  [%- product.name FILTER uri %]">[% comp.bug_count %]</a>
-        [% ELSE %]
-          None
-        [% END %]
+[% IF comp.bug_count > 0 %]
+        <a title="[% terms.Bugs %] компонента '[% comp.name FILTER html %]'"
+           href="buglist.cgi?component=
+                [%- comp.name FILTER uri %]&amp;product=
+                [%- product.name FILTER uri %]">[% comp.bug_count %]</a>
+[% ELSE %]
+        Нет
+[% END %]
       </td>
     </tr>
   </table>
@@ -53,10 +53,11 @@
    <input type="hidden" name="componentold" value="[% comp.name FILTER html %]">
    <input type="hidden" name="product" value="[% product.name FILTER html %]">
    <input type="hidden" name="token" value="[% token FILTER html %]">
-   <input type="submit" value="Save Changes" id="update"> or
-   <a href="editcomponents.cgi?action=del&amp;product=
-            [%- product.name FILTER uri %]&amp;component=
-            [%- comp.name FILTER uri %]">Delete</a> this component.
+   <input type="submit" value="Сохранить изменения" id="update"> или <a 
+        href="editcomponents.cgi?action=del&amp;product=
+        [%- product.name FILTER uri %]&amp;component=
+        [%- comp.name FILTER uri %]">удалить</a> компонент.
+
 </form>
 
 [% PROCESS admin/components/footer.html.tmpl

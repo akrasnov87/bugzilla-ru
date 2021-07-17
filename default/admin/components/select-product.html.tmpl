@@ -12,19 +12,19 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit components for which product?"
-  style_urls = ['skins/standard/admin.css']
+  title = "Выберите продукт"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit components of..."
+       heading => "Изменить компоненты..."
        contentlink => "editcomponents.cgi?product=%%name%%" 
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Описание" 
        allow_html_content => 1
      }
    ]
@@ -34,7 +34,7 @@
 
   [% columns.push({
       name => 'bug_count'
-      heading => "$terms.Bugs"
+      heading => "$terms.Bugs_gen"
       class => "right"
       contentlink => "buglist.cgi?product=%%name%%"
     })
@@ -49,7 +49,7 @@
 
 [% IF !showbugcounts %]
   <p><a href="editcomponents.cgi?showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Обновить счетчики [% terms.bugs_gen %] (требует времени)</a></p>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]
