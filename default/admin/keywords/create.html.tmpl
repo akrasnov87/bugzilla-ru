@@ -9,41 +9,39 @@
 [%# INTERFACE:
   # none
   #%]
-
+  
 [% PROCESS global/header.html.tmpl
-  title = "Add keyword"
-  subheader = "This page allows you to add a new keyword."
-  style_urls = ['skins/standard/admin.css']
+  title = "Добавьте ключевое слово"
+  subheader = "Эта страница позволит вам добавить новое ключевое слово."
+    style_urls = ['skins/standard/admin.css']
 %]
 
 <form method="post" action="editkeywords.cgi">
   <table id="admin_table_edit">
     <tr>
-      <th>Name:</th>
+      <th>Имя:</th>
       <td><input size="64" maxlength="64" name="name" value="" required></td>
     </tr>
     <tr>
-      <th>Description:</th>
+      <th>Описание:</th>
       <td>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'description'
           minrows = 4
           cols    = 64
           wrap    = 'virtual'
-          mandatory = 1
+                    mandatory = 1
         %]
       </td>
     </tr>
   </table>
 
   <input type="hidden" name="id" value="-1">
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Добавить">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
-
 <hr>
-
-<p><a href="editkeywords.cgi">Edit other keywords</a>.</p>
+<p><a href="editkeywords.cgi">Редактировать другие ключевые слова</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %]

@@ -11,32 +11,32 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Delete Keyword"
-  style_urls = ['skins/standard/admin.css']
+  title = "Удаление ключевого слова"
+    style_urls = ['skins/standard/admin.css']
 %]
 
-<h2>Confirmation</h2>
-
-<p class="confirmation">
-  [% IF keyword.bug_count == 1 %]
-    There is one [% terms.bug %]
-  [% ELSIF keyword.bug_count > 1 %]
-    There are [% keyword.bug_count FILTER html %] [%+ terms.bugs %]
-  [% END %]
-   with the <em>[% keyword.name FILTER html %]</em> keyword set.
-</p>
-
 <p>
-  Do you really want to delete this keyword?
+  [% IF keyword.bug_count > 0 %]
+    [% numeral(keyword.bug_count,
+       "Найдена ${keyword.bug_count} ${terms.bug}",
+       "Найдены ${keyword.bug_count} ${terms.bug_gen}",
+       "Найдено ${keyword.bug_count} ${terms.bugs_gen}")
+    FILTER html %] со ссылкой на это ключевое слово.
+  [% END %]
+  </p>
+  <p>
+  Вы <b>уверены</b>, что хотите удалить ключевое слово
+  <code>[% keyword.name FILTER html %]</code>?
 </p>
 
 <form method="post" action="editkeywords.cgi">
   <input type="hidden" name="id" value="[% keyword.id FILTER html %]">
   <input type="hidden" name="action" value="delete">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="delete" value="Yes, delete">
+  <input type="submit" id="delete"
+         value="Да, удалить это ключевое слово">
 </form>
 
-<p><a href="editkeywords.cgi">Edit other keywords</a>.</p>
+<p><a href="editkeywords.cgi">Редактировать другие ключевые слова</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 

@@ -15,30 +15,30 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Select keyword"
-  style_urls = ['skins/standard/admin.css']
+  title = "Выберите ключевое слово"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit keyword..."
+       heading => "Изменить..."
        contentlink => "editkeywords.cgi?action=edit&amp;id=%%id%%" 
      },
      { 
        name => "description"
-       heading => "Description"
+       heading => "Описание"
        allow_html_content => 1
      },
      { 
        name => "bug_count"
-       heading => "$terms.Bugs"
-       class => "right"
+       heading => "$terms.Bugs_gen"
+       align => "right"
        contentlink => "buglist.cgi?keywords=%%name%%"
      },
      { 
-       heading => "Action" 
-       content => "Delete"
+       heading => "Действие" 
+       content => "Удалить"
        contentlink => "editkeywords.cgi?action=del&amp;id=%%id%%"
      }
    ]
@@ -50,6 +50,6 @@
      footer = footer_row
 %]
 
-<p><a href="editkeywords.cgi?action=add">Add a new keyword</a></p>
+<p><a href="editkeywords.cgi?action=add">Создать ключевое слово</a></p>
 
 [% PROCESS global/footer.html.tmpl %]
