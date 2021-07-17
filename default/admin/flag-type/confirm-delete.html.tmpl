@@ -6,7 +6,7 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-[% title = BLOCK %]Confirm Deletion of Flag Type '[% flag_type.name FILTER html %]'[% END %]
+[% title = BLOCK %]Подтвердите удаление вида согласования '[% flag_type.name FILTER html %]'[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -16,25 +16,34 @@
 
 <p>
   [% IF flag_type.flag_count %]
-    There are [% flag_type.flag_count %] flags of type [% flag_type.name FILTER html %].
-    If you delete this type, those flags will also be deleted.
+    Найдено
+    [%+ numeral(flag_type.flag_count,
+       "${flag_type.flag_count} согласование",
+       "${flag_type.flag_count} согласования",
+       "${flag_type.flag_count} согласований")
+    FILTER html %]
+    вида [% flag_type.name FILTER html %].
+    Если вы удалите этот вид, соответствующие запросы тоже будут удалены. 
   [% END %]
-
-  Note that instead of deleting the type you can
+   Вместо удаления вида вы можете 
    <a href="editflagtypes.cgi?action=deactivate&amp;id=[% flag_type.id %]&amp;token=
-           [%- token FILTER html %]">deactivate it</a>,
-   in which case the type [% IF flag_type.flag_count %] and its flags [% END %] will remain
-   in the database but will not appear in the Bugzilla UI.
+           [%- token FILTER html %]">запретить его</a>.
+   В этом случае согласования этого типа останутся в базе данных, но не будут
+   отображаться на экране.
 </p>
 
 <p class="confirmation">
-  Do you really want to delete this type?
+ Вы в самом деле хотите удалить этот вид согласования?
 </p>
 
 <p>
-  <a href="editflagtypes.cgi?action=delete&amp;id=[% flag_type.id %]&amp;token=
-           [%- token FILTER html %]">Yes, delete</a> -
-  <a href="editflagtypes.cgi">No, don't delete</a>
+         <a href="editflagtypes.cgi?action=delete&amp;id=[% flag_type.id %]&amp;token=
+                 [%- token FILTER html %]">Да, удалить
+         </a> -
+         <a href="editflagtypes.cgi">
+            Нет, не удалять
+         </a>
+
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
