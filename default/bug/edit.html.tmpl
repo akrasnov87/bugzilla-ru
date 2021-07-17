@@ -865,7 +865,7 @@ desc_url = "describekeywords.cgi", possible_values = all_keywords
       [% IF bug.alias.size %]
         [% bug.alias.join(', ') FILTER html %]
       [% ELSE %]
-        None
+        Не указано
       [% END %]
       [% IF bug.check_can_change_field('alias', 0, 1) %]
         <span id="alias_edit_area_showhide_container" class="bz_default_hidden">
