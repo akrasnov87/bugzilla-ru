@@ -6,51 +6,45 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "Group Security"
-   desc = "Decide how you will use Security Groups"
+   title = "Групповые права доступа"
+   desc = "Настройки разграничения доступа при помощи групп"
 %]
 
 [% param_descs = {
-  makeproductgroups => "If this is on, Bugzilla will associate $terms.abug group " _
-                       "with each product in the database, and use it for querying ${terms.bugs}.",
+  makeproductgroups => "Связать отдельную пользовательскую группу, с каждым продуктом " _
+                       "${terms.Bugzilla} для управления видимостью ${terms.bugs_gen}.",
 
-  chartgroup => "The name of the group of users who can use the 'New Charts' " _
-                "feature. Administrators should ensure that the public categories " _
-                "and series definitions do not divulge confidential information " _
-                "before enabling this for an untrusted population. If left blank, " _
-                "no users will be able to use New Charts.",
+  chartgroup => "Группа, пользователи которой имеют доступ к отчетам и диаграммам. " _
+                "Прежде чем разрешить доступ внешним пользователям, администратор " _
+                "должен убедиться, что общедоступные серии данных не дают возможности " _
+                "анализировать конфиденциальную информацию. При пустом значении " _
+                "параметра статистические диаграммы недоступны никому.",
 
-  insidergroup => "The name of the group of users who can see/change private " _
-                  "comments and attachments.",
+  insidergroup => "Группа, члены которой имеют доступ к конфиденциальным комментариям " _
+                  "и приложениям.",
 
-  timetrackinggroup => "The name of the group of users who can see/change time tracking " _
-                       "information.",
+  timetrackinggroup => "Группа, члены которой имеют доступ к данным " _
+                       "учета рабочего времени.",
 
-  querysharegroup => "The name of the group of users who can share their " _
-                     "saved searches with others.",
+  querysharegroup => "Группа, члены которой могут публиковать хранимые " _
+                     "условия отбора для остальных.",
 
-  comment_taggers_group => "The name of the group of users who can tag comment." _
-                           " Setting this to empty disables comment tagging.",
+                     comment_taggers_group => "Название группы пользователей, которые могут отмечать комментарии. Установка этого значения в пустое отключает пометку комментариев. ",
+                     
+  debug_group => "Группа, члены которой могут увидеть реальный SQL-запрос, " _
+                 "сгенерированный при просмотре списков и отчетов ${terms.bug_gen}.",
 
-  debug_group => "The name of the group of users who can view the actual " _
-                 "SQL query generated when viewing $terms.bug lists and reports.",
+  usevisibilitygroups => "Ограничить доступ к списку пользователей определенными " _
+                         "группами?",
+  
+  strict_isolation => "Не разрешать назначение пользователя исполнителем, " _
+                      "ответственным за приемку, " _
+                      "подписку на изменение, " _
+                      "создание и удаление зависимостей " _
+                      "по любым ${terms.bugs_dat}, изменение которых " _
+                      "данному пользователю недоступно.", 
 
-  usevisibilitygroups => "Do you wish to restrict visibility of users to members of " _
-                         "specific groups?",
+                      or_groups => "Определите видимость $terms.abug, который находится в нескольких группах. Если это включено (рекомендуется), пользователю нужно только быть членом одной из групп $terms.bug, чтобы просматривать ее. Если он выключен, пользователь должен быть членом всех групп $terms.bug. Обратите внимание, что в любом случае, если у пользователя есть роль в $terms.bug (например, репортер), которая также может повлиять на его разрешения. "
 
-  strict_isolation => "Don't allow users to be assigned to, " _
-                      "be qa-contacts on, " _
-                      "be added to CC list, " _
-                      "or make or remove dependencies " _
-                      "involving any bug that is in a product on which that " _
-                      "user is forbidden to edit.",
-
- or_groups => "Define the visibility of $terms.abug which is in multiple " _
-              "groups. If this is on (recommended), a user only needs to " _
-              "be a member of one of the $terms.bug's groups in order to " _
-              "view it. If it is off, a user needs to be a member of all " _
-              "the $terms.bug's groups. Note that in either case, if the " _
-              "user has a role on the $terms.bug (e.g. reporter) that may " _
-              "also affect their permissions."
  }
 %]

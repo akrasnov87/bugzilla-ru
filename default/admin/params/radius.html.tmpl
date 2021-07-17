@@ -7,37 +7,37 @@
   #%]
 [%
    title = "RADIUS"
-   desc = "Configure this first before choosing RADIUS as an authentication method"
+   desc = "Настройки, необходимые для использования аутентификации RADIUS"
 %]
 
 [% param_descs = {
-  RADIUS_server => "The name (and optionally port) of your RADIUS server " _
-                   "(e.g. <code>radius.company.com</code>, or " _
+  RADIUS_server => "Имя (и, возможно, порт) сервера RADIUS " _
+                   "(например, <code>radius.company.com</code>, или " _
                    "<code>radius.company.com:portnum</code>).<br>" _
-                   "Required only if " _
-                   "<a href=\"?section=auth#user_verify_class_desc\">the " _
-                   "<code>user_verify_class</code> parameter</a> contains " _
+                   "Обязателен, если " _
+                   "<a href=\"?section=auth#user_verify_class_desc\">параметр " _
+                   "<code>user_verify_class</code></a> включает в себя " _
                    "<code>RADIUS</code>.",
 
-  RADIUS_secret => "Your RADIUS server's secret.<br>" _
-                   "Required only if " _
-                   "<a href=\"?section=auth#user_verify_class_desc\">the " _
-                   "<code>user_verify_class</code> parameter</a> contains " _
+  RADIUS_secret => "Пароль на сервере RADIUS.<br>" _
+                   "Обязателен, если " _
+                   "<a href=\"?section=auth#user_verify_class_desc\">параметр " _
+                   "<code>user_verify_class</code></a> включает в себя " _
                    "<code>RADIUS</code>.",
 
-  RADIUS_NAS_IP => "The NAS-IP-Address attribute to be used when exchanging " _
-                   "data with your RADIUS server. " _
-                   "If unspecified, <code>127.0.0.1</code> will be used.<br>" _
-                   "Useful only if " _
-                   "<a href=\"?section=auth#user_verify_class_desc\">the " _
-                   "<code>user_verify_class</code> parameter</a> " _
-                   "contains <code>RADIUS</code>.",
+  RADIUS_NAS_IP => "Атрибут NAS-IP-Address, используемый в обмене данными " _
+                   "с сервером RADIUS. " _
+                   "По умолчанию используется <code>127.0.0.1</code>.<br>" _
+                   "Параметр имеет смысл, если " _
+                   "<a href=\"?section=auth#user_verify_class_desc\">параметр " _
+                   "<code>user_verify_class</code></a> включает в себя " _
+                   "<code>RADIUS</code>.",
 
-  RADIUS_email_suffix => "Suffix to append to a RADIUS user name to form an " _
-                         "e-mail address.<br>" _
-                         "Useful only if " _
-                         "<a href=\"?section=auth#user_verify_class_desc\">the " _
-                         "<code>user_verify_class</code> parameter</a> " _
-                         "contains <code>RADIUS</code>.",
+  RADIUS_email_suffix => "Суффикс, добавляемый к имени пользователя RADIUS для " _
+                         "формирования адреса электронной почты.<br>" _
+                         "Параметр имеет смысл, если " _
+                         "<a href=\"?section=auth#user_verify_class_desc\">параметр " _
+                         "<code>user_verify_class</code></a> включает в себя " _
+                         "<code>RADIUS</code>.",
   }
 %]

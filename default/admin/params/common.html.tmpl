@@ -26,13 +26,13 @@
       [% ELSIF param.type == "b" %]
         <input type="radio" name="[% param.name FILTER html %]" id="[% param.name FILTER html %]-on"
                value=1 [% "checked=\"checked\"" IF Param(param.name) %]>
-        <label for="[% param.name FILTER html %]-on">On</label>
+        <label for="[% param.name FILTER html %]-on">Вкл.</label>
         <input type="radio" name="[% param.name FILTER html %]" id="[% param.name FILTER html %]-off"
                value=0 [% "checked=\"checked\"" IF !Param(param.name) %]>
-        <label for="[% param.name FILTER html %]-off">Off</label>
+                <label for="[% param.name FILTER html %]-off">Откл.</label>
       [% ELSIF param.type == "m" %]
         [% boxSize = 5 %]
-        [% SET boxSize = param.choices.size IF param.choices.size < 5 %]
+        [% boxSize = param.choices.size IF param.choices.size < 5 %]
 
         <select multiple="multiple" size="[% boxSize FILTER html %]"
                 name="[% param.name FILTER html %]" id="[% param.name FILTER html %]">
@@ -61,7 +61,7 @@
                   <option value="[% item FILTER html %]">[% item FILTER html %]</option>
                 [% END %]
                 <option class="sortlist_separator" disabled="disabled"
-                        value="[% sortlist_separator %]">active&uarr;&nbsp;&darr;inactive</option>
+                        value="[% sortlist_separator %]">включено&uarr;&nbsp;&darr;отключено</option>
                 [% FOREACH item = param.choices %]
                   [% IF lsearch(plist, item) == -1 %]
                     <option value="[% item FILTER html %]">[% item FILTER html %]</option>
@@ -108,15 +108,15 @@
         </select>
       [% ELSE %]
         <span class="warning">
-          Unknown param type [% param.type FILTER html %]!!!
+          Неизвестный тип параметра [% param.type FILTER html %]!!!
         </span>
-      [% END %]
+      [% END %]  
       </p>
       [% UNLESS param.no_reset %]
         <p>
           <input type="checkbox" name="reset-[% param.name FILTER html %]"
                  id="reset-[% param.name FILTER html %]">
-          <label for="reset-[% param.name FILTER html %]">Reset</label>
+          <label for="reset-[% param.name FILTER html %]">По умолчанию</label>
         </p>
       [% END %]
       <hr>

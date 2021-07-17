@@ -6,68 +6,68 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "Email"
-   desc = "How will outgoing mail be delivered?"
+   title = "Электронная почта"
+   desc = "Настройки отправки электронной почты"
 %]
 
 [% param_descs = {
-  mail_delivery_method => "Defines how email is sent, or if it is sent at all.<br>
+  mail_delivery_method => "Определяет возможность и способ отправки электронной почты.<br>
                            <ul>
                              <li>
-                               'SMTP' means use the SMTP protocol to talk to a remote
-                               mail server.
+                               'Sendmail', 'SMTP' и 'Qmail': стандартные почтовые MTA.
+                               Для использования sendmail под Windows потребуется установить отдельно
+                               продукт, поддерживающий данный функционал.
                              </li>
                              <li>
-                               'Sendmail' means use the sendmail-compatible MTA
-                               installed on the Bugzilla machine.
-                               You need to install a third-party sendmail replacement if
-                               you want to use sendmail on Windows.
+                               «Sendmail» означает использование MTA, совместимого с sendmail.
+                                установлен на машине Bugzilla.
+                                Вам необходимо установить стороннюю замену sendmail, если
+                                вы хотите использовать sendmail в Windows. 
                              </li>
                              <li>
-                               'Test' is useful for debugging: all email is stored
-                               in 'data/mailer.testfile' instead of being sent.
+                               «Тест» полезен для отладки: вся электронная почта сохраняется.
+                                в 'data / mailer.testfile' вместо отправки. 
                              </li>
-                             <li>
-                               'None' will completely disable email. Bugzilla continues
-                               to act as though it is sending mail, but nothing is sent or
-                               stored.
+                                                          <li>
+                               «Нет» полностью отключит электронную почту. Bugzilla продолжает
+                                действовать так, как будто он отправляет почту, но ничего не отправляется или
+                                хранится. 
                              </li>
                            </ul>",
 
-  mailfrom => "The email address of the $terms.Bugzilla mail daemon.  Some email systems " _
-              "require this to be a valid email address.",
+  mailfrom => "Адрес электронной почты экземпляра ${terms.Bugzilla}.  Некоторые почтовые " _
+              "системы требуют, чтобы этот адрес был исправен.",
 
-  use_mailer_queue => "In a large Bugzilla installation, updating"
-    _ " $terms.bugs can be very slow, because Bugzilla sends all"
-    _ " email at once. If you enable this parameter, Bugzilla will"
-    _ " queue all mail and then send it in the background. This requires"
-    _ " that you have installed certain Perl modules (as listed by"
-    _ " <kbd>checksetup.pl</kbd> for this feature), and that you are"
-    _ " running the <code>jobqueue.pl</code> daemon (otherwise your mail"
-    _ " won't get sent). This affects all mail sent by Bugzilla,"
-    _ " not just $terms.bug updates.",
+  use_mailer_queue => "В больших базах данных $terms.Bugzilla сохранение"
+    _ " изменений ${terms.bugs_gen} замедляется отправкой большого количества"
+    _ " сообщений.  Этот параметр включает функцию постановки сообщений"
+    _ " в очередь для рассылки в фоновом режиме. Это требует"
+    _ " установки дополнительных модулей Perl (список приведен"
+    _ " в соответствующем разделе <kbd>checksetup.pl</kbd>), и запуска"
+    _ " по расписанию демона <code>jobqueue.pl</code> (в противном случае"
+    _ " сообщения не будут отправлены). Очередь действует для всех сообщений $terms.Bugzilla,"
+    _ " не только изменений ${terms.bugs_gen}.",
 
-  smtpserver => "The SMTP server address with optional port number (if using SMTP" _
-                " for mail delivery). eg: example.com or example.com:1234",
+  smtpserver => "Адрес сервера SMTP (при использовании метода 'SMTP' для отправки).",
 
-  smtp_username => "The username to pass to the SMTP server for SMTP authentication. " _
-                   "Leave this field empty if your SMTP server doesn't require authentication.",
+  smtp_username => "Имя пользователя для аутентификации на сервере SMTP. " _
+                   "Не заполняйте это поле если сервер SMTP не требует аутентификации.",
 
-  smtp_password => "The password to pass to the SMTP server for SMTP authentication. " _
-                   "This field has no effect if the smtp_username parameter is left empty.",
+  smtp_password => "Пароль для аутентификации на сервере SMTP. " _
+                   "Значение поля игнорируется если не установлен параметр smtp_username.",
+                   
+  smtp_ssl => "Включить поддержку SSL для SMTP.",
 
-  smtp_ssl => "Enable SSL support for SMTP.",
+  smtp_debug => "Печать детальной информации об обмене terms.Bugzilla с " _
+                "сервером SMTP в журнал ошибок веб-сервера. " _
+                "Используется для диагностики проблем отправки сообщений.",
 
-  smtp_debug => "If enabled, this will print detailed information to your" _
-                " web server's error log about the communication between" _
-                " Bugzilla and your SMTP server. You can use this to" _
-                " troubleshoot email problems.",
 
-  whinedays => "The number of days that we'll let a $terms.bug sit untouched in a CONFIRMED " _
-               "state before our cronjob will whine at the owner.<br> " _
-               "Set to 0 to disable whining.",
+  whinedays => "Количество дней, которые $terms.bug может находиться без движения в " _
+               "состоянии 'Подтверждённая' до начала автоматического оповещения владельцу.<br> " _
+               "Для отключения функции установите значение 0.",
 
-  globalwatchers => "A comma-separated list of users who should receive a " _
-                    "copy of every notification mail the system sends." }
+  globalwatchers => "Список пользователей через запятую.  Члены списка получат " _
+                    "копии всех сообщений, отправляемых системой." }
 
 %]

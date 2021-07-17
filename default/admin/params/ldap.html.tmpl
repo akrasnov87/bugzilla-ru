@@ -7,39 +7,38 @@
   #%]
 [%
    title = "LDAP"
-   desc = "Configure this first before choosing LDAP as an authentication method"
+   desc = "Настройки, необходимые для использования аутентификации LDAP"
 %]
 
 [% param_descs = {
-  LDAPserver => "The name (and optionally port) of your LDAP server " _
-                "(e.g. ldap.company.com, or ldap.company.com:portnum). " _
-                "URI syntax can also be used, such as "_
-                "ldaps://ldap.company.com (for a secure connection) or " _
-                "ldapi://%2fvar%2flib%2fldap_sock (for a socket-based " _
-                "local connection. Multiple hostnames or URIs can be comma " _
-                "separated; each will be tried in turn until a connection is " _
-                "established.",
+  LDAPserver => "Имя (и, возможно, порт) сервера LDAP " _
+                "(например, ldap.company.com или ldap.company.com:portnum). " _
+                "Допускается использование синтаксиса URI, например "_
+                "ldaps://ldap.company.com (для безопасного соединения) или " _
+                "ldapi://%2fvar%2flib%2fldap_sock (для локального " _
+                "сокета). Несколько серверов или URI можно указать через " _
+                "запятую; они будут запрошены последовательно до получения " _
+                "успешного соединения.",
 
-  LDAPstarttls => "Whether to require encrypted communication once a normal " _
-                  "LDAP connection is achieved with the server.",
+  LDAPstarttls => "Использовать защищенный канал для связи с сервером " _
+                  "LDAP.",
 
-  LDAPbinddn => "If your LDAP server requires that you use a binddn and password " _
-                "instead of binding anonymously, enter it here " _
-                "(e.g. cn=default,cn=user:password). " _
-                "Leave this empty for the normal case of an anonymous bind.",
+  LDAPbinddn => "Если сервер LDAP требует иерархическое имя (binddn) и пароль " _
+                "и не поддерживает анонимный доступ, укажите их " _
+                "(например, cn=default,cn=user:password). " _
+                "Как правило анонимный доступ разрешен и поле можно оставить пустым.",
 
-  LDAPBaseDN => "The BaseDN for authenticating users against " _
-                "(e.g. ou=People,o=Company).",
+  LDAPBaseDN => "База иерархического имени для поиска пользователей " _
+                "(например, ou=People,o=Company).",
 
-  LDAPuidattribute => "The name of the attribute containing the user's login name.",
+  LDAPuidattribute => "Имя атрибута, содержащего регистрационное имя пользователя.",
 
-  LDAPmailattribute => "The name of the attribute of a user in your " _
-                       "directory that contains the email address, to be " _
-                       "used as Bugzilla username. If this parameter " _
-                       "is empty, Bugzilla will use the LDAP username"_
-                       " as the Bugzilla username. You may also want" _
-                       " to set the \"emailsuffix\" parameter, in this case.",
+  LDAPmailattribute => "Имя атрибута LDAP, содержащего адрес " _
+                       "электронной почты пользователя. Если параметр " _
+                       "не установлен, ${terms.Bugzilla} использует имя пользователя LDAP "_
+                       " в качестве учетной записи ${terms.Bugzilla}.  В этом случае " _
+                       " потребуется настроить параметр \"emailsuffix\".",
 
-  LDAPfilter => "LDAP filter to AND with the <var>LDAPuidattribute</var> for " _
-                "filtering the list of valid users." }
+  LDAPfilter => "Фильтр LDAP, используемый через логическое И с атрибутом <tt>LDAPuidattribute</tt> " _
+                "для сужения списка разрешенных пользователей." }
 %]

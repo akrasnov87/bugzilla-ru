@@ -6,41 +6,33 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "Graphs"
-   desc = "Optional setup to generate graphs"
+   title = "Диаграммы зависимостей"
+   desc = "Настройки построителя диаграмм зависимостей"
 %]
 
 [% param_descs = {
-  webdotbase => "It is possible to show graphs of dependent ${terms.bugs}. You may set
-                 this parameter to any of the following:
+  webdotbase => "Возможно построение ориентированных графов зависимостей ${terms.bugs_gen}. 
+                 Возможные значения параметра:
                  <ul>
                    <li>
-                     A complete file path to 'dot' (part of
-                     <a href=\"http://www.graphviz.org\">GraphViz</a>) will
-                     generate the graphs locally.
+                     Полный путь до утилиты 'dot' (из пакета
+                     <a href=\"http://www.graphviz.org\">GraphViz</a>) для локального
+                     построения диаграмм.
                    </li>
                    <li>
-                     A URL prefix pointing to an installation of the
-                     <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">webdot
-                     package</a> will generate the graphs remotely.
+                     Ссылка URL существующей установки 
+                     <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">пакета
+                     webdot</a> для удаленного построения.
                    </li>
                    <li>
-                     A blank value will disable dependency graphing.
+                     Пустое значение отключает возможности построения диаграмм.
                    </li>
                  </ul>
-                 The default value is a publicly-accessible webdot server. If you change
-                 this value, make certain that the webdot server can read files from your
-                 webdot directory. On Apache you do this by editing the .htaccess file,
-                 for other systems the needed measures may vary. You can run <kbd>checksetup.pl</kbd>
-                 to recreate the .htaccess file if it has been lost.",
+                 Значение по умолчанию: сервер webdot в открытом доступе. Если вы измените
+                 это значение, убедитесь, что сервер имеет доступ по чтению к файлам в каталоге 
+                 webdot. В Apache это достигается редактированием файла .htaccess,
+                 для других реализаций сервера HTTP механизмы другие. Для перегенерации 
+                 удалённого файла .htaccess запустите <kbd>checksetup.pl</kbd>."}
 
-  font_file => "You can specify the full path to a TrueType or OpenType font file which will " _
-               "be used to display text (labels, legends, ...) in charts and graphical reports. " _
-               "To support as many languages as possible, we recommend to specify a font " _
-               "such as <a href=\"http://unifoundry.com/unifont.html\">Unifont</a> " _
-               "which supports all printable characters in the Basic Multilingual Plane. " _
-               "If you leave this parameter empty, a default font will be used, but " _
-               "its support is limited to English characters only and so other characters " _
-               "will be displayed incorrectly.",
-  }
+                   font_file => "Вы можете указать полный путь к файлу шрифта TrueType или OpenType, который будет использоваться для отображения текста (меток, легенд и т. Д.) В диаграммах и графических отчетах. Чтобы поддерживать как можно больше языков, мы рекомендуем указать шрифт, например <a href=\"http://unifoundry.com/unifont.html\"> Unifont </a>, который поддерживает все печатные символы в Basic Multilingual Самолет. Если вы оставите этот параметр пустым, будет использоваться шрифт по умолчанию, но его поддержка ограничена только английскими символами, поэтому другие символы будут отображаться некорректно. ",
 %]

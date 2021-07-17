@@ -6,21 +6,20 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 
-<div id="params_index">
-  <p>
-    All parameters are displayed below, per section.
-    If you cannot find one from here, then the parameter does not exist.
-  </p>
+<p>
+  Ниже перечислены все настройки по группам.
+  Если настройки нет в списке, её не существует.
+</p>
 
-  [% FOREACH panel = panels %]
-    <h3>[% panel.title FILTER html %]</h3>
+    [% FOREACH panel = panels %]
+        <h3>[% panel.title FILTER html %]</h3>
 
     <ul>
       [% FOREACH param = panel.param_list.sort('name') %]
         <li>
-          <a href="editparams.cgi?section=
-                   [%- panel.name FILTER uri %]#[% param.name FILTER uri %]_desc">
-            [% param.name FILTER html %]</a>
+            <a href="editparams.cgi?section=
+              [%- panel.name FILTER uri %]#[% param.name FILTER uri %]_desc">
+              [% param.name FILTER html %]</a>
         </li>
       [% END %]
     </ul>

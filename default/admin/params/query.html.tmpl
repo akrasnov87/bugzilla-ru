@@ -6,54 +6,59 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "Query Defaults"
-   desc = "Default options for query and $terms.bug lists"
+   title = "Настройки поиска"
+   desc = "Настройки по умолчанию для поиска и списка ${terms.bugs_gen}"
 %]
 
 [% param_descs = {
-  quip_list_entry_control => "Controls how easily users can add entries to the quip list.
+  quip_list_entry_control => "Управление доступом к списку цитат.
                               <ul>
                                 <li>
-                                  open - Users may freely add to the quip list, and
-                                  their entries will immediately be available for viewing.
+                                  open - Пользователи могут добавлять цитаты в список, и эти
+                                  записи немедленно могут быть показаны.
                                 </li>
                                 <li>
-                                  moderated - quips can be entered, but need to be approved
-                                  by a moderator before they will be shown.
+                                  moderated - Добавление цитат разрешено, но требуется 
+                                  утверждение модератора для показа.
                                 </li>
                                 <li>
-                                  closed - no new additions to the quips list are allowed.
+                                  closed - Добавление цитат не допускается.
                                 </li>
                               </ul>",
 
-  mybugstemplate => "This is the URL to use to bring up a simple 'all of my $terms.bugs' " _
-                    "list for a user. %userid% will get replaced with the login name of a user. " _
-                    "Special characters must be URL-encoded.",
+  mostfreqthreshold => "Минимальное количество дублей ${terms.bug_gen} для включения ее в список " _
+                       "<a href=\"duplicates.cgi\">наиболее часто регистрируемых ${terms.bugs_gen}</a>. " _
+                       "В большой базе данных при долгой загрузке этой страницы рекомендуется " _
+                       "увеличить это значение.",
 
-  defaultquery => "This is the default query that initially comes up when you " _
-                  "access the advanced query page. It's in URL parameter format.",
+  mybugstemplate => "Адрес URL для получения списка 'всех ${terms.bugs_gen} пользователя'. " _
+                    "%userid% будет заменен на учетную запись пользователя.",
+
+  defaultquery => "Запрос по умолчанию, составляющий страницу расширенного поиска. " _
+                  "Увы, он в формате URL и не вполне " _
+                  "удобен для чтения.",
 
   search_allow_no_criteria =>
-    "Unless the code explicitly allows all $terms.bugs to be returned, this " _
-    "parameter permits to block the execution of queries with no criteria. " _
-    "When turned off, a query must have some criteria specified to limit " _
-    "the number of $terms.bugs returned to the user. When turned on, a user " _
-    "is allowed to run a query with no criteria and get all $terms.bugs they can " _
-    "see in their list. Turning this parameter on is not recommended on large " _
-    "installations.",
+    "За исключением случая, когда код явно разрешает показ всех $terms.bugs_gen, этот " _
+    "параметр разрешает блокировать выполнение запросов, не имеющих критериев. " _
+    "Когда он отключен, для запроса должен быть указан какой-либо критерий, ограничивающий " _
+    "количество $terms.bugs_gen, показываемых пользователю. Когда он включен, пользователь " _
+    "может выполнять запрос, не указывая критериев, и видеть список всех $terms.bugs_gen, к " _
+    "которым он допущен. Включение этого параметра не рекомендуется на больших " _
+    "инсталляциях.",
 
   default_search_limit =>
-    "By default, Bugzilla limits searches done in the web"
-    _ " interface to returning only this many results, for performance"
-    _ " reasons. (This only affects the HTML format of search results--CSV,"
-    _ " XML, and other formats are exempted.) Users can click a link on the"
-    _ " search result page to see all the results."
-    _ "<p>Usually you should not have to change this--the default value"
-    _ " should be acceptable for most installations.</p>",
+    "По умолчанию, $terms.Bugzilla ограничивает кол-во результатов поиска, "
+    _ " произведённого через веб-интерфейс, этим числом, по причинам"
+    _ " производительности. (Это влияет только на HTML-формат результатов поиска -- на "
+    _ " CSV, XML и другие форматы это не влияет). Пользователи могут щёлкнуть "
+    _ " по ссылке на странице результатов поиска, чтобы увидеть все результаты."
+    _ "<p>Обычно вам не надо это менять - значение по умолчанию"
+    _ " должно быть приемлемо для большинства инсталляций.</p>",
 
   max_search_results =>
-    "The maximum number of $terms.bugs that a search can"
-    _ " <strong>ever</strong> return. Tabular and graphical reports"
-    _ " are exempted from this limit, however.",
+    "Максимальное число $terms.bugs_gen, которые <strong>в принципе</strong>"
+    _ " можно отобразить на странице результатов поиска. Это ограничение не влияет на"
+    _ " графические и табличные отчеты.",
 
 } %]

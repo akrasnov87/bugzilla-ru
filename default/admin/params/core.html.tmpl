@@ -7,29 +7,29 @@
   #%]
 
 [% 
-   title = "Required Settings"
-   desc = "Settings that are required for proper operation of Bugzilla"
+   title = "Обязательные настройки"
+   desc = "Параметры, требуемые для работоспособности ${terms.Bugzilla}" 
 %]
 
 [% param_descs = {
-  urlbase => "The URL that is the common initial leading part of all $terms.Bugzilla " _
-             "URLs.",
+  urlbase => "Адрес URL — общая часть всех адресов HTTP этого " _
+             "экземпляра ${terms.Bugzilla}.",
 
-  sslbase => "The URL that is the common initial leading part of all HTTPS " _
-             "(SSL) $terms.Bugzilla URLs.",
+  sslbase => "Адрес URL — общая часть всех адресов HTTPS этого " _
+             "экземпляра ${terms.Bugzilla} для доступа через SSL.",
 
   ssl_redirect => 
-    "When this is enabled, Bugzilla will ensure that every page is"
-    _ " accessed over SSL, by redirecting any plain HTTP requests to HTTPS"
-    _ " using the <var>sslbase</var> parameter. Also, when this is enabled,"
-    _ " Bugzilla will send out links using <var>sslbase</var> in emails"
-    _ " instead of <var>urlbase</var>.",
+    "При включенном параметре весь доступ к $terms.Bugzilla возможен только"
+    _ " через SSL, любые запросы по HTTP будут перенаправлены на HTTPS"
+    _ " с использованием параметра <tt>sslbase</tt>. Кроме того, ссылки в"
+    _ " сообщениях электронной почты будут использовать <tt>sslbase</tt> "
+    _ " вместо <tt>urlbase</tt>.",
 
-  cookiepath => "Path, relative to your web document root, to which to restrict " _
-                "Bugzilla cookies. Normally this is the URI portion of your URL " _
-                "base. Begin with a / (single slash mark). For instance, if " _
-                "Bugzilla serves from 'http://www.somedomain.com/bugzilla/', set " _
-                "this parameter to /bugzilla/. Setting it to / will allow " _
-                "all sites served by this web server or virtual host to read " _
-                "Bugzilla cookies.",
+  cookiepath => "Путь относительно корня сервера web, которым ограничена " _
+                "видимость cookie ${terms.Bugzilla}. Как правило это часть URI адреса URL " _
+                "системы. Должен начинаться с / (прямой наклонной черты). Например, если " _
+                "адрес сервера ${terms.Bugzilla} — 'http://www.somedomain.com/bugzilla/', установите " _
+                "значение этого параметра /bugzilla/. Установка значения / разрешает " _
+                "всем ресурсам этого сервера или виртуального хоста чтение " _
+                "cookie ${terms.Bugzilla}.",
 } %]

@@ -25,9 +25,9 @@
 
 [% title = BLOCK %]
   [% IF curpanel == -1 %]
-    Parameters: Index
+    Настройки: Выбор раздела
   [% ELSE %]
-    Configuration:
+    Настройки:
     [%+ current_panel.title FILTER html %]
   [% END %]
 [% END %]
@@ -37,7 +37,7 @@
    message = message
    style_urls = ['skins/standard/admin.css']
    javascript_urls = ['js/params.js', 'js/util.js']
-   doc_section = "administering/parameters.html"
+   doc_section = "parameters.html"
 %]
 
 <div class="table">
@@ -46,13 +46,13 @@
       <table id="menu">
         <tr>
           <td class="index">
-            <a href="editparams.cgi?section=index" title="Show all parameters">Index</a>
+            <a href="editparams.cgi?section=index" title="Все параметры">Выбор раздела</a>
           </td>
         </tr>
         [% FOREACH panel = panels %]
           <tr>
             [% IF panel.current %]
-              [% Hook.process("current_panel") %]
+              [% Hook.process("current_panel") %]            
               <td class="selected_section">
                 <span title="[% panel.desc FILTER html %]">[% panel.title FILTER html %]</span>
               </td>
@@ -66,24 +66,24 @@
         [% END %]
       </table>
   </div>
-
   <div class="cell">
-    <div id="contribute">
-      <strong>Note:</strong>
-      Bugzilla is developed entirely by volunteers.
-      The best way to give back to the Bugzilla project is to
-      <a href="http://www.bugzilla.org/contribute/">contribute</a> yourself!
-      You don't have to be a programmer to contribute, there are lots of
-      things that we need.
-    </div>
+            <div id="contribute">
+            <strong>Обратите внимание:</strong>
+          B[% %]ugzilla разработана добровольцами.
+          Лучший способ отблагодарить создателей B[% %]ugzilla --
+          <a href="http://www.bugzilla.org/contribute/">помочь проекту</a>
+          лично!
+          Для этого не обязательно быть программистом, 
+          пригодятся самые разные умения и навыки.
+        </div>
 
     [% IF curpanel == -1 %]
       [% PROCESS admin/params/index.html.tmpl panels = panels %]
     [% ELSE %]
         <p>
-          This lets you edit the basic operating parameters of Bugzilla.
-          Be careful!<br>
-          Any item you check "Reset" on will get reset to its default value.
+          Изменение параметров настройки [% terms.Bugzilla %].<br>
+          Внимание!
+          Установка "По умолчанию" на любом параметре приведет к потере его значения.
         </p>
 
         [%# CONTENT PANEL %]
@@ -92,9 +92,9 @@
           <input type="hidden" name="section" value="[% current_panel.name FILTER html %]">
           <input type="hidden" name="action" value="save">
           <input type="hidden" name="token" value="[% token FILTER html %]">
-          <input type="submit" id="save-params" value="Save Changes">
+          <input type="submit" id="save-params" value="Сохранить">
         </form>
-    [% END %]
+      [% END %]
   </div>
 </div>
 

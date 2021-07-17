@@ -6,57 +6,58 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "Attachments"
-   desc = "Set up attachment options"
+   title = "Приложения"
+   desc = "Настройка параметров приложений"
 %]
 
 [% param_descs = {
   allow_attachment_display =>
-    "If this option is on, users will be able to view attachments from"
-    _ " their browser, if their browser supports the attachment's MIME type."
-    _ " If this option is off, users are forced to download attachments,"
-    _ " even if the browser is able to display them."
-    _ "<p>This is a security restriction for installations where untrusted"
-    _ " users may upload attachments that could be potentially damaging if"
-    _ " viewed directly in the browser.</p>"
-    _ "<p>It is highly recommended that you set the <var>attachment_base</var>"
-    _ " parameter if you turn this parameter on.",
+    "Позволяет пользователям просматривать приложения через веб-обозреватель,"
+    _ " если он поддерживает соответствующий тип данных MIME."
+    _ " При отключенном параметре пользователи должны загружать приложения, "
+    _ " даже если веб-обозреватель может их отобразить."
+    _ "<p>Эта мера безопасности предназначена для систем, в которых пользователь"
+    _ " может создать приложение, способное нанести вред при просмотре напрямую "
+    _ " через веб-обозреватель.</p>"
+    _ "<p>При включении этого параметра рекомендуется также настроить параметр "
+    _ " <tt>attachment_base</tt>.",
 
   attachment_base => 
-    "When the <var>allow_attachment_display</var> parameter is on, it is "
-    _ " possible for a malicious attachment to steal your cookies or"
-    _ " perform an attack on Bugzilla using your credentials."
-    _ "<p>If you would like additional security on attachments to avoid"
-    _ " this, set this parameter to an alternate URL for your Bugzilla"
-    _ " that is not the same as <var>urlbase</var> or <var>sslbase</var>."
-    _ " That is, a different domain name that resolves to this exact"
-    _ " same Bugzilla installation.</p>"
-    _ "<p>Note that if you have set the"
-    _ " <a href=\"editparams.cgi?section=advanced#cookiedomain_desc\"><var>cookiedomain</var>"
-    _" parameter</a>, you should set <var>attachment_base</var> to use a"
-    _ " domain that would <em>not</em> be matched by"
-    _ " <var>cookiedomain</var>.</p>"
-    _ "<p>For added security, you can insert <var>%bugid%</var> into the URL,"
-    _ " which will be replaced with the ID of the current $terms.bug that"
-    _ " the attachment is on, when you access an attachment. This will limit"
-    _ " attachments to accessing only other attachments on the same"
-    _ " ${terms.bug}. Remember, though, that all those possible domain names "
-    _ " (such as <kbd>1234.your.domain.com</kbd>) must point to this same"
-    _ " Bugzilla instance.",
+    "При включенном параметре <tt>allow_attachment_display</tt>, приложение,"
+    _ " написанное злоумышленно, может получить доступ к cookie или"
+    _ " атаковать $terms.Bugzilla с использованием учетных данных пользователя."
+    _ "<p>Во избежание этого в качестве дополнительной меры безопасности"
+    _ " установите в этом параметре альтернативный адрес URL экземпляра ${terms.Bugzilla},"
+    _ " не совпадающий ни с <tt>urlbase</tt> ни с <tt>sslbase</tt>."
+    _ " Это должно быть другое доменное имя, указывающее на этот же"
+    _ " экземпляр ${terms.Bugzilla}.</p>"
+    _ "<p>Если установлен"
+    _ " <a href=\"editparams.cgi?section=advanced#cookiedomain_desc\">параметр <tt>cookiedomain</tt></a>,"
+    _" параметр <tt>attachment_base</tt> должен использовать"
+    _ " домен, который <em>не совпадает</em> с"
+    _ " <tt>cookiedomain</tt>.</p>"
+    _ "<p>Для большей безопасности разрешается использовать в URL конструкцию <tt>%bugid%</tt>,"
+    _ " которая заменяется номером текущей ${terms.bug_gen}, к которой"
+    _ " относится приложение. Это ограничит возможности приложения"
+    _ " доступом только к приложениям той же "
+    _ " ${terms.bug_gen}. Помните, что все эти доменные имена "
+    _ " (такие как <tt>1234.your.domain.com</tt>) должны указывать на"
+    _ " этот экземпляр ${terms.Bugzilla}.",
 
-  allow_attachment_deletion => "If this option is on, administrators will be able to delete " _
-                               "the content of attachments.",
+  allow_attachment_deletion => "Разрешает администраторам удалять " _
+                               "содержимое приложений.",
 
-  maxattachmentsize => "The maximum size (in kilobytes) of attachments to be stored " _
-                       "in the database. If a file larger than this size is attached " _
-                       "to ${terms.abug}, Bugzilla will look at the " _
-                       "<a href=\"#maxlocalattachment\"><var>maxlocalattachment</var> parameter</a> " _
-                       "to determine if the file can be stored locally on the web server. " _
-                       "If the file size exceeds both limits, then the attachment is rejected. " _
-                       "Settings both parameters to 0 will prevent attaching files to ${terms.bugs}.",
+  maxattachmentsize => "Максимальный размер приложений в килобайтах, хранимых " _
+                       "в базе данных. Если к ${terms.bug_obj} прикладывается " _
+                       "файл большего размера, $terms.Bugzilla проверяет " _
+                       "значение <a href=\"#maxlocalattachment\">параметра <tt>maxlocalattachment</tt></a>, " _
+                       "чтобы определить, можно ли сохранить файл локально на веб-сервере. " _
+                       "Если размер файла превышает оба лимита, то запрос на " _
+                       "сохранение приложения отклоняется. Установка обоих " _
+                       "параметров в 0 сделает добавление приложений к ${terms.bugs} невозможным.",
 
-  maxlocalattachment => "The maximum size (in megabytes) of attachments to be stored " _
-                        "locally on the web server. If set to a value lower than the " _
-                        "<a href=\"#maxattachmentsize\"><var>maxattachmentsize</var> parameter</a>, " _
-                        "attachments will never be kept on the local filesystem." }
+  maxlocalattachment => "Максимальный размер приложений в мегабайтах, хранимых " _
+                        "локально на веб-сервере. Если этот параметр установлен в " _
+                        "значение меньшее чем <a href=\"#maxattachmentsize\">параметр <tt>maxattachmentsize</tt></a>, " _
+                        "приложения никогда не будут сохраняться на локальной файловой системе." }
 %]

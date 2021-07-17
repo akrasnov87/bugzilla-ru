@@ -6,24 +6,25 @@
   # defined by the Mozilla Public License, v. 2.0.
   #%]
 [%
-   title = "User Matching"
-   desc = "Set up your user matching policies"
+   title = "Выбор пользователей"
+   desc = "Настройка функций выбора пользователей"
 %]
 
 [% param_descs = {
-  usemenuforusers => "If this option is set, Bugzilla will offer you a list " _
-                     "to select from (instead of a text entry field) where a user " _
-                     "needs to be selected. This option should not be enabled on " _
-                     "sites where there are a large number of users.",
+  usemenuforusers => "Использование списков выбора везде где требуется " _
+                     "указание пользователя (вместо текстовых полей). " _
+                     "Не включайте эту возможность в базах данных с большим " _
+                     "количеством пользователей.",
+                     
+  ajax_user_autocompletion => "При наборе текста в определенных пользовательских " _
+                              "полях будет отображаться список совпадений, из " _
+                              "которого можно сделать выбор.", 
 
-  ajax_user_autocompletion => "If this option is set, typing characters in a certain user " _
-                              "fields will display a list of matches that can be selected from.", 
+  maxusermatches => "Лимит количества пользователей, соответствующих выражению поиска.<br> " _
+                    "Если установлено значение '1', для выражений поиска с неоднозначным " _
+                    "результатом не отображается ничего.  Используется для сохранения " _
+                    "в секрете адресов.<br>  Нулевое значение отключает лимит.",
 
-  maxusermatches => "Search for no more than this many matches.<br> " _
-                    "If set to '1', no users will be displayed on ambiguous matches. " _
-                    "This is useful for user privacy purposes.<br> " _
-                    "A value of zero means no limit.",
-
-  confirmuniqueusermatch => "Whether a confirmation screen should be displayed when only " _
-                            "one user matches a search entry." }
+  confirmuniqueusermatch => "Запрашивать ли подтверждение, если введенное выражение " _
+                            "соответствует ровно одному пользователю." }
 %]
