@@ -13,7 +13,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Custom Fields"
+  title = "Атрибуты"
   style_urls = ['skins/standard/admin.css']
   doc_section = "administering/custom-fields.html"
 %]
@@ -23,40 +23,40 @@
 [% columns = [
      {
        name => "name"
-       heading => "Edit custom field..."
+       heading => "Изменить..."
        contentlink => "editfields.cgi?action=edit&amp;name=%%name%%"
      },
      {
        name => "description"
-       heading => "Description"
+       heading => "Описание"
      },
      {
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Порядок сортировки"
      },
      {
        name => "type"
-       heading => "Type"
+       heading => "Тип"
      },
      {
        name => "enter_bug"
-       heading => "Editable on $terms.Bug Creation"
+       heading => "Установка при создании $terms.bug_gen"
      },
      {
        name => "mailhead"
-       heading => "In ${terms.Bug}mail on $terms.Bug Creation"
+       heading => "Включать в оповещения при создании $terms.bug_gen"
      },
      {
        name => "obsolete"
-       heading => "Is Obsolete"
+       heading => "Неактивный"
      },
      {
        name => "is_mandatory"
-       heading => "Is Mandatory"
+       heading => "Обязателен"
      },
      {
        name => "action"
-       heading => "Action"
+       heading => "Действие"
        content => ""
      }
    ]
@@ -80,7 +80,7 @@
 [% overrides.action.obsolete = {
      "1" => {
        override_content => 1
-       content => "Delete"
+       content => "Удалить"
        override_contentlink => 1
        contentlink => delete_contentlink
      }
@@ -94,7 +94,7 @@
 %]
 
 <p>
-  <a href="editfields.cgi?action=add">Add a new custom field</a>
+  <a href="editfields.cgi?action=add">Создать атрибут</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

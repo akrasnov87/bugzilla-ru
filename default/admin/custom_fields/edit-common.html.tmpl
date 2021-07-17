@@ -14,7 +14,7 @@
 
 <table id="admin_table_edit">
   <tr>
-    <th><label for="name">Name:</label></th>
+    <th><label for="name">Имя:</label></th>
     <td>
       [% IF field %]
         [% field.name FILTER html %]
@@ -24,7 +24,7 @@
     </td>
 
     <th>
-      <label for="enter_bug">Can be set on [% terms.bug %] creation:</label>
+      <label for="enter_bug">Может быть установлен при регистрации:</label>
     </th>
     <td>
       <input type="checkbox" id="enter_bug" name="enter_bug" value="1"
@@ -34,14 +34,14 @@
   </tr>
 
   <tr>
-    <th><label for="desc">Description:</label></th>
+    <th><label for="desc">Описание:</label></th>
     <td>
       <input type="text" id="desc" name="desc" size="40"
              value="[% field.description FILTER html %]" required>
     </td>
 
     <th>
-      <label for="new_bugmail">Displayed in [% terms.bug %]mail for new [% terms.bugs %]:</label>
+      <label for="new_bugmail">Включать в почтовые оповещения для новых [% terms.bugs_gen %]:</label>
     </th>
     <td>
       <input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"
@@ -50,7 +50,7 @@
   </tr>
 
   <tr>
-    <th><label for="type">Type:</label></th>
+    <th><label for="type">Тип:</label></th>
     <td>
       [% IF field %]
         [% field_types.${field.type} FILTER html %]
@@ -64,7 +64,7 @@
       [% END %]
     </td>
 
-    <th><label for="obsolete">Is obsolete:</label></th>
+    <th><label for="obsolete">Неактивен:</label></th>
     <td>
       <input type="checkbox" id="obsolete" name="obsolete" value="1"
              [%- " checked" IF field.obsolete %]>
@@ -72,13 +72,13 @@
   </tr>
 
   <tr>
-    <th><label for="sortkey">Sortkey:</label></th>
+    <th><label for="sortkey">Порядок сортировки:</label></th>
     <td>
       <input type="text" id="sortkey" name="sortkey" size="6" maxlength="6"
              value="[% field.sortkey FILTER html %]">
     </td>
 
-    <th><label for="is_mandatory">Is mandatory:</label></th>
+    <th><label for="is_mandatory">Обязателен:</label></th>
     <td>
       <input type="checkbox" id="is_mandatory" name="is_mandatory" value="1"
              [%- ' checked="checked"' IF field.is_mandatory %]>
@@ -86,7 +86,7 @@
   </tr>
 
   <tr>
-    <th>Long Description:</th>
+    <th>Длинное описание:</th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
        name           = 'long_desc'
@@ -99,7 +99,7 @@
     </td>
 
     <th>
-      <label for="visibility_field_id">Field only appears when:</label>
+      <label for="visibility_field_id">Условия отображения:</label>
     </th>
     <td>
       <select name="visibility_field_id" id="visibility_field_id"
@@ -117,7 +117,7 @@
       </select>
       <br>
       <label for="visibility_values">
-        <strong>is set to any of:</strong>
+        <strong>принимает любое из значений:</strong>
       </label>
       <br>
       <select multiple="multiple" size="5" name="visibility_values" 
@@ -148,26 +148,27 @@
         </td>
       [% ELSE %]
         <th>
-          <label for="reverse_desc">Reverse Relationship Description:</label>
+          <label for="reverse_desc">Описание обратного отношения:</label>
         </th>
         <td>
           <input type="text" id="reverse_desc" name="reverse_desc" size="40"
                  value="[% field.reverse_desc FILTER html %]"
                  [% ' disabled="disabled"' IF !field %]>
           <br>
-          Use this label for the list of [% terms.bugs %] that link to [% terms.abug %]
-          with this [% field_types.${constants.FIELD_TYPE_BUG_ID} FILTER html %] field.
-          For example, if the description is "Is a duplicate of", the reverse description
-          would be "Duplicates of this [% terms.bug %]". Leave blank to disable the list
-          for this field.
+          Используйте эту метку для списка [% terms.bugs_gen %], который ссылается на
+          [%+ terms.abug %] с этим полем 
+          [%+ field_types.${constants.FIELD_TYPE_BUG_ID} FILTER html %].
+          Например, если описанием является "Дубликат", то
+          обратным описанием будет "Дубликаты этой [% terms.bugs %]".
+          Для отключения списка для этого поля оставьте его пустым.
         </td>
       [% END %]
 
       [% IF !field || field.is_select %]
         <th>
           <label for="value_field_id">
-            Field that controls the values<br>
-            that appear in this field:
+            Атрибут, от которого зависит <br>
+            отображение значений этого атрибута:
           </label>
         </th>
         <td>

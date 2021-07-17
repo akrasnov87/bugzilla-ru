@@ -14,47 +14,47 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% title = BLOCK %]
-  Delete the Custom Field '[% field.name FILTER html %]' ([% field.description FILTER html %])
+  Удаление настраиваемого атрибута '[% field.name FILTER html %]' ([% field.description FILTER html %])
 [% END %]
 
 [% PROCESS global/header.html.tmpl
            title = title
-           style_urls = ['skins/standard/admin.css']
+           style_urls = ['skins/standard/admin.css']         
            doc_section = "administering/custom-fields.html#deleting-custom-fields"
 %]
 
 <table id="admin_table">
   <tr class="column_header">
-    <th>Field</th>
-    <th>Value</th>
-  </tr>
-  <tr>
-    <td>Custom Field</td>
-    <td>[% field.name FILTER html %]</td>
-  </tr>
-  <tr>
-    <td>Description</td>
-    <td>[% field.description FILTER html %]</td>
-  </tr>
-  <tr>
-    <td>Type</td>
-    <td>[% field_types.${field.type} FILTER html %]</td>
-  </tr>
+  <th>Поле</th>
+  <th>Значение</th>
+</tr>
+<tr>
+  <td>Настраиваемый атрибут:</td>
+  <td>[% field.name FILTER html %]</td>
+</tr>
+<tr>
+  <td>Описание:</td>
+  <td>[% field.description FILTER html %]</td>
+</tr>
+<tr>
+  <td>Тип:</td>
+  <td>[% field_types.${field.type} FILTER html %]</td>
+</tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Подтверждение</h2>
 
 <p class="confirmation">
-  Are you sure you want to remove this field from the database?<br>
-  <em>This action will only be successful if the field is obsolete,
-  and has never been used in [% terms.abug FILTER html %].</em>
+  Подтвердите удаление настраиваемого атрибута из базы данных.<br>
+  <em>Удаление возможно только для неактивного атрибута, который 
+  никогда не использовался при регистрации [% terms.bugs_gen FILTER html %].</em>
 </p>
 
 <a href="editfields.cgi?action=delete&amp;name=[% field.name FILTER html %]&amp;token=[% token FILTER html %]">
-  Delete field '[% field.description FILTER html %]'</a>
+  Удалить атрибут '[% field.description FILTER html %]'</a>
 
 <p>
-  <a href="editfields.cgi">Back to the list of existing custom fields</a>
+  <a href="editfields.cgi">Вернуться к списку атрибутов</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
