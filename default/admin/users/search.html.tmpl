@@ -16,7 +16,7 @@
  
 
 [% PROCESS global/header.html.tmpl
-  title = "Search users"
+  title = "Поиск пользователей"
   style_urls = ['skins/standard/admin.css']
   doc_section = "administering/users.html"
 %]
@@ -26,27 +26,26 @@
 %]
 
 <form name="f" method="get" action="editusers.cgi">
-<input type="hidden" name="action" value="list">
-<p><label for="matchvalue">List users with</label>
+<input type="hidden" name="action" value="list" />
+<p><label for="matchvalue">Найти пользователей по</label>
 <select id="matchvalue" name="matchvalue">
-  <option value="login_name">login name</option>
-  <option value="realname">real name</option>
-  <option value="userid">user id</option>
+  <option value="login_name">учетной записи</option>
+  <option value="realname">полному имени</option>
+  <option value="userid">идентификатору</option>
 </select>
-<label for="matchstr">matching</label>
-<input size="32" name="matchstr" id="matchstr" autofocus>
+<label for="matchstr">которые</label>
+<input size="32" name="matchstr" id="matchstr" />
 <select name="matchtype">
-  <option value="substr" selected="selected">case-insensitive substring</option>
-  <option value="regexp">case-insensitive regexp</option>
-  <option value="notregexp">not (case-insensitive regexp)</option>
-  <option value="exact">exact (find this user)</option>
+  <option value="substr" selected="selected">содержат строку (без учета регистра)</option>
+  <option value="regexp">соответствуют шаблону (без учета регистра)</option>
+  <option value="notregexp">не соответствуют шаблону (без учета регистра)</option>
+  <option value="exact">соответствуют в точности (конкретного пользователя)</option>
 </select>
-<input type="submit" id="search" value="Search">
-</p>
+<input type="submit" id="search" value="Найти" /></p>
 
 [% IF restrictablegroups.size %]
-  <p><input type="checkbox" name="grouprestrict" value="1" id="grouprestrict">
-  <label for="grouprestrict">Restrict to users belonging to group</label>
+  <p><input type="checkbox" name="grouprestrict" value="1" id="grouprestrict" />
+  <label for="grouprestrict">Только входящих в группу</label>
   <select name="groupid"
           onchange="document.forms['f'].grouprestrict.checked=true">
     [% FOREACH group = restrictablegroups %]
@@ -58,9 +57,9 @@
 <p>
   Restrict search to
   <select name="is_enabled">
-      <option value="2">All</option>
-      <option value="1" selected>Enabled</option>
-      <option value="0">Disabled</option>
+      <option value="2">Все</option>
+      <option value="1" selected>Активные</option>
+      <option value="0">Отключенные</option>
   </select>
   users.
 </p>
@@ -71,11 +70,11 @@
 
 [% IF editusers %]
   <p>
-    You can also <a href="editusers.cgi?action=add">add a new user</a>
+    Вы также можете <a href="editusers.cgi?action=add">создать пользователя</a>
     [%- IF listselectionvalues %],
-      or
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">show
-      the user list again</a>
+      или вернуться
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">к
+      списку пользователей</a>
     [%- END %].
   </p>
 [% END %]

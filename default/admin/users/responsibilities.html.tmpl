@@ -15,18 +15,18 @@
     [% END %]
     <tbody>
     <tr>
-      <th colspan="4" class="product">Product: [% item.product.name FILTER html %]</th>
+      <th colspan="4" class="product">Продукт: [% item.product.name FILTER html %]</th>
     </tr>
     <tr>
-      <th>Component</th>
-      <th>Default Assignee</th>
-      <th>Default QA Contact</th>
-      <th>Default CC</th>
+      <th>Компонент</th>
+      <th>Ответственный исполнитель</th>
+      <th>Ответственный за приемку</th>
+      <th>Подписанный пользователь</th>
     </tr>
     [% FOREACH comp = item.components %]
       <tr>
         <td>
-          [% IF user.in_group("editcomponents", comp.product_id) %]
+[% IF user.in_group("editcomponents", comp.product_id) %]
             <a href="editcomponents.cgi?action=edit&amp;product=
                      [% item.product.name FILTER uri %]&amp;component=
                      [% comp.name FILTER uri %]">
@@ -51,7 +51,7 @@
 </table>
 
 [% IF hidden_products %]
-  <p class="criticalmessages">The user is involved in at least one product which you cannot
-  see (and so is not listed above). You have to ask an administrator with enough
-  privileges to edit this user's roles for these products.</p>
+  <p class="criticalmessages">Пользователь имеет роли в продуктах, к которым Вы
+  не имеете доступа.  Эти продукты не перечислены здесь.  Обратитесь к администратору
+  с достаточными правами для корректировки ролей пользователя для этих продуктов.</p>
 [% END %]

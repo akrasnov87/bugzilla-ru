@@ -15,7 +15,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Select user"
+  title = "Выберите пользователя"
   style_urls = ['skins/standard/admin.css']
   doc_section = "administering/users.html"
 %]
@@ -28,18 +28,18 @@
 
 [% columns =
   [{name               => 'login_name'
-    heading            => 'Edit user...'
+    heading            => 'Редактировать...'
     contentlink        => 'editusers.cgi?action=edit&amp;userid=%%userid%%' _
                           listselectionurlparams
    }
    {name               => 'realname'
-    heading            => 'Real name'
+    heading            => 'Полное имя'
    }
    {name               => 'last_seen_date'
-    heading            => 'Last Login'
+    heading            => 'Последний вход'
    }
-   {heading            => 'Account History'
-    content            => 'View'
+   {heading            => 'История учетной записи'
+    content            => 'Просмотреть'
     contentlink        => 'editusers.cgi?action=activity' _
                                   '&amp;userid=%%userid%%' _
                                   listselectionurlparams
@@ -48,8 +48,8 @@
 %]
 
 [% IF Param('allowuserdeletion') && editusers %]
-  [% columns.push({heading     => 'Action'
-                   content     => 'Delete'
+  [% columns.push({heading     => 'Действие'
+                   content     => 'Удалить'
                    contentlink => 'editusers.cgi?action=del' _
                                   '&amp;userid=%%userid%%' _
                                   listselectionurlparams
@@ -67,9 +67,9 @@
     [%# We cannot pass one class now and one class later. %]
     [% SET classes = (thisuser.is_enabled ? "warning" : "bz_inactive warning") %]
     [% overrides.realname.login_name.${thisuser.login_name} = {
-           content          => "missing"
+           content          => "не указано"
            override_content => 1
-           class            => classes
+           class            => "$classes"
            override_class   => 1
        }
     %]
@@ -90,7 +90,11 @@
   [% END %]
 [% END %]
 
-<p>[% users.size %] user[% "s" UNLESS users.size == 1 %] found.</p>
+<p>[% numeral(users.size,
+      "Найден ${users.size} пользователь",
+      "Найдены ${users.size} пользователя",
+      "Найдено ${users.size} пользователей")
+FILTER html %].</p>
 
 [% PROCESS admin/table.html.tmpl
   columns = columns
@@ -99,12 +103,12 @@
 %]
 
 <p>
-  If you do not wish to modify a user account at this time, you can
-  <a href="editusers.cgi">find other users</a>
+  Вы также можете
+  <a href="editusers.cgi">выполнить новый поиск</a>
   [% IF editusers %]
-    or
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">add
-    a new user</a>
+    или
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">создать
+    нового пользователя</a>
   [% END %].
 </p>
 

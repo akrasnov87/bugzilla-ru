@@ -17,7 +17,7 @@
   #                      canbless) for viewed user.
   #%]
 
-[% title = BLOCK %]Edit user [% otheruser.identity FILTER html %][% END %]
+[% title = BLOCK %]Изменение пользователя [% otheruser.identity FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -40,21 +40,21 @@
   %]
   [% IF groups.size %]
     <tr>
-      <th>Group access:</th>
+      <th>Доступ к группам:</th>
       <td>
         <table id="group_membership">
           <tr>
             [% IF editusers %]
               <th colspan="3">
-                Can turn these bits on for other users
+                Управляет включением в группы
               </th>
             [% END %]
           </tr>
           <tr>
             [% IF editusers %]
-              <th class="checkbox">|</th>
+                            <th class="checkbox">|</th>
             [% END %]
-            <th colspan="2">User is a member of these groups</th>
+            <th colspan="2">Включен в группы</th>
           </tr>
           [% FOREACH group = groups %]
             [% perms = permissions.${group.id} %]
@@ -75,7 +75,7 @@
                            id="group_[% group.id %]"
                            name="group_[% group.id %]"
                            value="1"
-                           [% ' checked="checked"' IF perms.directmember %]>
+                                                  [% ' checked="checked"' IF perms.directmember %]>
                 [% '*' IF perms.regexpmember %]
                 [% ']' IF perms.derivedmember %]</td>
               <td class="groupname">
@@ -92,82 +92,81 @@
   [% END %]
 
   <tr>
-    <th>Product responsibilities:</th>
+    <th>Роли для продуктов:</th>
     <td>
       [% IF otheruser.product_responsibilities.size %]
         [% PROCESS admin/users/responsibilities.html.tmpl otheruser = otheruser %]
       [% ELSE %]
-        <em>none</em>
+        <em>нет</em>
       [% END %]
     </td>
   </tr>
 
   <tr>
-    <th>Last Login:</th>
+    <th>Последний вход:</th>
     <td>
       [% IF otheruser.last_seen_date %]
         [% otheruser.last_seen_date FILTER html %]
       [% ELSE %]
-        <em>never</em>
+        <em>никогда</em>
       [% END %]
     </td>
   </tr>
 </table>
 
 <p>
-  <input type="submit" id="update" value="Save Changes">
-  <input type="hidden" name="userid" value="[% otheruser.id %]">
-  <input type="hidden" name="action" value="update">
+  <input type="submit" id="update" value="Сохранить изменения" />
+  <input type="hidden" name="userid" value="[% otheruser.id %]" />
+  <input type="hidden" name="action" value="update" />
   <input type="hidden" name="token" value="[% token FILTER html %]">
   [% INCLUDE listselectionhiddenfields %]
 
-  or <a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
-        title="View Account History for '
-        [%- otheruser.login FILTER html %]'">View Account History</a>
+  или <a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
+        title="История учетной записи'
+        [%- otheruser.login FILTER html %]'">просмотреть историю учетной записи</a>
 </p>
 </form>
 <p>
-  User is a member of all groups shown with a check or grey bar.
-  A grey bar indicates indirect membership, either derived from other
-  groups (marked with square brackets) or via regular expression
-  (marked with '*').
+  Пользователь включен в отмеченные группы и в группы, помеченные 
+  серым цветом.  Серый цвет указывает на неявное включение, 
+  связанное с принадлежностью другой группе (квадратные скобки)
+  или соответствием маске группы ('*').
 </p>
 [% IF editusers %]
   <p>
-    Square brackets around the bless checkbox indicate the ability
-    to bless users (grant them membership in the group) as a result
-    of membership in another group.
+    Квадратные скобки около левой отметки указывают на возможность
+    управлять включением в группу неявно, путем включения в другие группы.
   </p>
 [% END %]
 
 [% IF Param('allowuserdeletion') && editusers %]
   <form method="post" action="editusers.cgi">
   <p>
-    <input type="submit" id="delete" value="Delete User">
-    <input type="hidden" name="action" value="del">
-    <input type="hidden" name="userid" value="[% otheruser.id %]">
+    <input type="submit" id="delete" value="Удалить пользователя" />
+    <input type="hidden" name="action" value="del" />
+    <input type="hidden" name="userid" value="[% otheruser.id %]" />
     [% INCLUDE listselectionhiddenfields %]
   </p>
   </form>
 [% END %]
 
 <p>
-  You can also
+  Вы также можете 
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">add
-    a new user</a>
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">создать
+    пользователя</a>
     [% IF listselectionvalues %],
     [% END %]
   [% END %]
-  [% IF listselectionvalues.matchtype != 'exact' %]
-    go
-    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">back
-    to the user list</a>,
+  [% IF listselectionvalues %]
+    вернуться
+    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">к
+    списку пользователей</a>
   [% END %]
   [% IF editusers OR listselectionvalues %]
-    or
+    или 
   [% END %]
-  <a href="editusers.cgi">find other users</a>.
+  <a href="editusers.cgi">выполнить поиск пользователей</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
