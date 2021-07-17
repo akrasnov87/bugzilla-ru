@@ -16,32 +16,32 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Default Preferences"
+  title = "Настройки пользователей"
   style_urls = ['skins/standard/admin.css']
 %]
 
 [% PROCESS "global/setting-descs.none.tmpl" %]
 
 <p>
-  This lets you edit the default preferences values. The Default Value displayed
-  for each preference will apply to all users who do not choose their own value,
-  and to anyone who is not logged in.
+Указанные значения по умолчанию действуют для всех пользователей, которые 
+не изменят их индивидуально, а также до входа в систему.
 </p>
 
 <div>
-  The 'Enabled' checkbox controls whether or not this preference is available to users:
-  <ul>
-    <li>If it is checked, users will be allowed to choose their own value if they desire.</li>
-    <li>If it is not checked, the Default Value will automatically apply to everyone.</li>
-  </ul>
+  Флажок 'Разрешено' указывает, могут ли пользователи изменять значение
+настройки индивидуально.<br>
+Если он установлен, пользователи увидят эти настройки на вкладке 'Общие параметры'
+и смогут их изменить.<br>
+Если он не установлен, пользователи не увидят эти настройки и значение по умолчанию
+распространяется на всех.
 </div>
 
     <form id="settings" method="post" action="editsettings.cgi">
       <table id="admin_table">
         <tr class="column_header">
-          <th>Preference Text</th>
-          <th>Default Value</th>
-          <th>Enabled</th>
+          <th>Название настройки</th>
+          <th>Значение по умолчанию</th>
+          <th>Разрешено</th>
         </tr>
 
         [% FOREACH name = settings.keys.sort %]
@@ -72,7 +72,7 @@
 
     <input type="hidden" name="action" value="update">
     <input type="hidden" name="token" value="[% token FILTER html %]">
-    <input type="submit" id="update" value="Submit Changes">
+    <input type="submit" id="update" value="Сохранить">
   </form>
 
 [% PROCESS global/footer.html.tmpl %]
