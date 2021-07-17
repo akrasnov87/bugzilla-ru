@@ -15,11 +15,11 @@
 [% USE Bugzilla %]
 [% cgi = Bugzilla.cgi %]
 
-[% title = BLOCK %]Select milestone of product
+[% title = BLOCK %]Выберите план для продукта
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
-  style_urls = ['skins/standard/admin.css']
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% edit_contentlink = BLOCK %]editmilestones.cgi?action=edit&amp;product=
@@ -33,17 +33,17 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit milestone..."
+       heading => "Изменить..."
        contentlink => edit_contentlink
      },
      { 
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Порядок сортировки"
      },
      {
        name => "isactive"
-       heading => "Active"
-       yesno_field => 1
+       heading => "Активен"
+       yesno_field => 1       
      }
    ]
 %]
@@ -52,7 +52,7 @@
 
   [% columns.push({
        name => "bug_count"
-       heading => "$terms.Bugs"
+       heading => "$terms.Bugs_gen"
        class => "right"
        contentlink => bug_count_contentlink
      })
@@ -62,8 +62,8 @@
 
 [% columns.push({
        name => "action"
-       heading => "Action"
-       content => "Delete"
+       heading => "Действие"
+       content => "Удалить"
        contentlink => delete_contentlink
      })
 %]
@@ -71,7 +71,7 @@
 [%# We want to override the usual 'Delete' link for the default milestone %]
 [% overrides.action.name.${product.default_milestone} = {
      override_content => 1
-     content => "(Default milestone)"
+     content => "(Значение по умолчанию)"
      override_contentlink => 1
      contentlink => undef
    } 
@@ -88,7 +88,7 @@
 [% IF ! showbugcounts %]
 
   <p><a href="editmilestones.cgi?product=[% product.name FILTER uri %]&amp;showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Показать счетчики [% terms.bugs_gen %] (требует времени)</a></p>
 
 [% END %]
 

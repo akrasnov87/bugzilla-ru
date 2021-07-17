@@ -13,28 +13,29 @@
   #                    milestone the user wants to edit.
   #%]
 
-[% title = BLOCK %]Edit Milestone '[% milestone.name FILTER html %]' of product '
+[% title = BLOCK %]Изменение плана '[% milestone.name FILTER html %]' продукта '
                    [%- product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
-  title = title
+  title = title  
   style_urls = ['skins/standard/admin.css']
-  onload = "document.forms['f'].milestone.select()"
+    onload = "document.forms['f'].milestone.select()"
 %]
 
 <form name="f" method="post" action="editmilestones.cgi">
   <table id="admin_table_edit">
+
     <tr>
-      <th><label for="milestone">Milestone:</label></th>
+      <th><label for="milestone">Название плана:</label></th>
       <td><input id="milestone" size="64" maxlength="64" name="milestone" value="
       [%- milestone.name FILTER html %]" required></td>
     </tr>
     <tr>
-      <th><label for="sortkey">Sortkey:</label></th>
+      <th><label for="sortkey">Порядок сортировки:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
       [%- milestone.sortkey FILTER html %]"></td>
     </tr>
     <tr>
-      <th><label for="isactive">Enabled For [% terms.Bugs %]:</label></th>
+      <th><label for="isactive">Доступен для [% terms.Bugs_gen %]:</label></th>
       <td><input id="isactive" name="isactive" type="checkbox" value="1"
                  [% 'checked="checked"' IF milestone.isactive %]></td>
     </tr>
@@ -43,7 +44,7 @@
   <input type="hidden" name="milestoneold" value="[% milestone.name FILTER html %]">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="product" value="[% product.name FILTER html %]">
-  <input type="submit" id="update" value="Save Changes">
+  <input type="submit" id="update" value="Сохранить изменения">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
