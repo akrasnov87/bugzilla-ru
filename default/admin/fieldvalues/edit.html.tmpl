@@ -12,18 +12,21 @@
   #%]
 
 [% title = BLOCK %]
-  Edit Value '[% value.name FILTER html %]' for the 
-  '[% field.description FILTER html %]' ([% field.name FILTER html %]) field
+  Изменение значения '[% value.name FILTER html %]' атрибута 
+  '[% field.description FILTER html %]' ([% field.name FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
-  style_urls = ['skins/standard/admin.css']
+    style_urls = ['skins/standard/admin.css']
 %]
 
 <form method="post" action="editvalues.cgi">
   <table id="admin_table_edit">
+
     <tr>
-      <th><label for="value_new">Field Value:</label></th>
+      <th>
+        <label for="value_new">Значение атрибута:</label>
+      </th>
       <td>
         [% IF value.is_static %]
           <input type="hidden" name="value_new" id="value_new"
@@ -32,26 +35,26 @@
         [% ELSE %]
           <input id="value_new" name="value_new" size="20"
                  maxlength="[% constants.MAX_FIELD_VALUE_SIZE FILTER none %]"
-                 value="[% value.name FILTER html %]" required>
+                 value="[% value.name FILTER html %]">
         [% END %]
       </td>
     </tr>
     <tr>
-      <th><label for="sortkey">Sortkey:</label></th>
+      <th><label for="sortkey">Порядок сортировки:</label></th>
       <td><input id="sortkey" size="6" maxlength="6" name="sortkey" 
                  value="[%- value.sortkey FILTER html %]"></td>
     </tr>
     [% IF field.name == "bug_status" %]
       <tr>
-        <th><label for="is_open">Status Type:</label></th>
-        <td>[% IF value.is_open %]Open[% ELSE %]Closed[% END %]</td>
+        <th><label for="is_open">Тип состояния:</label></th>
+        <td>[% IF value.is_open %]В работе[% ELSE %]Закрыта[% END %]</td>
       </tr>
     [% END %]
     [% IF field.value_field %]
       <tr>
         <th>
-          <label for="visibility_value_id">Only appears when
-           [%+ field.value_field.description FILTER html %] is set to:
+          <label for="visibility_value_id">Условие отображения: атрибут
+           '[%+ field.value_field.description FILTER html %]' принимает значения
           </label>
         </th>
         <td>
@@ -69,32 +72,32 @@
               </option>
             [% END %]
           </select>
-          <span class="bz_info">(Leave unset to have this value always appear.)</span>
+          <span class="bz_info">(Чтобы значение отображалось непрерывно, оставьте без выбора.)</span>
         </td>
       </tr>
     [% END %]
     <tr>
-      <th><label for="is_active">Enabled for [% terms.bugs %]:</label></th>
+      <th><label for="is_active">Разрешено для использования:</label></th>
       <td><input id="is_active" name="is_active" type="checkbox" value="1" 
            [%+ 'checked="checked"' IF value.is_active %]
            [%+ 'disabled="disabled"' IF value.is_default OR value.is_static %]>
            [% IF value.is_default %]
-             This value is selected as default in the parameters for this field. It cannot be disabled.
+             Значение задано в качестве умолчания в параметрах данного атрибута и не может быть заблокировано.
            [% ELSIF value.is_static %]
-             This value is non-deletable and cannot be disabled.
+             Значение не может быть удалено или заблокировано.
            [% END %]
            [% IF !(value.is_default OR value.is_static) %]
              <input id="defined_is_active" name="defined_is_active"
                     type="hidden" value="1">
-           [% END %]
-      </td>
+           [% END %]           
+           </td>
     </tr>
   </table>
   <input type="hidden" name="value" value="[% value.name FILTER html %]">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="field" value="[% field.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update" value="Save Changes">
+  <input type="submit" id="update" value="Сохранить">
 </form>
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl

@@ -16,14 +16,14 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit values for which field?"
-  style_urls = ['skins/standard/admin.css']
+  title = "Выберите атрибут"
+    style_urls = ['skins/standard/admin.css']
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit field values for..."
+       heading => "Изменить значения атрибута..."
        content_use_field = 1
        contentlink => "editvalues.cgi?field=%%name%%"
      }

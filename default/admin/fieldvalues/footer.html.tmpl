@@ -23,15 +23,15 @@
 <p>
 
 [% UNLESS no_add_link %]
-  <a title="Add a value for the '[% field.description FILTER html %]' field."
+  <a title="Создать значение атрибута '[% field.description FILTER html %]'."
      href="editvalues.cgi?action=add&amp;field=
-          [%- field.name FILTER uri %]">Add</a> a value.
+          [%- field.name FILTER uri %]">Создать</a> новое значение.
 [% END %]
 
 [% IF value.defined && !no_edit_link %]
-  Edit value <a 
-  title="Edit value '[% value.name FILTER html %]' for the '
-         [%- field.name FILTER html %]' field"
+  Изменить значение <a 
+  title="Изменить значение '[% value.name FILTER html %]' атрибута '
+         [%- field.description FILTER html %]'"
   href="editvalues.cgi?action=edit&amp;field=
         [%- field.name FILTER uri %]&amp;value=
         [%- value.name FILTER uri %]">
@@ -39,9 +39,9 @@
 [% END %]
 
 [% UNLESS no_edit_other_link %]
-  Edit other values for the <a 
+  Изменить другие значения атрибута <a 
   href="editvalues.cgi?field=
-        [%- field.name FILTER uri %]">'[% field.description FILTER html %]'</a> field.
+        [%- field.name FILTER uri %]">'[% field.description FILTER html %]'</a>.
 
 [% END %]
 
